@@ -1,3 +1,25 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#container .form-container
+{
+	padding-left: 0px;
+}
+
+.help-topics .form-control
+{
+	margin-bottom: 10px;
+}
+
+#container textarea
+{
+	height:70px; 
+  	min-height:70px;  
+  	max-height:70px;
+}
+
+body
+{
+	padding-top:50px;
+}

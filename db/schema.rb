@@ -11,7 +11,74 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131022184131) do
+ActiveRecord::Schema.define(version: 20131024004212) do
+
+  create_table "group_admins", force: true do |t|
+    t.integer  "group_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "group_admins", ["group_id"], name: "index_group_admins_on_group_id"
+  add_index "group_admins", ["user_id"], name: "index_group_admins_on_user_id"
+
+  create_table "group_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "group_users", ["group_id"], name: "index_group_users_on_group_id"
+  add_index "group_users", ["user_id"], name: "index_group_users_on_user_id"
+
+  create_table "groupadmins", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "groupadmins", ["group_id"], name: "index_groupadmins_on_group_id"
+  add_index "groupadmins", ["user_id"], name: "index_groupadmins_on_user_id"
+
+  create_table "groups", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "groupusers", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "groupusers", ["group_id"], name: "index_groupusers_on_group_id"
+  add_index "groupusers", ["user_id"], name: "index_groupusers_on_user_id"
+
+  create_table "help_offers", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "help_offers", ["user_id"], name: "index_help_offers_on_user_id"
+
+  create_table "helpoffers", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "helpoffers", ["user_id"], name: "index_helpoffers_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "first_name"

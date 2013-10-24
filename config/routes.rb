@@ -1,19 +1,25 @@
 ProjectHelp::Application.routes.draw do
-  # get "sessions/create"
-  # get "sessions/destroy"
-  # get "users/new"
-  # get "users/create"
-  # get "users/destroy"
-  # get "users/show"
-  # get "users/index"
-  # get "users/edit"
-  # get "users/update"
-  resources :users
+  get "welcome/index"
+  
+  #Basic routes for users
+  resources :users do
+    resources :helpoffers
+  end
+
+  #Route for part 2 of registration
+  get '/users/:id/new2' =>  'users#new2'
+
+  #Routes for logging in and logging out
+  post "sessions/create" => 'sessions#create'
+  get "sessions/destroy"
+
+  # You can have the root of your site routed with "root"
+  root 'welcome#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

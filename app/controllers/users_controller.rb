@@ -5,13 +5,14 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  #Create a new user. This will only include basic information - it does not include Description or Help Offers
   def create
     @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
         sign_in(@user)
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to '/users/'+@user.id.to_s+"/new2" } #@user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
         format.html { render action: 'new' }
@@ -20,19 +21,50 @@ class UsersController < ApplicationController
     end
   end
 
+  #Part 2 of new member registration. This page will include a form to fill out the user's Description and add
+  #Help Offers
+  def new2
+    @user = User.find(params[:id])
+  end
+
   def destroy
+    @user = User.find(params[:id])
+
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to users_url }
+      format.json { head :no_content }
+    end
   end
 
   def show
   end
 
   def index
+    if !signed_in?
+      deny_access
+    end
+    
+    @users = User.all
   end
 
   def edit
   end
 
   def update
+    @user = User.find(params[:id])
+
+    params[:user].delete(:password) if params[:user][:password].blank?
+
+    respond_to do |format|
+      if @user.update_attributes(user_params)
+        format.html { redirect_to '/users/' } #@user, notice: 'User was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @user }
+      else
+        format.html { render action: 'new2' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
@@ -43,6 +75,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, helpoffers_attributes: [:title, :description, :_destroy])
     end
 end

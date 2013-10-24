@@ -1,0 +1,24 @@
+<div class="jumbotron">
+	<div class="container">
+		<div id="helloworld" class="col-sm-7">
+			<h1>Project Help</h1>
+			<p>There is so much talent, experience, and power hidden in every community, and they are full of people that want to see you succeed. Unleash the power of your communities today! </p>
+		</div>
+
+		<div class="col-sm-5 form-container">
+			<h3> Registration </h3>
+			<%= simple_form_for(@user, :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control" } }) do |f| %>
+				<%= f.input :first_name, placeholder: "First Name", label:false %>
+				<%= f.input :last_name, placeholder: "Last Name", label:false %>
+				<%= f.input :email, placeholder: "Email", label:false %>
+				<%= f.input :phone_number, placeholder: "Phone Number", label:false %>
+				<%= f.input :password, placeholder: "Password", label:false %>
+				<%= f.input :password_confirmation, placeholder: "Confirm Password", label:false %>
+				<%= f.button :submit, input_html: {value: 'Create User'}, class: "btn btn-primary"%>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+
+		
