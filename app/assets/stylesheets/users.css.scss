@@ -2,14 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#container .form-container
-{
-	padding-left: 0px;
-}
 
-.help-topics .form-control
+body
 {
-	margin-bottom: 10px;
+	padding-top:50px;
 }
 
 #container textarea
@@ -19,11 +15,13 @@
   	max-height:70px;
 }
 
-body
+#container .form-container
 {
-	padding-top:50px;
+	padding-left: 0px;
 }
 
+
+/*Profile CSS ------------------------------------------*/
 #profile-header
 {
 	margin-top:20px;
@@ -85,6 +83,13 @@ body
 		margin-bottom:0px;
 	}
 
+	.help-topics .form-control
+	{
+		margin-bottom: 10px;
+	}
+
+
+/*Edit Profile CSS ----------------------------------------*/
 #edit-container
 {
 	margin-top:20px;
@@ -106,3 +111,15 @@ body
 {
 	margin-bottom:0px;
 }
+
+/*Network page CSS ----------------------------------------------------*/
+#user-frame-container .user-frame
+{
+	/*border-style:solid;*/
+	padding-left:2px;
+	padding-right:2px;
+}
+	#user-frame-container .user-frame .user-frame-img-holder
+	{
+		text-align:center;
+	}

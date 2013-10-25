@@ -2,6 +2,29 @@
 
 <h1>Listing users</h1>
 <p><%=current_user.first_name+ " is signed in!"%></p>
+
+<div id="user-frame-container">
+<div class="user-frame col-sm-3 panel panel-default" >
+  <div class="panel-body">
+    <div class="user-frame-img-holder">
+      <img src="http://placekitten.com/g/150/150">
+    </div>
+
+    <div class="user-frame-basic-info">
+      <p><h4><%=current_user.first_name + " " +current_user.last_name%></h4></p>
+      <p><%=current_user.description%></p>
+      <p><strong>Help topics:</strong></p>
+      
+      <% current_user.helpoffers.each do |offer| %>
+        <%= offer.title + ", "%>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+</div>
+
+
 <table class="table">
   <thead>
     <tr>
@@ -29,6 +52,5 @@
 </table>
 
 <br>
-
 <%= link_to 'New User', new_user_path %>
 <%= link_to 'Sign Out', "/sessions/destroy" %>
