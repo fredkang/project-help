@@ -1,2 +1,76 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<div id="edit-container">
+  <div class="col-sm-9 form-container">
+    <%= form_for(setup_user(@user), :html => { :role => "form" }) do |f| %>
+      <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2>
+            <%= pluralize(@user.errors.count, "error") %> prohibited
+            this user from being saved:
+          </h2>
+     
+          <ul>
+          <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <ul class="list-group">
+      	<li class="list-group-item" id="edit-account-info">
+      		<h3>Edit account info</h4>
+	     	<div class="form-group">
+		        <%= f.label :first_name%>
+		        <%= f.text_field :first_name, class: "form-control"%>
+	      	</div> 	
+
+	      	<div class="form-group">
+		        <%= f.label :last_name%>
+		        <%= f.text_field :last_name, class: "form-control"%>
+	      	</div> 	
+
+	      	<div class="form-group">
+		        <%= f.label :email%>
+		        <%= f.text_field :email, class: "form-control"%>
+	      	</div>
+
+	      	<div class="form-group">
+		        <%= f.label :phone_number%>
+		        <%= f.text_field :phone_number, class: "form-control"%>
+	      	</div> 	 	 	
+	  	</li>
+     
+		<li class="list-group-item" id="edit-profile-info">
+		  <h3>Edit profile info</h3>
+	      <div class="form-group">
+	        <%= f.label :description%>
+	        <%= f.text_area :description, class: "form-control"%>
+	      </div>
+	      
+	      <p id="edit-topic-heading" data-no-turbolink="true">
+	      	<strong>Topics you would like to help people with</strong>
+	      	<%= link_to_add_fields "Add Topic", f, :helpoffers %>
+	      </p>
+	      
+	      <% topic = 1 %>
+	      <%= f.fields_for :helpoffers do |helpoffer_form| %>
+	          
+	          <div class="form-group help-topics" data-no-turbolink="true">
+	            <%= helpoffer_form.label :title, "Topic #"+topic.to_s %>
+	            <%= helpoffer_form.text_field :title, class: "form-control" %>
+	            <%= helpoffer_form.text_area :description, class: "form-control" %>
+	            <%= helpoffer_form.hidden_field :_destroy %>
+  				<%= link_to "Remove topic", '#', class: "remove_fields" %>
+	          </div>
+
+	          <% topic+= 1 %>
+	      <% end %>
+     
+	      <div class="actions">
+	        <%= f.submit "Submit", class: "btn btn-primary" %>
+	      </div>
+	  	</li>
+	  </ul>
+	<% end %>
+  </div>
+</div>

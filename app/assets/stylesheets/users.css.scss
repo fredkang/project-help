@@ -23,3 +23,81 @@ body
 {
 	padding-top:50px;
 }
+
+#profile-header
+{
+	margin-top:20px;
+	margin-left:-20px;
+	padding-left:0px;
+	min-height:300px;
+}
+
+	#profile-header .well
+	{
+		
+	}
+
+	#profile-info
+	{
+		margin-bottom:20px;
+	}
+
+	#posts
+	{
+		margin-top:20px;	
+		float:right;	
+	}
+
+	#profile-pic-container
+	{
+		margin-right:20px;
+	}
+
+	#profile-info
+	{
+		margin-left:15px;
+	}
+
+	#profile-info h2
+	{
+		margin-top:0px
+	}
+
+#help-topics
+{
+	float:right;
+	margin-top:20px;
+	min-height:300px;
+}
+	
+	#help-topics h3
+	{
+		margin-top:0px;
+	}
+
+	#help-topics .topic-group
+	{
+		margin-top:20px;
+	}
+
+	#help-topics .topic-title
+	{
+		margin-bottom:0px;
+	}
+
+#edit-container
+{
+	margin-top:20px;
+}
+
+#edit-container textarea
+{
+	height:70px; 
+  	min-height:70px;  
+  	max-height:70px;
+}
+
+.add_fields
+{
+	margin-bottom:10px;
+}

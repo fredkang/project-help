@@ -1,24 +1,45 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>First Name:</strong>
-  <%= @user.first_name %>
-</p>
+<div id="profile-header" class="col-sm-8 panel panel-default">
+	<div class="panel-body">
+		<div id="profile-pic-container" class="col-sm-3">
+				<img src = "http://placekitten.com/150/250">
+		</div>
 
-<p>
-  <strong>Last Name:</strong>
-  <%= @user.last_name %>
-</p>
+		<div id="profile-info" class="col-sm-8">
+			<h2><%=@user.first_name+" "+@user.last_name%></h2>
+			<p><%=@user.description%></p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+			<div class="btn-group btn-group-justified">
+				<a href="" class="btn btn-primary">Send Message</a>
+				<a href="" class="btn btn-success">Schedule Call</a>
+			</div>
+		</div>
 
-<p>
-  <strong>Password digest:</strong>
-  <%= @user.password_digest %>
-</p>
+		<div id="posts" class="col-sm-12">
+			<p><strong>Ask <%=@user.first_name%> a question or thank him for his help!</strong></p>
+			<form role="form">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder='Ask <%=@user.first_name%> a question!'></input>
+				</div>
+				<button class="btn btn-primary">Post</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div id="help-topics" class="col-sm-4 well">
+	<h3>Topics I can help with:</h3>
+
+	<% @topics.each do |topic| %>
+		<div class="topic-group">
+			<p class="topic-title"><strong><%= topic.title %></strong></p>
+			<p><%= topic.description %></p>
+		</div>
+	<% end %>
+
+</div>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

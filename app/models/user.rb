@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
 	has_many :helpoffers, class_name: "Helpoffer", foreign_key: "user_id"
+	has_many :groupadmins
+	has_many :groupusers
 
 	accepts_nested_attributes_for :helpoffers, 
-		:allow_destroy 			=> true,
-		:reject_if 				=> :all_blank #lambda {|attributes| attributes['title'].blank? || attributes['description'].blank?}
+		:allow_destroy 			=> true
+		# :reject_if 				=> :all_blank #lambda {|attributes| attributes['title'].blank? || attributes['description'].blank?}
 
 	validates 	:email,	:presence			=> true,
 				:email_format 				=> {message: "Invalid email address"},

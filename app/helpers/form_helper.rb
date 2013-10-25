@@ -1,7 +1,14 @@
 module FormHelper
 	def setup_user(user)
-		user.helpoffers ||= HelpOffer.new
-		user.helpoffers.build
+		# user.helpoffers ||= HelpOffer.new
+		# user.helpoffers.build
+
+		if user.helpoffers.nil?
+			user.helpoffers = Helpoffer.new
+			user.helpoffers.build
+		else
+			user.helpoffers
+		end
 
     	user
 	end

@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        @group_user = Groupuser.new(user_id: @user.id, group_id: 1).save
         sign_in(@user)
         format.html { redirect_to '/users/'+@user.id.to_s+"/new2" } #@user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
@@ -38,6 +39,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @topics = @user.helpoffers
   end
 
   def index
@@ -58,7 +60,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(user_params)
-        format.html { redirect_to '/users/' } #@user, notice: 'User was successfully created.' }
+        format.html { redirect_to :back } #@user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
         format.html { render action: 'new2' }
@@ -75,6 +77,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, helpoffers_attributes: [:title, :description, :_destroy])
+      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, :description, helpoffers_attributes: [:user_id, :id, :title, :description, '_destroy'])
     end
 end
