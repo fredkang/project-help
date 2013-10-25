@@ -7,6 +7,7 @@ class UsersController < ApplicationController
 
   #Create a new user. This will only include basic information - it does not include Description or Help Offers
   def create
+    params['user']['admin'] = 0
     @user = User.new(user_params)
 
     respond_to do |format|
@@ -60,7 +61,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(user_params)
-        format.html { redirect_to :back } #@user, notice: 'User was successfully created.' }
+        format.html { redirect_to "/users" } #@user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
         format.html { render action: 'new2' }
@@ -77,6 +78,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, :description, helpoffers_attributes: [:user_id, :id, :title, :description, '_destroy'])
+      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, :description, :admin, helpoffers_attributes: [:user_id, :id, :title, :description, '_destroy'])
     end
 end

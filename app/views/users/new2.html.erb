@@ -24,28 +24,23 @@
         <%= f.text_area :description, class: "form-control", placeholder: "I was a part of the November Coding Dojo class. Previously, I've worked in venture capital, in productment management at a startup, and in finance. Call me!" %>
       </div>
       
-      <h4>Add some specific topics that you'd like to help with</h4>
+      <p data-no-turbolink="true">
+        <h4>Add some specific topics that you'd like to help people with</h4>
+        <%= link_to_add_fields "Add Topic", f, :helpoffers %>  
+      </p>
       
       <%= f.fields_for :helpoffers do |helpoffer_form| %>
           
           <div class="form-group help-topics">
-            <%= helpoffer_form.label :title, "Topic #" %>
+            <%= helpoffer_form.label :title, "New Topic" %>
             <%= helpoffer_form.text_field :title, class: "form-control", placeholder: "Topic e.g. Resume writing, Startups, or Skiing" %>
             <%= helpoffer_form.text_area :description, class: "form-control", placeholder: "Description e.g. I've worked at 3 different startups across different growth stages. Happy to discuss what it was like working at a startup and what they're looking for in candidates." %>
           </div>
-          <%#= render 'helpoffer_fields', f: helpoffer_form%>
-
-          <%# topic += 1 %>
-
-            <%# if helpoffer_form.object.persisted? %>
-              <%#= helpoffer_form.check_box :_destroy %>
-              <%#= helpoffer_form.label :_destroy, "Destroy" %>
-            <%# end %>
       <% end %>
-
-      <%= link_to_add_fields "Add Topic", f, :helpoffers %>
+      
      
       <div class="actions">
+        <a href="/users" class="btn btn-default" >Skip</a>
         <%= f.submit "Submit", class: "btn btn-primary" %>
       </div>
     <% end %>

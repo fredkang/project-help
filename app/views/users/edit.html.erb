@@ -15,7 +15,7 @@
           </ul>
         </div>
       <% end %>
-
+		
       <ul class="list-group">
       	<li class="list-group-item" id="edit-account-info">
       		<h3>Edit account info</h4>
@@ -67,6 +67,7 @@
 	      <% end %>
      
 	      <div class="actions">
+	      	<%= link_to "Cancel", :back, class: "btn btn-default" %>
 	        <%= f.submit "Submit", class: "btn btn-primary" %>
 	      </div>
 	  	</li>
