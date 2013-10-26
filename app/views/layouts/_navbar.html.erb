@@ -1,0 +1,19 @@
+<div class = "navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<span class="navbar-brand">Project Help</span>
+		</div>
+
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<% if current_user!=nil && current_user.admin == 1 %>
+					<li><%= link_to "Admin", controller: "users", action: "admin_panel"%></li>
+				<% end %>
+				<li><a href="/users">Network</a></li>
+				<li><a href="">Inbox</a></li>
+				<li><a href="/groups/<%=current_user.groups.first.id%>">Groups</a></li>
+				<li><a href="">Account</a></li>
+			</ul>
+		</div>
+	</div>
+</div>

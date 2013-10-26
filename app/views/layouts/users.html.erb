@@ -7,25 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-	<div class = "navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<span class="navbar-brand">Project Help</span>
-			</div>
-
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<% if current_user!=nil && current_user.admin == 1 %>
-						<li><%= link_to "Admin", controller: "users", action: "admin_panel"%><!-- <a href="/users/admin">Admin</a> --></li>
-					<% end %>
-					<li><a href="/users">Network</a></li>
-					<li><a href="">Inbox</a></li>
-					<li><a href="">Groups</a></li>
-					<li><a href="">Account</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+	<%= render "layouts/navbar" %>
 
 	<div class="col-sm-10 col-sm-offset-1">
 		<%= yield %>
