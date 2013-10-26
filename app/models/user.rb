@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
-	has_many :helpoffers, class_name: "Helpoffer", foreign_key: "user_id"
-	has_many :groupadmins
-	has_many :groupusers
+	has_many :helpoffers, class_name: "Helpoffer", foreign_key: "user_id", dependent: :destroy
+	has_many :groupadmins, dependent: :destroy
+	has_many :groupusers, dependent: :destroy
+	has_many :groups, through: :groupusers
 
 	accepts_nested_attributes_for :helpoffers, 
 		:allow_destroy 			=> true

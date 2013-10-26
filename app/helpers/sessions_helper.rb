@@ -26,6 +26,8 @@ module SessionsHelper
 	end
 
 	def deny_access
-		redirect_to "/users/new", :notice=>"Please sign in to access this page."
+		if !signed_in?
+			redirect_to "/users/new", :notice=>"Please sign in to access this page."
+		end
 	end
 end

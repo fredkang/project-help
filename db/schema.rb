@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131025034846) do
+ActiveRecord::Schema.define(version: 20131026004021) do
 
   create_table "group_admins", force: true do |t|
     t.integer  "group_id"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 20131025034846) do
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "groupadmin"
+    t.integer  "groupowner"
   end
 
   add_index "groupusers", ["group_id"], name: "index_groupusers_on_group_id"

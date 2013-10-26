@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :deny_access, only: [:create, :admin_panel, :new2, :destroy, :show, :index, :edit, :update]
 
   def new
     @user = User.new
@@ -11,8 +12,11 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     respond_to do |format|
+
+      #If the new user is saved without error, automatically create an entry in Groupuser to add this user to Group 1.
+      #Then sign in the user
       if @user.save
-        @group_user = Groupuser.new(user_id: @user.id, group_id: 1).save
+        @group_user = Groupuser.new(user_id: @user.id, group_id: 1, groupowner:0, groupadmin:0).save
         sign_in(@user)
         format.html { redirect_to '/users/'+@user.id.to_s+"/new2" } #@user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
@@ -20,6 +24,15 @@ class UsersController < ApplicationController
         format.html { render action: 'new' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  #Controller for admin page. Page that is only viewable to admins. They can see all users, edit users and destroy users
+  def admin_panel
+    if current_user.admin == 1
+      @users = User.all
+    else
+      redirect_to "/users"
     end
   end
 
@@ -33,8 +46,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     @user.destroy
+
     respond_to do |format|
-      format.html { redirect_to users_url }
+      format.html { redirect_to users_admin_url }
       format.json { head :no_content }
     end
   end

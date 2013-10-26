@@ -1,10 +1,16 @@
 ProjectHelp::Application.routes.draw do
+  get "groups/:id(.:format)"  =>  'groups#show'
   get "welcome/index"
-  
+
+  get '/users/admin' => 'users#admin_panel'
+
   #Basic routes for users
-  resources :users do
-    resources :helpoffers
-  end
+  resources :users
+  # do
+  #   resources :helpoffers
+  # end
+
+
 
   #Route for part 2 of registration
   get '/users/:id/new2' =>  'users#new2'

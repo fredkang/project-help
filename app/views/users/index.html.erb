@@ -1,55 +1,58 @@
-<h1>All users</h1>
+<h1>These are all of the people in your network</h1>
 
-<h1>Listing users</h1>
 <p><%=current_user.first_name+ " is signed in!"%></p>
 
 <div id="user-frame-container">
-<div class="user-frame col-sm-3 panel panel-default" >
-  <div class="panel-body">
-    <div class="user-frame-img-holder">
-      <img src="http://placekitten.com/g/150/150">
-    </div>
 
-    <div class="user-frame-basic-info">
-      <p><h4><%=current_user.first_name + " " +current_user.last_name%></h4></p>
-      <p><%=current_user.description%></p>
-      <p><strong>Help topics:</strong></p>
-      
-      <% current_user.helpoffers.each do |offer| %>
-        <%= offer.title + ", "%>
-      <% end %>
-
-    </div>
-  </div>
-</div>
-</div>
-
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Password digest</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.first_name + " " +user.last_name%></td>
-        <td><%= user.email %></td>
-        <td><%= user.password_digest %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+  <% @users.each do |user| %>
+    
+    <!-- Determine if the user's description is too long to fit in the frame. If it is, take the first 190 characters of the description and set the description_cut variable to true -->
+    <% if !user.description %>
+      <% descr = "Description not added yet" %>
+    <% elsif user.description.length>190 %>
+      <% descr = user.description[0...190] + "..." %>
+    <% else %>
+      <% descr = user.description %>
     <% end %>
-  </tbody>
-</table>
+
+    <!-- Extract the titles of the HelpOffers for this user and place into a comma separated string to be printed out below -->
+    <% helpoffers = [] %>
+    <% if user.helpoffers.count == 0  %>
+      <% helpoffers = "Topics not added yet" %>
+    <% else %>
+      <% user.helpoffers.each do |offer| %>
+        <% helpoffers.push(offer.title) %>
+      <% end %>
+      <% helpoffers = helpoffers.join(", ") %>
+    <% end %>
+    
+    <div class="user-frame col-sm-3 well" >
+      <!-- <div class="panel-body"> -->
+        <div class="user-frame-img-holder">
+          <img src="http://placekitten.com/g/150/150">
+        </div>
+
+        <div class="user-frame-basic-info">
+          <div class="user-frame-name">
+            <p><h4><%= user.first_name + " " + user.last_name%></h4></p>
+          </div>
+          
+          <div class="description-div"> 
+            <p><%= descr %></p>
+          </div>
+          
+          <div class="helpoffers-div">
+            <p class="user-frame-help-topics"><strong>Help topics:</strong></p>
+            <p><%= helpoffers %></p>
+          </div>
+          
+          <div class="viewprofilebtn-div">
+            <a href="/users/<%=user.id%>" class="btn btn-primary">View Full Profile</a>
+          </div>
+      </div>
+    </div>
+  <% end %>
+</div>
 
 <br>
 <%= link_to 'New User', new_user_path %>
