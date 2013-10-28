@@ -3,22 +3,27 @@
 		<div class="navbar-header">
 			<span class="navbar-brand">Project Help</span>
 		</div>
+		<% if current_user.nil? %>
+			<div class="navbar-collapse collapse">
+			</div>
+		<% else %>
 
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<% if current_user!=nil && current_user.admin == 1 %>
-					<li><%= link_to "Admin", controller: "users", action: "admin_panel"%></li>
-				<% end %>
-				<li><a href="/users">Network</a></li>
-				<li><a href="">Inbox</a></li>
-				<li><a href="/groups/<%=current_user.groups.first.id%>">Groups</a></li>
-				<li class="dropdown">
-			        <a href="" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
-			        <ul class="dropdown-menu">
-			          <li><a href="/users/<%=current_user.id%>">Profile</a></li>
-			          <li><a href="/users/<%=current_user.id%>/edit">Edit Profile</a></li>
-			      </ul>
-			</ul>
-		</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<% if current_user!=nil && current_user.admin == 1 %>
+						<li><%= link_to "Admin", controller: "users", action: "admin_panel"%></li>
+					<% end %>
+					<li><a href="/users">Network</a></li>
+					<li><a href="">Inbox</a></li>
+					<li><a href="/groups/<%=current_user.groups.first.id%>">Groups</a></li>
+					<li class="dropdown">
+				        <a href="" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+				        <ul class="dropdown-menu">
+				          <li><a href="/users/<%=current_user.id%>">Profile</a></li>
+				          <li><a href="/users/<%=current_user.id%>/edit">Edit Profile</a></li>
+				      </ul>
+				</ul>
+			</div>
+		<% end %>
 	</div>
 </div>

@@ -55,6 +55,8 @@ class UsersController < ApplicationController
 
   def show
     @topics = @user.helpoffers
+    @posts = @user.posts.order("created_at DESC").all
+    @newpost = @user.posts.new
   end
 
   def index

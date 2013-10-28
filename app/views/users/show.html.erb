@@ -16,15 +16,9 @@
 			</div>
 		</div>
 
-		<div id="posts" class="col-sm-12">
-			<p><strong>Ask <%=@user.first_name%> a question or thank him for his help!</strong></p>
-			<form role="form">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder='Ask <%=@user.first_name%> a question!'></input>
-				</div>
-				<button class="btn btn-primary">Post</button>
-			</form>
-		</div>
+		<%= render partial: "/shared/posts", locals: {:user=>@user, :newpost=>@newpost, :posts=>@posts, :post_on=>"user"} %>
+
+	
 	</div>
 </div>
 

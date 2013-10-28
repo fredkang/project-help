@@ -1,14 +1,24 @@
 ProjectHelp::Application.routes.draw do
+  get "comments/create"
+  get "comments/update"
+  get "comments/destroy"
+  get "posts/create"
+  get "posts/update"
+  get "posts/destroy"
   get "groups/:id(.:format)"  =>  'groups#show'
   get "welcome/index"
 
   get '/users/admin' => 'users#admin_panel'
 
   #Basic routes for users
-  resources :users
+  resources :users 
   # do
   #   resources :helpoffers
   # end
+
+  resources :posts, only: [:create, :update, :destroy]
+  resources :comments, only: [:create, :update, :destroy]
+  
 
 
 

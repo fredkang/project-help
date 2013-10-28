@@ -15,33 +15,33 @@
 //= require turbolinks
 //= require_tree .
 
-$("document").ready(function() {
-			$("#posts-div").show();
+// $("document").ready(function() {
+// 			$("#posts_div").show();
 
-			$("#members-div").hide();
+// 			$("#members-div").hide();
 
-			$("#group-posts-button").click(function(){
+// 			$("#group-posts-button").click(function(){
 				
-				$("#posts-div").show();
-				$("#members-div").hide();
+// 				$("#posts_div").show();
+// 				$("#members-div").hide();
 
-				$("#group-posts-button").addClass("active");
-				$("#group-members-button").removeClass("active");
+// 				$("#group-posts-button").addClass("active");
+// 				$("#group-members-button").removeClass("active");
 
-				$("#group-tab-nav").addClass("col-sm-7");
-				$("#group-tab-nav").removeClass("col-sm-12");				
-			});	
+// 				$("#group-tab-nav").addClass("col-sm-7");
+// 				$("#group-tab-nav").removeClass("col-sm-12");				
+// 			});	
 
-			$("#group-members-button").click(function(){
+// 			$("#group-members-button").click(function(){
 				
-				$("#posts-div").hide();
-				$("#members-div").show();
+// 				$("#posts_div").hide();
+// 				$("#members-div").show();
 
-				$("#group-posts-button").removeClass("active");
-				$("#group-members-button").addClass("active");
+// 				$("#group-posts-button").removeClass("active");
+// 				$("#group-members-button").addClass("active");
 
-				$("#group-tab-nav").addClass("col-sm-12");
-				$("#group-tab-nav").removeClass("col-sm-7");				
-			});	
+// 				$("#group-tab-nav").addClass("col-sm-12");
+// 				$("#group-tab-nav").removeClass("col-sm-7");				
+// 			});	
 
-		});
+// 		});

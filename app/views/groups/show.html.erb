@@ -13,7 +13,8 @@
   <li id="group-members-button"><a>Members</a></li>
 </ul>
 
-<div id="posts-div" data-no-turbolink="true">
+<%= render partial: "/shared/posts", locals: {:user=>@user, :newpost=>@newpost, :posts=>@posts, :post_on=>"group"} %>
+<!-- <div id="posts-div" data-no-turbolink="true">
 	<div class="col-sm-6">
 		<form role="form">
 			<div class="form-group">
@@ -23,7 +24,7 @@
 		</form>
 
 	</div>
-</div>
+</div> -->
 
 <div id="members-div" data-no-turbolink="true">
 	<div id="user-frame-container">
@@ -78,3 +79,36 @@
 	  <% end %>
 	</div>
 </div>
+
+<script>
+$("document").ready(function() {
+			$("#posts_div").show();
+
+			$("#members-div").hide();
+
+			$("#group-posts-button").click(function(){
+				
+				$("#posts_div").show();
+				$("#members-div").hide();
+
+				$("#group-posts-button").addClass("active");
+				$("#group-members-button").removeClass("active");
+
+				$("#group-tab-nav").addClass("col-sm-7");
+				$("#group-tab-nav").removeClass("col-sm-12");				
+			});	
+
+			$("#group-members-button").click(function(){
+				
+				$("#posts_div").hide();
+				$("#members-div").show();
+
+				$("#group-posts-button").removeClass("active");
+				$("#group-members-button").addClass("active");
+
+				$("#group-tab-nav").addClass("col-sm-12");
+				$("#group-tab-nav").removeClass("col-sm-7");				
+			});	
+
+		});
+</script>

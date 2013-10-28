@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
 	has_many :groupadmins, dependent: :destroy
 	has_many :groupusers, dependent: :destroy
 	has_many :groups, through: :groupusers
+	has_many :posts, as: :postable, dependent: :destroy
+	has_many :writeposts, class_name: "Post", foreign_key: "user_id", dependent: :destroy
+	has_many :comments, dependent: :destroy
 
 	accepts_nested_attributes_for :helpoffers, 
 		:allow_destroy 			=> true

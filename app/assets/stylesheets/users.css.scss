@@ -21,7 +21,7 @@ body
 }
 
 
-/*Profile CSS ------------------------------------------*/
+/*User Show CSS ------------------------------------------*/
 #profile-header
 {
 	margin-top:20px;
@@ -88,6 +88,28 @@ body
 		margin-bottom: 10px;
 	}
 
+.post-div
+{
+	margin-top:10px;
+	margin-bottom:10px;
+	overflow:hidden;
+}
+.post-div p
+{
+	margin:2px;
+}
+
+.post-div .post-time
+{
+	size:12px;
+}
+
+.comment-div
+{
+	margin-top:10px;
+	margin-bottom:10px;
+	/*padding-left:30px;*/
+}
 
 /*Edit Profile CSS ----------------------------------------*/
 #edit-container
