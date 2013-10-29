@@ -8,14 +8,12 @@ ProjectHelp::Application.routes.draw do
   get "groups/:id(.:format)"  =>  'groups#show'
   get "welcome/index"
 
-  
-
-  #Basic routes for users
-  resources :users 
-
   #Additional routes for Users for part 2 of registration and the admin panel
   get '/users/:id/new2' =>  'users#new2'
   get '/users/admin' => 'users#admin_panel'
+
+  #Basic routes for users
+  resources :users 
 
   #Basic routes for Posts and Comments, but only create, update and destroy
   resources :posts, only: [:create, :update, :destroy]
