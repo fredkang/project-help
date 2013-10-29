@@ -1,2 +1,30 @@
 <h1>Conversations#index</h1>
 <p>Find me in app/views/conversations/index.html.erb</p>
+
+<div id="inbox-container" class="col-sm-8 col-sm-offset-2">
+	<div class="panel panel-info">
+	  <div class="panel-heading">Inbox</div>
+	  <!-- List group: print out a conversation heading in each list item -->
+	  <ul class="list-group">
+	  	<% @conversations.each do |conversation| %>
+	  		<% if conversation.user1_id == current_user.id %>
+	  			<% convo_user = conversation.user2 %>
+			<% else %>
+				<% convo_user = conversation.user1 %>
+			<% end %>
+
+	    	<li class="list-group-item">
+	    		<div class="message-left">
+	    			<span class="message-name"><%=convo_user.first_name + " " + convo_user.last_name%></span><br>
+	    			<span class="message-text-preview"><%=conversation.messages.last.text%></span>
+	    		</div>
+
+	    		<div class="message-right">
+	    			<%=conversation.updated_at%>
+	    		</div>
+	    	</li>
+		<% end %>
+	    
+	  </ul>
+	</div>
+</div>

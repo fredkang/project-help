@@ -88,6 +88,13 @@ body
 		margin-bottom: 10px;
 	}
 
+#messageModal textarea
+{
+	height:150px;
+	min-height:150px;
+	max-height:150px;
+}
+
 .post-div
 {
 	margin-top:20px;

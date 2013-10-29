@@ -6,12 +6,12 @@
 				<img src = "http://placekitten.com/150/250">
 		</div>
 
-		<div id="profile-info" class="col-sm-8">
+		<div id="profile-info" class="col-sm-8" data-no-turbolink="true">
 			<h2><%=@user.first_name+" "+@user.last_name%></h2>
 			<p><%=@user.description%></p>
 
 			<div class="btn-group btn-group-justified">
-				<a data-toggle="modal" href="#myModal" class="btn btn-primary">Send Message</a>
+				<a data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
 				<a href="" class="btn btn-success">Schedule Call</a>
 			</div>
 		</div>
@@ -34,23 +34,41 @@
 
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-no-turbolink="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Send a message</h4>
+          <h4 class="modal-title">Send <%=@user.first_name%> a message</h4>
         </div>
         <div class="modal-body">
+        	<%= form_for(@conversation, :html => { :role => "form" }) do |f| %>
+        		<% if @conversation.id.nil? %>
+		        	<%= f.hidden_field :user1_id, :value => current_user.id %>
+		        	<%= f.hidden_field :user2_id, :value => @user.id %>
+		        	<%= f.hidden_field :user1read, :value => 1 %>
+		        	<%= f.hidden_field :user2read, :value => 0 %>
+	        	<% end %>
+
+	        	<%= f.fields_for :messages do |message_form| %>
+	        		<%= message_form.hidden_field :sender_id, :value => current_user.id %>
+	        		<%= message_form.hidden_field :receiver_id, :value => @user.id %>
+	        		<%= message_form.text_area :text, class: "form-control", placeholder: "Ask something!" %>
+        		<% end %>
         
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary">Send</button>
+          <%= f.submit "Send", class: "btn btn-primary" %>
+          <% end %>
+          <!-- <button type="button" class="btn btn-primary">Send</button> -->
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div>
+
+
+
 
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

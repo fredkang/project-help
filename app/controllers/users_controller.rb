@@ -57,6 +57,15 @@ class UsersController < ApplicationController
     @topics = @user.helpoffers
     @posts = @user.posts.order("created_at DESC").all
     @newpost = @user.posts.new
+
+    @conversation = Conversation.getConvo(current_user.id, @user.id)
+
+    if @conversation.nil?
+      @conversation = Conversation.new
+    end
+
+    @conversation.messages.build
+    
   end
 
   def index
