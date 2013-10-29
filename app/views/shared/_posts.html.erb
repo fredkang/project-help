@@ -6,7 +6,7 @@
 	<% prompt = "Post a question or start a discussion" %>
 	<div class="clearfix">
 	</div>
-	<div id="posts_div" class="col-sm-12" data-no-turblink="true">
+	<div id="posts_div" class="col-sm-7" data-no-turblink="true">
 <% end %>
 
 	<p><strong><%= prompt %></strong></p>
@@ -50,7 +50,7 @@
 					</div>
 				<% end %>
 
-				<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>'20' } }) do |f| %>
+				<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
 					<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
 					<%= f.input :post_id, :as=>:hidden, input_html: {:value => post.id} %>
 					<%= f.input :text, label:false, placeholder: "Post a reply!" %>

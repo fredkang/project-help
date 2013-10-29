@@ -29,13 +29,17 @@
         <%= link_to_add_fields "Add Topic", f, :helpoffers %>  
       </p>
       
+      <% count = 1 %>
       <%= f.fields_for :helpoffers do |helpoffer_form| %>
           
           <div class="form-group help-topics">
-            <%= helpoffer_form.label :title, "New Topic" %>
+            <%= helpoffer_form.label :title, "Topic #" + count.to_s %>
             <%= helpoffer_form.text_field :title, class: "form-control", placeholder: "Topic e.g. Resume writing, Startups, or Skiing" %>
             <%= helpoffer_form.text_area :description, class: "form-control", placeholder: "Description e.g. I've worked at 3 different startups across different growth stages. Happy to discuss what it was like working at a startup and what they're looking for in candidates." %>
+            <%= f.hidden_field :_destroy %>
+            <%= link_to "Remove topic", '#', class: "remove_fields", value: "Remove topic" %>
           </div>
+          <% count += 1 %>
       <% end %>
       
      

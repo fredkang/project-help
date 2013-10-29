@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131027231127) do
+ActiveRecord::Schema.define(version: 20131029000311) do
 
   create_table "comments", force: true do |t|
     t.text     "text"
@@ -23,6 +23,18 @@ ActiveRecord::Schema.define(version: 20131027231127) do
 
   add_index "comments", ["post_id"], name: "index_comments_on_post_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
+
+  create_table "conversations", force: true do |t|
+    t.integer  "user1_id"
+    t.integer  "user2_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user1read"
+    t.integer  "user2read"
+  end
+
+  add_index "conversations", ["user1_id"], name: "index_conversations_on_user1_id"
+  add_index "conversations", ["user2_id"], name: "index_conversations_on_user2_id"
 
   create_table "group_admins", force: true do |t|
     t.integer  "group_id"
@@ -92,6 +104,19 @@ ActiveRecord::Schema.define(version: 20131027231127) do
   end
 
   add_index "helpoffers", ["user_id"], name: "index_helpoffers_on_user_id"
+
+  create_table "messages", force: true do |t|
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.integer  "conversation_id"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id"
+  add_index "messages", ["receiver_id"], name: "index_messages_on_receiver_id"
+  add_index "messages", ["sender_id"], name: "index_messages_on_sender_id"
 
   create_table "posts", force: true do |t|
     t.text     "text"

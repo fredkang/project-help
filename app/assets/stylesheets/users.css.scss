@@ -90,8 +90,8 @@ body
 
 .post-div
 {
-	margin-top:10px;
-	margin-bottom:10px;
+	margin-top:20px;
+	margin-bottom:20px;
 	overflow:hidden;
 }
 .post-div p
@@ -106,9 +106,14 @@ body
 
 .comment-div
 {
-	margin-top:10px;
-	margin-bottom:10px;
+	margin-top:5px;
+	/*margin-bottom:10px;*/
 	/*padding-left:30px;*/
+}
+
+.new-comment-form
+{
+	margin-top:10px;
 }
 
 /*Edit Profile CSS ----------------------------------------*/

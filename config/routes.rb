@@ -1,36 +1,41 @@
 ProjectHelp::Application.routes.draw do
-  get "comments/create"
-  get "comments/update"
-  get "comments/destroy"
-  get "posts/create"
-  get "posts/update"
-  get "posts/destroy"
+  post "messages/create"      => 'messages#create'
+  
+  post "inbox/create"         => 'conversations#create'
+  get "inbox/:id(.:format)"   => 'conversations#show'
+  get "inbox/"                => 'conversations#index'
+  
   get "groups/:id(.:format)"  =>  'groups#show'
   get "welcome/index"
 
-  get '/users/admin' => 'users#admin_panel'
+  
 
   #Basic routes for users
   resources :users 
-  # do
-  #   resources :helpoffers
-  # end
 
+  #Additional routes for Users for part 2 of registration and the admin panel
+  get '/users/:id/new2' =>  'users#new2'
+  get '/users/admin' => 'users#admin_panel'
+
+  #Basic routes for Posts and Comments, but only create, update and destroy
   resources :posts, only: [:create, :update, :destroy]
   resources :comments, only: [:create, :update, :destroy]
   
+  # get "comments/create"
+  # get "comments/update"
+  # get "comments/destroy"
+  # get "posts/create"
+  # get "posts/update"
+  # get "posts/destroy"
 
-
-
-  #Route for part 2 of registration
-  get '/users/:id/new2' =>  'users#new2'
+  
 
   #Routes for logging in and logging out
   post "sessions/create" => 'sessions#create'
   get "sessions/destroy"
 
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
+  # root 'welcome#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
