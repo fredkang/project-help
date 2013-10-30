@@ -8,14 +8,33 @@ class Conversation < ActiveRecord::Base
 
   validates :user1_id, :user2_id, :user1read, :user2read, presence: true
 
-  def self.read?(user_id)
-  	if self.user1_id == user_id
-  		return self.user1_read
-  	elsif self.user2_id == user_id
-  		return self.user2_read
+  def self.read?(convo_id, user_id)
+    convo = self.find(convo_id)
+
+  	if convo.user1_id == user_id
+  		return convo.user1read
+  	elsif convo.user2_id == user_id
+  		return convo.user2read
   	else
-  		return "Blah"
+  		return 0
   	end
+  end
+
+  def self.mark_as_read(convo_id, user_id)
+    convo = self.find(convo_id)
+
+    if convo.user1_id == user_id
+      convo.update_column('user1read', 1)
+      # convo.user1read = 1
+      # convo.save
+    elsif convo.user2_id == user_id
+      convo.update_column('user2read', 1)
+      # convo.user2read = 1
+      # convo.save
+    else
+      return 0
+    end
+
   end
 
   def self.getConvo(id1, id2)
@@ -34,6 +53,16 @@ class Conversation < ActiveRecord::Base
     convos = self.where("user1_id= ? or user2_id= ?", id, id)
 
     return convos
+  end
+
+  def self.ownsConvo?(userID, convoID)
+    convo = self.find(convoID)
+
+    if userID != convo.user1_id && userID != convo.user2_id
+      return false
+    else
+      return true
+    end
   end
   
 end

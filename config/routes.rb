@@ -1,5 +1,5 @@
 ProjectHelp::Application.routes.draw do
-  post "messages/create"      => 'messages#create'
+  resources :messages, only: [:create]
   
   resources :conversations, only: [:create, :update]
   get "inbox/:id(.:format)"   => 'conversations#show'

@@ -21,7 +21,15 @@ class ConversationsController < ApplicationController
   end
 
   def show
-    @conversation = Conversation.find(params[:id])
+    if Conversation.ownsConvo?(current_user.id, params[:id])
+      @conversation = Conversation.find(params[:id])
+
+      if Conversation.read?(params[:id], current_user.id)==0
+        Conversation.mark_as_read(params[:id], current_user.id)
+      end
+    else
+      redirect_to '/users'
+    end
   end
 
   def index

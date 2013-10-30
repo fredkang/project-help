@@ -1,18 +1,47 @@
-<h1>Conversations#show</h1>
-<p>Find me in app/views/conversations/show.html.erb</p>
-
 <% if @conversation.user1_id == current_user.id %>
 	<% convo_user = @conversation.user2 %>
 <% else %>
 	<% convo_user = @conversation.user1 %>
 <% end %>
 
+<% messages = @conversation.messages.order('created_at ASC').to_a %>
+
 <div id="inbox-container" class="col-sm-8 col-sm-offset-2">
 	<div class="panel panel-info">
-	  <div class="panel-heading"><a href="/inbox">Inbox</a> > with <%= convo_user.first_name + " " + convo_user.last_name%> </div>
+	  <div class="panel-heading"><a href="/inbox"><span class="inbox-title">Inbox</span></a> > with <%= convo_user.first_name + " " + convo_user.last_name%> </div>
 	  <!-- List group: print out a conversation heading in each list item -->
 	  <div class="panel-body">
-	  	WHAT WHATT
+	  	<% messages.each do |message| %>
+
+			<% if Time.at(message.updated_at).to_date === Time.now.to_date %>
+				<% timeStamp = Time.at(message.updated_at).strftime "%l:%M %P" %>
+			<% else %>
+				<% timeStamp = Time.at(mesage.updated_at).strftime "%b %-d" %>
+			<% end %>
+
+			<div class="message">
+				<% if message.sender_id == current_user.id %>
+					<strong><%= "Me (" +timeStamp + " ): " %></strong>
+					<%= message.text %>
+				<% else %> 
+					<strong><%= message.sender.first_name + " (" +timeStamp + " ): "%></strong>
+					<%= message.text %>
+				<% end %> 
+			</div>
+	  	<% end %>
+	  </div>
+
+	  <div class="panel-footer">
+	  	<% message = Message.new %>
+	  	<%= form_for(message, :html => { :role => "form" }) do |f| %>
+        	<%= f.hidden_field :sender_id, :value => current_user.id %>
+        	<%= f.hidden_field :receiver_id, :value => convo_user.id %>
+        	<%= f.hidden_field :conversation_id, :value => @conversation.id %>
+        	<div class="form-group">
+        		<%= f.text_area :text, class: "form-control" %>
+        	</div>
+        	<%= f.submit "Send", class: "btn btn-primary" %>
+    	<% end %>
 	  </div>
 	</div>
 </div>
