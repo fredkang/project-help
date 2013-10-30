@@ -8,7 +8,9 @@ class ConversationsController < ApplicationController
       #If the new user is saved without error, automatically create an entry in Groupuser to add this user to Group 1.
       #Then sign in the user
       if @conversation.save
-        format.html { redirect_to '/users/'+conversation_params['user2_id'].to_s } #@user, notice: 'User was successfully created.' }
+        # sendText(conversation_params['messages_attributes']['0']['sender_id'], conversation_params['messages_attributes']['0']['receiver_id'], conversation_params['messages_attributes']['0']['text'])
+        convoID = Conversation.getConvo(conversation_params['user2_id'], conversation_params['user1_id']).id
+        format.html { redirect_to '/inbox/'+convoID.to_s } #@user, notice: 'User was successfully created.' }
         # format.json { render action: 'users#show', status: :created, location: @user }
       else
         format.html { redirect_to '/users/'+conversation_params['user2_id'].to_s, notice: "Message not sent" } 

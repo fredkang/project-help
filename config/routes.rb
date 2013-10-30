@@ -18,22 +18,13 @@ ProjectHelp::Application.routes.draw do
   #Basic routes for Posts and Comments, but only create, update and destroy
   resources :posts, only: [:create, :update, :destroy]
   resources :comments, only: [:create, :update, :destroy]
-  
-  # get "comments/create"
-  # get "comments/update"
-  # get "comments/destroy"
-  # get "posts/create"
-  # get "posts/update"
-  # get "posts/destroy"
-
-  
 
   #Routes for logging in and logging out
   post "sessions/create" => 'sessions#create'
   get "sessions/destroy"
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'welcome#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

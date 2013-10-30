@@ -33,6 +33,18 @@
 	{
 		padding-left:0px;
 	}
+
+	#inbox-container .panel
+	{
+		min-height:450px;
+
+	}
+
+	#inbox-container .panel-body
+	{
+		min-height:281px;
+	}
+
 .message-name
 {
 	font-weight:bold;
@@ -47,3 +59,5 @@
 {
 	margin-bottom:15px;
 }
+
+

@@ -15,7 +15,7 @@
 		<%= f.input :postable_id, :as=>:hidden, input_html: {:value => newpost.postable_id} %>
 		<%= f.input :postable_type, :as=>:hidden, input_html: {:value => newpost.postable_type} %>
 		<%= f.input :text, label:false, placeholder: prompt %>
-		<%= f.button :submit, input_html: {value: 'Post'}, class: "btn btn-primary"%>
+		<%= f.button :submit, value: 'Post', class: "btn btn-primary"%>
 	<% end %>
 
 	<% posts.each do |post| %>
@@ -54,7 +54,7 @@
 					<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
 					<%= f.input :post_id, :as=>:hidden, input_html: {:value => post.id} %>
 					<%= f.input :text, label:false, placeholder: "Post a reply!" %>
-					<%= f.button :submit, input_html: {value: 'Comment'}, class: "btn btn-primary"%>
+					<%= f.button :submit, value: "Comment", class: "btn btn-primary"%>
 				<% end %>
 			</div>
 		</div>

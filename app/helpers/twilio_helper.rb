@@ -17,10 +17,15 @@ module TwilioHelper
 			auth_token = 'de58608bb2c23e0bcbb31a435decbd72'
 			@client = Twilio::REST::Client.new account_sid, auth_token
 			 
-			message = @client.account.messages.create(:body => message_text,
-			    :to => "+1"+receiver.phone_number,
-			    :from => "+14086274495")
-			puts message.to
+		 	begin 
+				message = @client.account.messages.create(:body => message_text,
+				    :to => "+1"+receiver.phone_number,
+				    :from => "+14086274495")
+				puts message.to
+
+			rescue Twilio::REST::RequestError => e
+				puts e.message
+			end
 		end
 	end
 end

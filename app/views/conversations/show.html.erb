@@ -36,15 +36,31 @@
 
 	  <div class="panel-footer">
 	  	<% message = Message.new %>
-	  	<%= form_for(message, :html => { :role => "form" }) do |f| %>
+	  	<%= form_for(message, :html => { :role => "form", :id => "message-create" }) do |f| %>
         	<%= f.hidden_field :sender_id, :value => current_user.id %>
         	<%= f.hidden_field :receiver_id, :value => convo_user.id %>
         	<%= f.hidden_field :conversation_id, :value => @conversation.id %>
         	<div class="form-group">
-        		<%= f.text_area :text, class: "form-control" %>
+        		<%= f.text_area :text, class: "form-control message-input" %>
         	</div>
-        	<%= f.submit "Send", class: "btn btn-primary" %>
+        	<%= f.submit "Send", class: "btn btn-primary send-button" %>
     	<% end %>
 	  </div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function() {
+		$("#message-create").submit(function() {
+			$.post($(this).attr('action'), $(this).serialize(), function(data) {
+					$(".panel-body").find(".message").last().after(function() {
+						return "<div class='message'><strong>Me ( just now ):</strong> "+$(".message-input").val()+"</div>";
+					});
+
+					$(".message-input").val("");			
+				}, "json");
+			
+			return false;
+		});
+	});
+</script>
