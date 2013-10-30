@@ -11,9 +11,6 @@ class ConversationsController < ApplicationController
         format.html { redirect_to '/users/'+conversation_params['user2_id'].to_s } #@user, notice: 'User was successfully created.' }
         # format.json { render action: 'users#show', status: :created, location: @user }
       else
-      	@conversation.errors.full_messages.each do |msg|
-      		puts msg
-      	end
         format.html { redirect_to '/users/'+conversation_params['user2_id'].to_s, notice: "Message not sent" } 
         format.json { render json: @conversation.errors, status: :unprocessable_entity }
       end
@@ -21,9 +18,11 @@ class ConversationsController < ApplicationController
   end
 
   def show
+    # Check if the conversation belongs to this user, redirect to the network page otherwise
     if Conversation.ownsConvo?(current_user.id, params[:id])
       @conversation = Conversation.find(params[:id])
 
+      # Also mark the conversation as read now that the user has gone into it
       if Conversation.read?(params[:id], current_user.id)==0
         Conversation.mark_as_read(params[:id], current_user.id)
       end
@@ -38,8 +37,8 @@ class ConversationsController < ApplicationController
 
   def update
   	@conversation = Conversation.getConvo(params['conversation']['messages_attributes']['0']['sender_id'], params['conversation']['messages_attributes']['0']['receiver_id'])
-
-  	respond_to do |format|
+  	
+    respond_to do |format|
       if @conversation.update_attributes(conversation_params)
         format.html { redirect_to '/users/'+conversation_params['user2_id'].to_s } #@user, notice: 'User was successfully created.' }
         # format.json { render action: 'users#show', status: :created, location: @user }

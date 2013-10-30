@@ -24,7 +24,7 @@ module ApplicationHelper
 			if timediff/86400 == 1
 			 timediffString = "1 day ago"
 			else
-			 timediffString = timediff/86400.to_s + " days ago"
+			 timediffString = (timediff/86400).to_s + " days ago"
 			end
 		end
 

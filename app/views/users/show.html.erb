@@ -11,7 +11,11 @@
 			<p><%=@user.description%></p>
 
 			<div class="btn-group btn-group-justified">
-				<a data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
+				<% if @conversation.id.nil? %>
+					<a data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
+				<% else %>
+					<a href="/inbox/<%=@conversation.id%>" class="btn btn-primary">Send Message</a>
+				<% end %>
 				<a href="" class="btn btn-success">Schedule Call</a>
 			</div>
 		</div>
@@ -57,9 +61,9 @@
         		<% end %>
         
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <div class="modal-footer" data-no-turbolink="true">
           <%= f.submit "Send", class: "btn btn-primary" %>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <% end %>
           <!-- <button type="button" class="btn btn-primary">Send</button> -->
         </div>

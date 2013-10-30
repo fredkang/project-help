@@ -25,21 +25,29 @@ class Conversation < ActiveRecord::Base
 
     if convo.user1_id == user_id
       convo.update_column('user1read', 1)
-      # convo.user1read = 1
-      # convo.save
     elsif convo.user2_id == user_id
       convo.update_column('user2read', 1)
-      # convo.user2read = 1
-      # convo.save
     else
       return 0
     end
+  end
 
+  def self.mark_as_unread(convo_id, user_id)
+    convo = self.find(convo_id)
+
+    # For some reason, convo.user1_id and user_id
+    if convo.user1_id == user_id
+      convo.update_column('user1read', 0)
+    elsif convo.user2_id == user_id
+      convo.update_column('user2read', 0)
+    else
+      return 0
+    end
   end
 
   def self.getConvo(id1, id2)
-    convo1 = self.where("user1_id= ? and user2_id= ?", id1, id2)
-    convo2 = self.where("user1_id= ? and user2_id= ?", id2, id1)
+    convo1 = self.where("(user1_id= ? and user2_id= ?) or (user1_id= ? and user2_id= ?)", id1, id2, id2, id1)
+    
     if convo1
       return convo1.first
     elsif convo2
