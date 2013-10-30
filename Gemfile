@@ -51,6 +51,8 @@ gem 'validates_email_format_of'
 gem 'bootstrap-sass-rails', '~> 3.0.0.3'
 gem 'simple_form'
 
+gem 'twilio-ruby'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

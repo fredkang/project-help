@@ -7,6 +7,8 @@ class MessagesController < ApplicationController
       #If the new user is saved without error, automatically create an entry in Groupuser to add this user to Group 1.
       #Then sign in the user
       if @message.save
+      	# Send text message notification to message recipient
+      	sendText(message_params['sender_id'], message_params['receiver_id'], message_params['text'])
 
       	# For every new message, mark the conversation as unread for the receiver
       	Conversation.mark_as_unread(message_params['conversation_id'], message_params['receiver_id'].to_i)
