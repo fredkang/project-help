@@ -1,8 +1,27 @@
-<h3>These are all of the people in your network</h3>
+
 
 <p><%=current_user.first_name+ " is signed in!"%></p>
 
+<div class="row">
+  <div id="index-help-topics" class="col-sm-8">
+    <h3>Topics your network can help you with: </h3>
+      
+      <% @helptopics.each_with_index do |topic, index| %>
+        
+        
+        <% if index==@helptopics.size-1 %>
+          <a href="/users/<%=topic.user_id%>"><%=topic.title%></a>
+        <% else %>  
+          <a href="/users/<%=topic.user_id%>"><%=topic.title%></a> ,
+        <% end %>
+      <% end %>
+      <%# helptopics = @helptopics.join(", ") %>
+      <%#= helptopics %>
+  </div>
+</div>
+
 <div id="user-frame-container">
+  <h3>People in your network:</h3>
 
   <% @users.each do |user| %>
     

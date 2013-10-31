@@ -76,7 +76,31 @@ class UsersController < ApplicationController
   def index
     deny_access
     
-    @users = User.all
+    # Grab all of the users that are in any of the same groups as the current_user
+
+    # First grab all of the users
+    all_users = User.all.to_a
+
+    @users = []
+
+    # Go through each user and check if it is any of the same groups as the current user
+    all_users.each do |user|
+      if (user.groups.to_a & current_user.groups.to_a).length>0
+        @users.push(user)
+      end
+    end
+
+    # Store all of the help topics of these people have listed - all of the topics
+    # that are available to this user
+    @helptopics = []
+
+    @users.each do |user|
+      user.helpoffers.to_a.each do |topic|
+        @helptopics.push(topic)
+      end
+    end
+
+    @helptopics = @helptopics.sort_by { |obj| obj.title}
   end
 
   def edit
