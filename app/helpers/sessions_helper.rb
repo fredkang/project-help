@@ -32,10 +32,10 @@ module SessionsHelper
 	end
 
 	def correct_user?
-		if current_user.id != params[:id] && current_user.admin!=1
-	      redirect_to "/welcome/index"
-	    end
-	end
+      if current_user.id.to_s != params[:id] && current_user.admin!=1
+        redirect_to "/welcome/index"
+      end
+    end
 
 	def unread_messages
 		# Check and display the number of unread messages

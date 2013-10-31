@@ -12,9 +12,9 @@ class User < ActiveRecord::Base
 	has_many :notifications, class_name: "Notification", foreign_key: "user_id", dependent: :destroy
 	has_many :profilenotes, class_name: "Notification", foreign_key: "notifiable_id", dependent: :destroy
 
-	accepts_nested_attributes_for :helpoffers, 
+	accepts_nested_attributes_for :helpoffers, reject_if: proc {|attributes| attributes['title'].blank?},
 		:allow_destroy 			=> true
-		# :reject_if 				=> :all_blank #lambda {|attributes| attributes['title'].blank? || attributes['description'].blank?}
+		
 
 	validates 	:email,	:presence				=> true,
 				:email_format 					=> {message: "Invalid email address"},
