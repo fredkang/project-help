@@ -53,6 +53,8 @@ gem 'simple_form'
 
 gem 'twilio-ruby'
 
+gem 'carrierwave'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

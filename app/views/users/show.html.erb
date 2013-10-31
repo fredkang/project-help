@@ -16,7 +16,7 @@
 				<% else %>
 					<a href="/inbox/<%=@conversation.id%>" class="btn btn-primary">Send Message</a>
 				<% end %>
-				<a href="" class="btn btn-success">Schedule Call</a>
+				<a id="callButton" data-toggle="modal" href="#callModal" class="btn btn-success">Schedule Call</a>
 			</div>
 		</div>
 
@@ -38,7 +38,7 @@
 
 </div>
 
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-no-turbolink="true">
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModallLabel" aria-hidden="true" data-no-turbolink="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -65,6 +65,25 @@
           <%= f.submit "Send", class: "btn btn-primary message-send-button" %>
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <% end %>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="callModal" tabindex="-1" role="dialog" aria-labelledby="callModalLabel" aria-hidden="true" data-no-turbolink="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Sorry! Call scheduler is not available yet</h4>
+        </div>
+        <div class="modal-body">
+        	The calling feature is not ready yet. For now, please send <%=@user.first_name%> a message instead and schedule a call manually.
+        </div>
+
+        <div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
 
       </div><!-- /.modal-content -->
