@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<div id="profile-header" class="col-sm-8 panel panel-default">
+<div id="profile-header" class="col-sm-8 panel panel-default" data-no-turbolink="true">
 	<div class="panel-body">
 		<div id="profile-pic-container" class="col-sm-3">
-				<img src = "http://placekitten.com/150/250">
+				<img src = "http://placekitten.com/150/200">
 		</div>
 
 		<div id="profile-info" class="col-sm-8" data-no-turbolink="true">
@@ -12,7 +12,7 @@
 
 			<div class="btn-group btn-group-justified">
 				<% if @conversation.id.nil? %>
-					<a data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
+					<a id="messageButton" data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
 				<% else %>
 					<a href="/inbox/<%=@conversation.id%>" class="btn btn-primary">Send Message</a>
 				<% end %>
@@ -46,7 +46,7 @@
           <h4 class="modal-title">Send <%=@user.first_name%> a message</h4>
         </div>
         <div class="modal-body">
-        	<%= form_for(@conversation, :html => { :role => "form" }) do |f| %>
+        	<%= form_for(@conversation, :html => { :role => "form", :id => "message-form" }) do |f| %>
         		<% if @conversation.id.nil? %>
 		        	<%= f.hidden_field :user1_id, :value => current_user.id %>
 		        	<%= f.hidden_field :user2_id, :value => @user.id %>
@@ -59,21 +59,24 @@
 	        		<%= message_form.hidden_field :receiver_id, :value => @user.id %>
 	        		<%= message_form.text_area :text, class: "form-control", placeholder: "Ask something!" %>
         		<% end %>
-        
         </div>
-        <div class="modal-footer" data-no-turbolink="true">
-          <%= f.submit "Send", class: "btn btn-primary" %>
+
+        <div class="modal-footer">
+          <%= f.submit "Send", class: "btn btn-primary message-send-button" %>
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <% end %>
-          <!-- <button type="button" class="btn btn-primary">Send</button> -->
         </div>
+
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-  </div>
+</div>
 
-
-
-
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<script>
+	$(document).ready(function() {
+		$(".message-send-button").click(function() {
+			$('#message-form').submit();
+		});
+			
+	});
+	
+</script>
