@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
 	has_many :user2s, class_name: "Conversation", foreign_key: "user2_id", dependent: :destroy
 	has_many :senders, class_name: "Message", foreign_key: "sender_id", dependent: :destroy
 	has_many :receivers, class_name: "Message", foreign_key: "receiver_id", dependent: :destroy
+	has_many :notifications, class_name: "Notification", foreign_key: "user_id", dependent: :destroy
+	has_many :profilenotes, class_name: "Notification", foreign_key: "notifiable_id", dependent: :destroy
 
 	accepts_nested_attributes_for :helpoffers, 
 		:allow_destroy 			=> true

@@ -63,6 +63,8 @@ class UsersController < ApplicationController
     @posts = @user.posts.order("created_at DESC").all
     @newpost = @user.posts.new
 
+    current_user.profilenotes.destroy_all
+
     @conversation = Conversation.getConvo(current_user.id, @user.id)
 
     if @conversation.nil?

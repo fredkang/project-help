@@ -50,4 +50,12 @@ module SessionsHelper
 
 		return unread
 	end
+
+	def profile_notifications
+		return current_user.profilenotes.count()
+	end
+
+	def group_notifications
+		return current_user.notifications.where("notifiable_type = 'Group'").to_a.length
+	end
 end

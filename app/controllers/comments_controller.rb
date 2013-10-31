@@ -13,6 +13,16 @@ class CommentsController < ApplicationController
 		respond_to do |format|
 
 			if @comment.save
+				if @comment.post.postable_type == "Group"
+					users = Group.find(@comment.post.postable_id).users.all
+
+					users.each do |user|
+					  Notification.new(:notifiable_id=>@comment.post.postable_id, :notifiable_type=>"Group", :user_id=>user.id).save
+					end
+				else
+					Notification.new(:notifiable_id=>@comment.post.postable_id, :notifiable_type=>"User", :user_id=>@comment.post.postable_id).save
+				end
+
 				format.html { redirect_to '/'+postable_path+'/'+post.postable_id.to_s } #@user, notice: 'User was successfully created.' }
 				format.json { render action: postable_path+'#show', status: :created, location: @post }
 			else

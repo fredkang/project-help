@@ -8,11 +8,28 @@
 			</div>
 		<% else %>
 			
+			<!-- Check the number of unread messages to print the badge in the navbar -->
 			<% unread = unread_messages %>
 			<% if unread > 0 %>
 				<% unread_badge = unread.to_s%>
 			<% else %>
 				<% unread_badge = "" %>
+			<% end %>
+			
+			<!-- Check the number of notifications on the profile to print the badge in the navbar -->
+			<% profile_notes = profile_notifications %>
+			<% if profile_notes > 0 %>
+				<% profile_notes = profile_notes.to_s%>
+			<% else %>
+				<% profile_notes = "" %>
+			<% end %>
+			
+			<!-- Check the number of notifications in the group to print the badge in the navbar -->
+			<% group_notes = group_notifications %>
+			<% if group_notes > 0 %>
+				<% group_notes = group_notes.to_s%>
+			<% else %>
+				<% group_notes = "" %>
 			<% end %>
 
 			<div class="navbar-collapse collapse">
@@ -23,12 +40,12 @@
 					<li><a href="/users">Network</a></li>
 					<li><a href="/inbox">Inbox <span class='badge'><%=unread_badge%></span></a></li>
 					<% if current_user!=nil && current_user.groups.first!=nil %>
-						<li><a href="/groups/<%=current_user.groups.first.id%>">Groups</a></li>
+						<li><a href="/groups/<%=current_user.groups.first.id%>">Groups <span class='badge'><%=group_notes%></a></li>
 					<% end %>
 					<li class="dropdown">
-				        <a href="" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+				        <a href="" class="dropdown-toggle" data-toggle="dropdown"><%=current_user.first_name%> <span class='badge'><%=profile_notes%></span><b class="caret"></b></a>
 				        <ul class="dropdown-menu">
-				          <li><a href="/users/<%=current_user.id%>">Profile</a></li>
+				          <li><a href="/users/<%=current_user.id%>">Profile <span class='badge'><%=profile_notes%></span></a></li>
 				          <li><a href="/users/<%=current_user.id%>/edit">Edit Profile</a></li>
 				          <li><a href="/sessions/destroy">Log Out</a></li>
 				      </ul>

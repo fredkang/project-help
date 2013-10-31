@@ -13,6 +13,16 @@ class PostsController < ApplicationController
   	respond_to do |format|
 
 		if @post.save
+      if @post.postable_type == "Group"
+        users = Group.find(@post.postable_id).users.all
+
+        users.each do |user|
+          Notification.new(:notifiable_id=>@post.postable_id, :notifiable_type=>"Group", :user_id=>user.id).save
+        end
+      else
+        Notification.new(:notifiable_id=>@post.postable_id, :notifiable_type=>"User", :user_id=>@post.postable_id).save
+      end
+
 			format.html { redirect_to '/'+postable_path+'/'+post_params['postable_id'] } #@user, notice: 'User was successfully created.' }
 			format.json { render action: postable_path+'#show', status: :created, location: @post }
 		else

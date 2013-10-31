@@ -6,17 +6,15 @@
   <div id="index-help-topics" class="col-sm-8">
     <h3>Topics your network can help you with: </h3>
       
+      <!-- Print out all of the topics people are willing to help with in your network and 
+      have each link to that user's profile -->
       <% @helptopics.each_with_index do |topic, index| %>
-        
-        
         <% if index==@helptopics.size-1 %>
           <a href="/users/<%=topic.user_id%>"><%=topic.title%></a>
         <% else %>  
-          <a href="/users/<%=topic.user_id%>"><%=topic.title%></a> ,
+          <a href="/users/<%=topic.user_id%>"><%=topic.title%></a>,
         <% end %>
       <% end %>
-      <%# helptopics = @helptopics.join(", ") %>
-      <%#= helptopics %>
   </div>
 </div>
 

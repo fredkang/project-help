@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131029000311) do
+ActiveRecord::Schema.define(version: 20131031172812) do
 
   create_table "comments", force: true do |t|
     t.text     "text"
@@ -117,6 +117,16 @@ ActiveRecord::Schema.define(version: 20131029000311) do
   add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id"
   add_index "messages", ["receiver_id"], name: "index_messages_on_receiver_id"
   add_index "messages", ["sender_id"], name: "index_messages_on_sender_id"
+
+  create_table "notifications", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "notifiable_id"
+    t.string   "notifiable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id"
 
   create_table "posts", force: true do |t|
     t.text     "text"
