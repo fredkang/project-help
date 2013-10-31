@@ -43,7 +43,7 @@
 					
 					<% if current_user!=nil && current_user.groups.first!=nil %>
 						<li class="dropdown">
-							<a href="" class="dropdown-toggle" data-toggle="dropdown">Groups <span class='badge'><%=group_notes%></span><b class="caret"></b></a>
+							<a href="" class="dropdown-toggle" data-toggle="dropdown">Groups <span class='badge'><%=group_notes%></span></b></a>
 
 							<ul class="dropdown-menu">
 								<li><a href="/groups/<%=current_user.groups.first.id%>"><%=current_user.groups.first.name%> <span class='badge'><%=group_notes%></span></a></li>
@@ -53,7 +53,7 @@
 					<% end %>
 					
 					<li class="dropdown">
-				        <a href="" class="dropdown-toggle" data-toggle="dropdown"><%=current_user.first_name%> <span class='badge'><%=profile_notes%></span><b class="caret"></b></a>
+				        <a href="" class="dropdown-toggle" data-toggle="dropdown"><%=current_user.first_name%> <span class='badge'><%=profile_notes%></span></a>
 				        <ul class="dropdown-menu">
 				          <li><a href="/users/<%=current_user.id%>">Profile <span class='badge'><%=profile_notes%></span></a></li>
 				          <li><a href="/users/<%=current_user.id%>/edit">Edit Profile</a></li>

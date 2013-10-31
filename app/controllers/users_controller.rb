@@ -115,7 +115,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(user_params)
-        format.html { redirect_to "/users" } #@user, notice: 'User was successfully created.' }
+        format.html { redirect_to "/users/"+params[:id].to_s } #@user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
         format.html { render action: 'edit' }

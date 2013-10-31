@@ -1,23 +1,44 @@
 <p id="notice"><%= notice %></p>
 
+<!-- Extract the titles of the HelpOffers for this user and place into a comma separated string to be printed out below -->
+<% helpoffers = [] %>
+<% if @user.helpoffers.count == 0  %>
+  <% helpoffers = "Topics not added yet" %>
+<% else %>
+  <% @user.helpoffers.each do |offer| %>
+    <% helpoffers.push(offer.title) %>
+  <% end %>
+  <% helpoffers = helpoffers.join(", ") %>
+<% end %>
+
 <div id="profile-header" class="col-sm-8 panel panel-default" data-no-turbolink="true">
 	<div class="panel-body">
-		<div id="profile-pic-container" class="col-sm-3">
-				<img src = "http://placekitten.com/150/200">
-		</div>
 
-		<div id="profile-info" class="col-sm-8" data-no-turbolink="true">
-			<h2><%=@user.first_name+" "+@user.last_name%></h2>
-			<p><%=@user.description%></p>
-
-			<div class="btn-group btn-group-justified">
-				<% if @conversation.id.nil? %>
-					<a id="messageButton" data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
-				<% else %>
-					<a href="/inbox/<%=@conversation.id%>" class="btn btn-primary">Send Message</a>
-				<% end %>
-				<a id="callButton" data-toggle="modal" href="#callModal" class="btn btn-success">Schedule Call</a>
+		<div id="profile-pic-name" class="col-sm-12">
+			<div id="profile-pic-container" class="col-sm-3">
+					<img src = "http://placekitten.com/150/150">
 			</div>
+
+			<div id="profile-info" class="col-sm-8" data-no-turbolink="true">
+				<h2><%=@user.first_name+" "+@user.last_name%></h2>
+				
+				<div id="profile-help-topics">
+					<p><strong>Help topics:</strong> <%= helpoffers %></p>
+				</div>				
+
+				<div class="btn-group btn-group-justified">
+					<% if @conversation.id.nil? %>
+						<a id="messageButton" data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
+					<% else %>
+						<a href="/inbox/<%=@conversation.id%>" class="btn btn-primary">Send Message</a>
+					<% end %>
+					<a id="callButton" data-toggle="modal" href="#callModal" class="btn btn-success">Schedule Call</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="profile-description" class="col-sm-12">
+			<p><%=@user.description%></p>
 		</div>
 
 		<%= render partial: "/shared/posts", locals: {:user=>@user, :newpost=>@newpost, :posts=>@posts, :post_on=>"user"} %>

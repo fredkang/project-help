@@ -42,9 +42,28 @@ body
 	min-height:300px;
 }
 
+	#profile-header #profile-pic-name
+	{
+		padding-left:0px;
+		padding-right:0px;
+		overflow:hidden;
+		margin-bottom:0px;
+	}
+
 	#profile-header .well
 	{
 		
+	}
+	
+	#profile-info h2
+	{
+		margin-bottom:15px;
+	}
+	#profile-help-topics
+	{
+		height:65px;
+		min-height:65px;
+		max-height:65px;
 	}
 
 	#profile-info
