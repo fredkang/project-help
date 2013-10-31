@@ -10,7 +10,8 @@
 
 <div id="inbox-container" class="col-sm-8 col-sm-offset-2">
 	<div class="panel panel-info">
-	  <div class="panel-heading"><a href="/inbox"><span class="inbox-title">Inbox</span></a> > with <a href="/users/<%=convo_user.id%>"><%= convo_user.first_name + " " + convo_user.last_name%></a> </div>
+	  <div class="panel-heading"><a href="/inbox">
+	  	<span class="inbox-title">Inbox</span><%=" ("+@unread.to_s+" unread)"%></a> > with <a href="/users/<%=convo_user.id%>"><%= convo_user.first_name + " " + convo_user.last_name%></a> </div>
 	  
 	  <!-- List group: print out a conversation heading in each list item -->
 	  <div class="panel-body">

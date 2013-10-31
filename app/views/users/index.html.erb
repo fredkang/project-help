@@ -1,4 +1,4 @@
-<h1>These are all of the people in your network</h1>
+<h3>These are all of the people in your network</h3>
 
 <p><%=current_user.first_name+ " is signed in!"%></p>
 
@@ -36,14 +36,14 @@
             <p><h4><%= user.first_name + " " + user.last_name%></h4></p>
           </div>
           
-          <div class="description-div"> 
-            <p><%= descr %></p>
-          </div>
-          
           <div class="helpoffers-div">
             <p class="user-frame-help-topics"><strong>Help topics:</strong></p>
             <p><%= helpoffers %></p>
           </div>
+
+          <div class="description-div"> 
+            <p><%= descr %></p>
+          </div>      
           
           <div class="viewprofilebtn-div">
             <a href="/users/<%=user.id%>" class="btn btn-primary">View Full Profile</a>
@@ -52,7 +52,3 @@
     </div>
   <% end %>
 </div>
-
-<br>
-<%= link_to 'New User', new_user_path %>
-<%= link_to 'Sign Out', "/sessions/destroy" %>

@@ -30,4 +30,24 @@ module SessionsHelper
 			redirect_to "/users/new", :notice=>"Please sign in to access this page."
 		end
 	end
+
+	def correct_user?
+		if current_user.id != params[:id] && current_user.admin!=1
+	      redirect_to "/welcome/index"
+	    end
+	end
+
+	def unread_messages
+		# Check and display the number of unread messages
+		conversations = Conversation.getConvos(current_user.id)
+		unread = 0
+
+		conversations.each do |conversation|
+			if Conversation.read?(conversation.id, current_user.id)==0
+			  unread += 1
+			end
+		end
+
+		return unread
+	end
 end

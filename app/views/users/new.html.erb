@@ -2,7 +2,22 @@
 
 <div id="container">
 	<div class="col-sm-5 form-container">
+		<h3> Sign In </h3>
+
+		<%= simple_form_for(@user, url: '/sessions/create', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>'20' } }) do |f| %>
+			<%= f.input :email, label: "Email:" %>
+			<%= f.input :password, label: "Password:"%>
+			<%= f.button :submit, input_html: {value: 'Sign in'},value:'Login', class: "btn btn-primary"%>
+		<% end %>
+	</div>
+	
+	<div class= "col-sm-5">
 		<h3> Registration </h3>
+		
+		<% if @user.errors.any? %>
+			<%= render partial: "/shared/errors", locals: {:save_obj=>@user, :save_str=>"User"} %>
+		<% end %>
+
 		<%= simple_form_for(@user, :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control" } }) do |f| %>
 			<%= f.input :first_name, label: "First Name:" %>
 			<%= f.input :last_name, label: "Last Name:" %>
@@ -10,16 +25,7 @@
 			<%= f.input :phone_number, label: "Phone Number:", hint: "Please enter only numbers" %>
 			<%= f.input :password, label: "Password:" %>
 			<%= f.input :password_confirmation, label: "Confirm Password:" %>
-			<%= f.button :submit, input_html: {value: 'Create User'}, class: "btn btn-primary"%>
+			<%= f.button :submit, input_html: {value: 'Create User'},value:'Register', class: "btn btn-primary"%>
 		<% end %>
-		
-		<h3> Sign In </h3>
-		<%= simple_form_for(@user, url: '/sessions/create', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>'20' } }) do |f| %>
-			<%= f.input :email, label: "Email:" %>
-			<%= f.input :password, label: "Password:"%>
-			<%= f.button :submit, input_html: {value: 'Sign in'}, class: "btn btn-primary"%>
-		<% end %>
-
-		<%= link_to 'Back', users_path %>
 	</div>
 </div>

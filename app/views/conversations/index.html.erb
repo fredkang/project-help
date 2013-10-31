@@ -1,6 +1,9 @@
 <div id="inbox-container" class="col-sm-8 col-sm-offset-2">
 	<div class="panel panel-info">
-	  <div class="panel-heading"><span class="inbox-title">Inbox</span></div>
+	  <div class="panel-heading">
+	  	<span class="inbox-title">Inbox</span>
+	  	<%="("+@unread.to_s+" unread)"%>
+	  </div>
 	  <!-- List group: print out a conversation heading in each list item -->
 	  <div class="list-group">
 	  	<% @conversations.each do |conversation| %>

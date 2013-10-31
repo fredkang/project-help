@@ -1,12 +1,19 @@
 <div class = "navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
-			<span class="navbar-brand">Project Help</span>
+			<a class="navbar-brand" href="/welcome/index">Project Help</a>
 		</div>
 		<% if current_user.nil? %>
 			<div class="navbar-collapse collapse">
 			</div>
 		<% else %>
+			
+			<% unread = unread_messages %>
+			<% if unread > 0 %>
+				<% unread_badge = unread.to_s%>
+			<% else %>
+				<% unread_badge = "" %>
+			<% end %>
 
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -14,7 +21,7 @@
 						<li><%= link_to "Admin", controller: "users", action: "admin_panel"%></li>
 					<% end %>
 					<li><a href="/users">Network</a></li>
-					<li><a href="/inbox">Inbox</a></li>
+					<li><a href="/inbox">Inbox <span class='badge'><%=unread_badge%></span></a></li>
 					<% if current_user!=nil && current_user.groups.first!=nil %>
 						<li><a href="/groups/<%=current_user.groups.first.id%>">Groups</a></li>
 					<% end %>

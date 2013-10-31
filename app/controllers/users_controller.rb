@@ -1,8 +1,13 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :deny_access, only: [:create, :admin_panel, :new2, :destroy, :show, :index, :edit, :update]
+  before_action :correct_user?, only: [:edit, :update, :destroy]
+  before_action :deny_access, only: [:admin_panel, :new2, :destroy, :show, :index, :edit, :update]
 
   def new
+    if signed_in?
+      redirect_to '/users'
+    end
+
     @user = User.new
   end
 
@@ -69,9 +74,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    if !signed_in?
-      deny_access
-    end
+    deny_access
     
     @users = User.all
   end
@@ -89,7 +92,7 @@ class UsersController < ApplicationController
         format.html { redirect_to "/users" } #@user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
-        format.html { render action: 'new2' }
+        format.html { render action: 'edit' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

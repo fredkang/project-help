@@ -28,6 +28,17 @@ class ConversationsController < ApplicationController
       if Conversation.read?(params[:id], current_user.id)==0
         Conversation.mark_as_read(params[:id], current_user.id)
       end
+
+      # Check and display the number of unread messages
+      conversations = Conversation.getConvos(current_user.id)
+      @unread = unread_messages
+      
+      # conversations.each do |conversation|
+      #   if Conversation.read?(conversation.id, current_user.id)==0
+      #     @unread += 1
+      #   end
+      # end
+
     else
       redirect_to '/users'
     end
@@ -35,6 +46,14 @@ class ConversationsController < ApplicationController
 
   def index
     @conversations = Conversation.getConvos(current_user.id)
+
+    @unread = unread_messages
+
+    # @conversations.each do |conversation|
+    #   if !Conversation.read?(conversation.id, current_user.id)
+    #     @unread += 1
+    #   end
+    # end
   end
 
   def update
