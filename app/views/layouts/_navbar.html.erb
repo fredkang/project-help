@@ -43,17 +43,17 @@
 					
 					<% if current_user!=nil && current_user.groups.first!=nil %>
 						<li class="dropdown">
-							<a href="" class="dropdown-toggle" data-toggle="dropdown">Groups <span class='badge'><%=group_notes%></span></b></a>
+							<a href="" class="dropdown-toggle" data-toggle="dropdown">Groups  <span class='badge'><%=group_notes%></span> <span class="caret"></b></a>
 
 							<ul class="dropdown-menu">
-								<li><a href="/groups/<%=current_user.groups.first.id%>"><%=current_user.groups.first.name%> <span class='badge'><%=group_notes%></span></a></li>
+								<li><a href="/groups/<%=current_user.groups.first.id%>"><%=current_user.groups.first.name%>  <span class='badge'><%=group_notes%></span></a></li>
 								<li><a id="add-group-link" data-toggle="modal" href="#groupAddModal">Add Group</a></li>
 							</ul>
 						</li>
 					<% end %>
 					
 					<li class="dropdown">
-				        <a href="" class="dropdown-toggle" data-toggle="dropdown"><%=current_user.first_name%> <span class='badge'><%=profile_notes%></span></a>
+				        <a href="" class="dropdown-toggle" data-toggle="dropdown"><%=current_user.first_name%>  <span class='badge'><%=profile_notes%></span> <span class="caret"></a>
 				        <ul class="dropdown-menu">
 				          <li><a href="/users/<%=current_user.id%>">Profile <span class='badge'><%=profile_notes%></span></a></li>
 				          <li><a href="/users/<%=current_user.id%>/edit">Edit Profile</a></li>

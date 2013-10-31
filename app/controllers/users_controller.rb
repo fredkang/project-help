@@ -13,7 +13,12 @@ class UsersController < ApplicationController
 
   #Create a new user. This will only include basic information - it does not include Description or Help Offers
   def create
-    params['user']['admin'] = 0
+    if User.all.count == 0
+      params['user']['admin'] = 1
+    else
+      params['user']['admin'] = 0
+    end
+    
     @user = User.new(user_params)
 
     respond_to do |format|
