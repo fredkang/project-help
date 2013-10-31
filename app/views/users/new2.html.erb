@@ -1,5 +1,5 @@
 
-<h3>Almost done! What do you want to help other people with?</h3>
+<h3>Almost done!</h3>
 
 <div id="container">
   <div class="col-sm-7 form-container">
@@ -19,13 +19,18 @@
         </div>
       <% end %>
      
+      <div class="form-group" id="phonenumber-field">
+        <%= f.label :phone_number, "Phone number (notifications for new messages)" %>
+        <%= f.text_field :phone_number, class: "form-control", placeholder: "12312312345 - numbers only please" %>
+      </div>
+
       <div class="form-group" id="description-field">
         <%= f.label :description, "Briefly describe yourself. This is the first thing your groups will see about you!" %>
         <%= f.text_area :description, class: "form-control", placeholder: "I was a part of the November Coding Dojo class. Previously, I've worked in venture capital, in productment management at a startup, and in finance. Call me!" %>
       </div>
       
       <p data-no-turbolink="true" id="topics-field-heading">
-        <h4>Add some specific topics that you'd like to help people with</h4>
+        <h3>Add topics that you'd like to help people with:</h3>
         <%= link_to_add_fields "Add another topic", f, :helpoffers %>  
       </p>
       
