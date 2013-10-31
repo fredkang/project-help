@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html>
+
+<!-- start Mixpanel -->
+<%= render "layouts/mixpanel" %>
+<!-- end Mixpanel -->
+
+<script>
+	mixpanel.track_links("#add-group-link", "Add-group Link Clicked", {
+        referrer: document.referrer
+    });
+</script>
+
 <head>
   <title>ProjectHelp</title>
   <%= stylesheet_link_tag    "application", "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css", "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css", media: "all", "data-turbolinks-track" => true %>

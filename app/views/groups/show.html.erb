@@ -13,18 +13,8 @@
   <li id="group-members-button"><a>Members</a></li>
 </ul>
 
+<!-- Show the Posts and Comments section -->
 <%= render partial: "/shared/posts", locals: {:user=>@user, :newpost=>@newpost, :posts=>@posts, :post_on=>"group"} %>
-<!-- <div id="posts-div" data-no-turbolink="true">
-	<div class="col-sm-6">
-		<form role="form">
-			<div class="form-group">
-				<label for="blah">Post a question or start a discussion</label>
-				<textarea name="blah" class="form-control"></textarea>
-			</div>	
-		</form>
-
-	</div>
-</div> -->
 
 <div id="members-div" data-no-turbolink="true">
 	<div id="user-frame-container">
@@ -52,7 +42,6 @@
 	    <% end %>
 	    
 	    <div class="user-frame col-sm-3 well" >
-	      <!-- <div class="panel-body"> -->
 	        <div class="user-frame-img-holder">
 	          <img src="http://placekitten.com/g/150/150">
 	        </div>
@@ -62,14 +51,14 @@
 	            <p><h4><%= user.first_name + " " + user.last_name%></h4></p>
 	          </div>
 	          
-	          <div class="description-div"> 
-	            <p><%= descr %></p>
-	          </div>
-	          
 	          <div class="helpoffers-div">
 	            <p class="user-frame-help-topics"><strong>Help topics:</strong></p>
 	            <p><%= helpoffers %></p>
 	          </div>
+
+	          <div class="description-div"> 
+	            <p><%= descr %></p>
+	          </div>      
 	          
 	          <div class="viewprofilebtn-div">
 	            <a href="/users/<%=user.id%>" class="btn btn-primary">View Full Profile</a>
@@ -111,4 +100,6 @@ $("document").ready(function() {
 			});	
 
 		});
+
+  mixpanel.track("Visit Group Page");
 </script>

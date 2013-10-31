@@ -47,7 +47,7 @@
 
 							<ul class="dropdown-menu">
 								<li><a href="/groups/<%=current_user.groups.first.id%>"><%=current_user.groups.first.name%> <span class='badge'><%=group_notes%></span></a></li>
-								<li><a data-toggle="modal" href="#groupAddModal">Add Group</a></li>
+								<li><a id="add-group-link" data-toggle="modal" href="#groupAddModal">Add Group</a></li>
 							</ul>
 						</li>
 					<% end %>
