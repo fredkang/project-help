@@ -38,10 +38,20 @@
 						<li><%= link_to "Admin", controller: "users", action: "admin_panel"%></li>
 					<% end %>
 					<li><a href="/users">Network</a></li>
+					
 					<li><a href="/inbox">Inbox <span class='badge'><%=unread_badge%></span></a></li>
+					
 					<% if current_user!=nil && current_user.groups.first!=nil %>
-						<li><a href="/groups/<%=current_user.groups.first.id%>">Groups <span class='badge'><%=group_notes%></a></li>
+						<li class="dropdown">
+							<a href="" class="dropdown-toggle" data-toggle="dropdown">Groups <span class='badge'><%=group_notes%></span><b class="caret"></b></a>
+
+							<ul class="dropdown-menu">
+								<li><a href="/groups/<%=current_user.groups.first.id%>"><%=current_user.groups.first.name%> <span class='badge'><%=group_notes%></span></a></li>
+								<li><a data-toggle="modal" href="#groupAddModal">Add Group</a></li>
+							</ul>
+						</li>
 					<% end %>
+					
 					<li class="dropdown">
 				        <a href="" class="dropdown-toggle" data-toggle="dropdown"><%=current_user.first_name%> <span class='badge'><%=profile_notes%></span><b class="caret"></b></a>
 				        <ul class="dropdown-menu">
@@ -49,8 +59,28 @@
 				          <li><a href="/users/<%=current_user.id%>/edit">Edit Profile</a></li>
 				          <li><a href="/sessions/destroy">Log Out</a></li>
 				      </ul>
+					</li>
 				</ul>
 			</div>
 		<% end %>
 	</div>
+</div>
+
+<div class="modal fade" id="groupAddModal" tabindex="-1" role="dialog" aria-labelledby="addGroupModalLabel" aria-hidden="true" data-no-turbolink="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Sorry! We're not ready for new groups yet</h4>
+        </div>
+        <div class="modal-body">
+        	We're still in private alpha and not quite ready to add new groups yet. Thanks for your interest!
+        </div>
+
+        <div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
