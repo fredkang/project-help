@@ -87,7 +87,7 @@ class UsersController < ApplicationController
     # Grab all of the users that are in any of the same groups as the current_user
 
     # First grab all of the users
-    all_users = User.all.to_a
+    all_users = User.all.to_a.sort_by { |obj| obj.first_name }
 
     @users = []
 
