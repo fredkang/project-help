@@ -41,7 +41,14 @@
     
     <div class="user-frame col-sm-3 well" >
         <div class="user-frame-img-holder">
-          <img src="http://placekitten.com/g/150/150">
+          
+          <!-- Check if user has an image. Use placekitten if not -->
+          <% if user.image_url.nil? %>
+            <img src = "http://placekitten.com/150/150">
+          <% else %>
+            <%= image_tag user.image_url.to_s %>
+          <% end %>
+
         </div>
 
         <div class="user-frame-basic-info">

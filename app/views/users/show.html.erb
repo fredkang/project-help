@@ -15,8 +15,22 @@
 	<div class="panel-body">
 
 		<div id="profile-pic-name" class="col-sm-12">
+
+			<!-- If profile is current user's profile, make the image a link to upload a profile picture. If the user does not have a profile picture, place a kittenplaceholder -->
 			<div id="profile-pic-container" class="col-sm-3">
-					<img src = "http://placekitten.com/150/150">
+				<% if @user.id == current_user.id %>
+					<% if @user.image_url.nil? %>
+						<a data-toggle="modal" href="#picUploadModal"><img src = "http://placekitten.com/150/150"></a>
+					<% else %>
+						<a data-toggle="modal" href="#picUploadModal"><%= image_tag @user.image_url.to_s %></a>
+					<% end %>
+				<% else %>
+					<% if @user.image_url.nil? %>
+						<img src = "http://placekitten.com/150/150">
+					<% else %>
+						<%= image_tag @user.image_url.to_s %>
+					<% end %>
+				<% end %>
 			</div>
 
 			<div id="profile-info" class="col-sm-8" data-no-turbolink="true">
@@ -111,10 +125,58 @@
     </div><!-- /.modal-dialog -->
 </div>
 
+<!-- Modal that opens when user clicks on profile picture to upload profile picture -->
+<div class="modal fade" id="picUploadModal" tabindex="-1" role="dialog" aria-labelledby="picUploadModalLabel" aria-hidden="true" data-no-turbolink="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Upload Profile Picture</h4>
+        </div>
+        <div class="modal-body">
+        	<%= form_for(setup_user(@user), :html => { :role => "form", :multipart => true, :id=>"pic-upload-form" }) do |f| %>
+		      <% if @user.errors.any? %>
+		        <div id="error_explanation">
+		          <h2>
+		            <%= pluralize(@user.errors.count, "error") %> prohibited
+		            this user from being saved:
+		          </h2>
+		     
+		          <ul>
+		          <% @user.errors.full_messages.each do |msg| %>
+		            <li><%= msg %></li>
+		          <% end %>
+		          </ul>
+		        </div>
+		      <% end %>
+				<div class="form-group">
+					<%= f.file_field :image, class: "form-control" %>
+				</div>
+
+				<div class="form-group">
+					<%= f.text_field :remote_image_url, class: "form-control", placeholder: "Or enter an image URL" %>
+				</div>
+				
+        </div>
+
+        <div class="modal-footer">
+        		<%= f.submit "Submit", class: "btn btn-primary pic-upload-button" %>
+			<% end %>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 <script>
 	$(document).ready(function() {
 		$(".message-send-button").click(function() {
 			$('#message-form').submit();
+		});
+
+		$(".pic-upload-button").click(function() {
+			$('#pic-upload-form').submit();
 		});
 			
 	});

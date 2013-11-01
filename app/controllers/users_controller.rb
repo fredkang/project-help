@@ -135,10 +135,9 @@ class UsersController < ApplicationController
     def set_user
       @user = User.find(params[:id])
     end
-
   # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, :description, :admin, helpoffers_attributes: [:user_id, :id, :title, :description, '_destroy'])
+      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, :description, :admin, :image, :remote_image_url, helpoffers_attributes: [:user_id, :id, :title, :description, '_destroy'])
     end
 
     

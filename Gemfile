@@ -52,9 +52,12 @@ gem 'validates_email_format_of'
 gem 'bootstrap-sass-rails', '~> 3.0.0.3'
 gem 'simple_form'
 
+# Gem to use Twilio for text message notifications
 gem 'twilio-ruby'
 
+# Gems for image upload and image resizing
 gem 'carrierwave'
+gem 'rmagick'
 
 # Use unicorn as the app server
 # gem 'unicorn'

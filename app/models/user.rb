@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
 	has_many :notifications, class_name: "Notification", foreign_key: "user_id", dependent: :destroy
 	has_many :profilenotes, class_name: "Notification", foreign_key: "notifiable_id", dependent: :destroy
 
+	mount_uploader :image, ImageUploader
+
 	accepts_nested_attributes_for :helpoffers, reject_if: proc {|attributes| attributes['title'].blank?},
 		:allow_destroy 			=> true
 		
