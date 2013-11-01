@@ -6,7 +6,7 @@ class Message < ActiveRecord::Base
   validates :sender_id, :receiver_id, :text, presence: true
   validates_presence_of :conversation
 
-  after_save :send_text
+  # after_save :send_text
 
 
   private 

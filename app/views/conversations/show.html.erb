@@ -20,7 +20,7 @@
 			<% if Time.at(message.updated_at).to_date === Time.now.to_date %>
 				<% timeStamp = Time.at(message.updated_at).strftime "%l:%M %P" %>
 			<% else %>
-				<% timeStamp = Time.at(mesage.updated_at).strftime "%b %-d" %>
+				<% timeStamp = Time.at(message.updated_at).strftime "%b %-d" %>
 			<% end %>
 
 			<div class="message">

@@ -78,7 +78,7 @@ class UsersController < ApplicationController
 
     @conversation.messages.build
     
-    TestMailer.test_email.deliver
+    # TestMailer.test_email.deliver
   end
 
   def index
