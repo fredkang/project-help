@@ -11,7 +11,7 @@ class Message < ActiveRecord::Base
 
   private 
     def send_text
-      # sendText(:sender_id, :receiver_id, :text)
+      sendText(:sender_id, :receiver_id, :text)
       ApplicationController.helpers.sendText("#{sender_id}", "#{receiver_id}", "#{text}")
     end
 end
