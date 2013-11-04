@@ -13,28 +13,37 @@ class UsersController < ApplicationController
 
   #Create a new user. This will only include basic information - it does not include Description or Help Offers
   def create
-    if User.all.count == 0
-      params['user']['admin'] = 1
+
+    group_id = Group.check_code(params['access_code'])
+    puts "access code is: " + params['access_code']
+
+    if(group_id == false)
+      redirect_to '/users/new', notice: 'Invalid Group Code'
     else
-      params['user']['admin'] = 0
-    end
-    
-    @user = User.new(user_params)
 
-    respond_to do |format|
-
-      #If the new user is saved without error, automatically create an entry in Groupuser to add this user to Group 1.
-      #Then sign in the user
-      if @user.save
-        @group_user = Groupuser.new(user_id: @user.id, group_id: 1, groupowner:0, groupadmin:0).save
-        sign_in(@user)
-        format.html { redirect_to '/users/'+@user.id.to_s+"/new2" } #@user, notice: 'User was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @user }
+      if User.all.count == 0
+        params['user']['admin'] = 1
       else
-        format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        params['user']['admin'] = 0
       end
-    end
+      
+      @user = User.new(user_params)
+
+      respond_to do |format|
+
+        #If the new user is saved without error, automatically create an entry in Groupuser to add this user to Group 1.
+        #Then sign in the user
+        if @user.save
+          @group_user = Groupuser.new(user_id: @user.id, group_id: group_id, groupowner:0, groupadmin:0).save
+          sign_in(@user)
+          format.html { redirect_to '/users/'+@user.id.to_s+"/new2" } #@user, notice: 'User was successfully created.' }
+          format.json { render action: 'show', status: :created, location: @user }
+        else
+          format.html { render action: 'new' }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+      end
+    end  
   end
 
   #Controller for admin page. Page that is only viewable to admins. They can see all users, edit users and destroy users
@@ -138,7 +147,7 @@ class UsersController < ApplicationController
     end
   # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, :description, :admin, :image, :remote_image_url, helpoffers_attributes: [:user_id, :id, :title, :description, '_destroy'])
+      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, :description, :admin, :image, :remote_image_url, :access_code, helpoffers_attributes: [:user_id, :id, :title, :description, '_destroy'])
     end
 
     

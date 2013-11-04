@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131101024457) do
+ActiveRecord::Schema.define(version: 20131104182000) do
 
   create_table "comments", force: true do |t|
     t.text     "text"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20131101024457) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "access_code"
   end
 
   create_table "groupusers", force: true do |t|

@@ -1,6 +1,10 @@
-<h1>Welcome to Project Help!</h1>
 
 <div id="container">
+
+	<% if !flash[:notice].nil? %>
+		<%="Notice:#{flash[:notice]}"%>
+	<% end %>	
+
 	<div class="col-sm-5 form-container">
 		<h3> Sign In </h3>
 
