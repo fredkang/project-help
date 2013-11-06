@@ -9,8 +9,8 @@
 		<h3> Sign In </h3>
 
 		<%= simple_form_for(@user, url: '/sessions/create', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>'20' } }) do |f| %>
-			<%= f.input :email, label: "Email:" %>
-			<%= f.input :password, label: "Password:"%>
+			<%= f.input :email, placeholder: "Email", label: false %>
+			<%= f.input :password, placeholder: "Password", label: false%>
 			<%= f.button :submit, input_html: {value: 'Sign in'},value:'Login', class: "btn btn-primary"%>
 		<% end %>
 	</div>
@@ -22,13 +22,46 @@
 			<%= render partial: "/shared/errors", locals: {:save_obj=>@user, :save_str=>"User"} %>
 		<% end %>
 
-		<%= simple_form_for(@user, :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control" } }) do |f| %>
-			<%= f.input :first_name, label: "First Name:" %>
-			<%= f.input :last_name, label: "Last Name:" %>
-			<%= f.input :email, label: "Email:" %>
-			<%= f.input :password, label: "Password:" %>
-			<%= f.input :password_confirmation, label: "Confirm Password:" %>
-			<%= f.button :submit, input_html: {value: 'Create User'},value:'Register', class: "btn btn-primary"%>
-		<% end %>
+		<%#= simple_form_for(@user, :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control" } }) do |f| %>
+			<%#= f.input :first_name, label: "First Name:" %>
+			<%#= f.input :last_name, label: "Last Name:" %>
+			<%#= f.input :email, label: "Email:" %>
+			<%#= f.input :password, label: "Password:" %>
+			<%#= f.input :password_confirmation, label: "Confirm Password:" %>
+			<%#= f.button :submit, input_html: {value: 'Create User'},value:'Register', class: "btn btn-primary"%>
+		<%# end %>
+
+		<%= form_for(@user, :html => { :role => "form", :id=>"register" }) do |f| %>
+				<div class="form-group">
+					<div class="form-inline">
+						<div class="form-group col-sm-6" id="first-name-input">
+							<label class="sr-only" for="user[first_name]">First Name</label>
+							<%= f.text_field :first_name, class: "form-control", placeholder: "First Name" %>
+						</div>
+						<div class="form-group col-sm-6" id="last-name-input">
+							<label class="sr-only" for="user[last_name]">Last Name</label>
+							<%= f.text_field :last_name, class: "form-control", placeholder: "Last Name" %>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<%= f.text_field :email, class: "form-control", placeholder: "Email" %>
+				</div>
+
+				<div class="form-group">
+					<%= f.password_field :password, class: "form-control", placeholder: "Password" %>
+				</div>
+
+				<div class="form-group">
+					<%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm Password" %>
+				</div>
+
+				<div class="form-group">
+					<input class="form-control" type="text" name="access_code" placeholder="Group Code"></input>
+				</div>
+
+				<%= f.submit "Register", class: "btn btn-primary" %>
+			<% end %>
 	</div>
 </div>

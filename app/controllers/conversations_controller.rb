@@ -1,4 +1,6 @@
 class ConversationsController < ApplicationController
+  before_action :deny_access, only: [:create, :show, :index, :update]
+
   def create
 
   	@conversation = Conversation.new(conversation_params)

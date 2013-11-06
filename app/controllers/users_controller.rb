@@ -15,7 +15,6 @@ class UsersController < ApplicationController
   def create
 
     group_id = Group.check_code(params['access_code'])
-    puts "access code is: " + params['access_code']
 
     if(group_id == false)
       redirect_to '/users/new', notice: 'Invalid Group Code'
@@ -34,7 +33,7 @@ class UsersController < ApplicationController
         #If the new user is saved without error, automatically create an entry in Groupuser to add this user to Group 1.
         #Then sign in the user
         if @user.save
-          UserMailer.welcome_email.deliver
+          UserMailer.welcome_email(@user).deliver
           @group_user = Groupuser.new(user_id: @user.id, group_id: group_id, groupowner:0, groupadmin:0).save
           sign_in(@user)
           format.html { redirect_to '/users/'+@user.id.to_s+"/new2" } #@user, notice: 'User was successfully created.' }

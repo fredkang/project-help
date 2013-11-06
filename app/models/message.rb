@@ -6,12 +6,14 @@ class Message < ActiveRecord::Base
   validates :sender_id, :receiver_id, :text, presence: true
   validates_presence_of :conversation
 
-  # after_save :send_text
+  after_save :notify_receiver
 
 
   private 
-    def send_text
-      sendText(:sender_id, :receiver_id, :text)
+    def notify_receiver
+      # sendText(:sender_id, :receiver_id, :text)
       ApplicationController.helpers.sendText("#{sender_id}", "#{receiver_id}", "#{text}")
+
+      UserMailer.message_email(User.find(receiver_id), User.find(sender_id), text, conversation_id).deliver
     end
 end
