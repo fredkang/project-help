@@ -45,6 +45,17 @@ ProjectHelp::Application.configure do
   # Set to :debug to see everything in the log.
   config.log_level = :info
 
+  # Config settings for email / Mandrill
+  config.action_mailer.smtp_settings = {
+    :address   => "smtp.mandrillapp.com",
+    :port      => 587, # ports 587 and 2525 are also supported with STARTTLS
+    :enable_starttls_auto => true, # detects and uses STARTTLS
+    :user_name => "fredkang@gmail.com",
+    :password  => "uO9UClBtxOkLiTvIghXXKQ", # SMTP password is any valid API key
+    :authentication => 'login', # Mandrill supports 'plain' or 'login'
+    :domain => 'heroku.com', # your domain to identify your server when connecting
+  }
+
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 

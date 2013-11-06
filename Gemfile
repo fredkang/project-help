@@ -58,6 +58,7 @@ gem 'twilio-ruby'
 # Gems for image upload and image resizing
 gem 'carrierwave'
 gem 'rmagick'
+gem 'fog'
 
 # Use unicorn as the app server
 # gem 'unicorn'
