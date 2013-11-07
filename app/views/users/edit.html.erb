@@ -81,7 +81,7 @@
      
 	      <div class="actions">
 	      	<%= link_to "Cancel", :back, class: "btn btn-default" %>
-	        <%= f.submit "Submit", class: "btn btn-primary" %>
+	        <%= f.submit "Submit", class: "btn btn-primary submit-edit" %>
 	      </div>
 	  	</li>
 	  </ul>
@@ -89,7 +89,20 @@
   </div>
 </div>
 
+<%= javascript_tag do %>
+  window.userID = '<%= j current_user.id.to_s %>';
+<% end %>
+
 <script>
+	mixpanel.identify(userID);
+	mixpanel.track("Edit Profile Visit");
+
+	$(document).ready(function() {
+		$(".submit-edit").click(function() {
+			mixpanel.track("Edit Profile Submit");
+		});
+	});
+
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)

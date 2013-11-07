@@ -50,7 +50,15 @@
 	</div>
 </div>
 
+<%= javascript_tag do %>
+  window.userID = '<%= j current_user.id.to_s %>';
+<% end %>
+  
+
 <script>
+	mixpanel.identify(userID);
+	mixpanel.track("Conversation Open");
+
 	$(document).ready(function() {
 		$("#message-create").submit(function() {
 			$.post($(this).attr('action'), $(this).serialize(), function(data) {
@@ -60,6 +68,8 @@
 
 					$(".message-input").val("");			
 				}, "json");
+
+			mixpanel.track("Conversation Send Message");
 			
 			return false;
 		});

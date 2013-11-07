@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+
+<!-- start Mixpanel -->
+<%= render "layouts/mixpanel" %>
+<!-- end Mixpanel -->
+
 <head>
   <title>Project Help</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
@@ -15,10 +20,10 @@
 			</div>
 
 			<div class="navbar-collapse collapse">
-				<%= simple_form_for(@user, url: '/sessions/create', html:{class: "navbar-form navbar-right"}, :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>25 } }) do |f| %>
+				<%= simple_form_for(@user, url: '/sessions/create', html:{class: "navbar-form navbar-right", id:"sign-in"}, :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>25 } }) do |f| %>
 					<%= f.input :email, placeholder: "Email", label:false %>
 					<%= f.input :password, placeholder: "Password", label:false %>
-					<%= f.button :submit, value: 'Sign in', class: "btn btn-success"%>
+					<%= f.button :submit, value: 'Sign in', class: "btn btn-success welcome-sign-in"%>
 				<% end %>
 			</div>
 		</div>

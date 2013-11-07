@@ -169,19 +169,48 @@
     </div><!-- /.modal-dialog -->
 </div>
 
+<% if current_user.id == @user.id %>
+	<% javascript_tag do %>
+		window.own_profile = true;
+	<% end %>
+<% else %>
+	<% javascript_tag do %>
+		window.own_profile = false;
+	<% end %>
+<% end %>
+
+<%= javascript_tag do %>
+  window.userID = '<%= j current_user.id.to_s %>';
+<% end %>
+
 <script>
+	mixpanel.identify(userID);
+
+	if(own_profile)
+	{
+		mixpanel.track("Own Profile Visit Page");	
+	}
+	else
+	{
+		mixpanel.track("Profile Visit Page");
+	}
+
 	$(document).ready(function() {
 		$(".message-send-button").click(function() {
 			$('#message-form').submit();
+
+			mixpanel.track("Profile Send Message");
 		});
 
 		$(".pic-upload-button").click(function() {
 			$('#pic-upload-form').submit();
 		});
+
+		$("#callButton").click(function() {
+			mxipanel.track("Profile Schedule Call Attempt");
+		});
 			
 	});
-
-  mixpanel.track("Visit Profile");
 	
 </script>
 

@@ -6,9 +6,9 @@
       have each link to that user's profile -->
       <% @helptopics.each_with_index do |topic, index| %>
         <% if index==@helptopics.size-1 %>
-          <a href="/users/<%=topic.user_id%>"><%=topic.title%></a>
+          <a href="/users/<%=topic.user_id%>" class="topic-link"><%=topic.title%></a>
         <% else %>  
-          <a href="/users/<%=topic.user_id%>"><%=topic.title%></a>,
+          <a href="/users/<%=topic.user_id%>" class="topic-link"><%=topic.title%></a>,
         <% end %>
       <% end %>
   </div>
@@ -66,15 +66,32 @@
           </div>      
           
           <div class="viewprofilebtn-div">
-            <a href="/users/<%=user.id%>" class="btn btn-primary">View Full Profile</a>
+            <a href="/users/<%=user.id%>" class="btn btn-primary view-profile-button">View Full Profile</a>
           </div>
       </div>
     </div>
   <% end %>
 </div>
 
+<%= javascript_tag do %>
+  window.userID = '<%= j current_user.id.to_s %>';
+<% end %>
+
 <script>
-  mixpanel.track("Visit Network");
+  mixpanel.identify(userID);
+  mixpanel.track("Network Visit Page");
+
+  $(document).ready(function() {
+    $('.topic-link').click(function () {
+      mixpanel.track("Network - Topic Link Clicked");
+    });
+
+    $('.view-profile-button').click(function() {
+      mixpanel.track("Network - View Full Profile Link Clicked");
+    });
+  });
+  
+  
 </script>
 
 <script>

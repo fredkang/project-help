@@ -76,39 +76,44 @@
 	</div>
 </div>
 
-<script>
-$("document").ready(function() {
-			$("#posts_div").show();
+<%= javascript_tag do %>
+  window.userID = '<%= j current_user.id.to_s %>';
+<% end %>
 
+<script>
+	mixpanel.identify(userID);
+	mixpanel.track("Group Page Visit");
+
+	$("document").ready(function() {
+		$("#posts_div").show();
+
+		$("#members-div").hide();
+
+		$("#group-posts-button").click(function(){
+			
+			$("#posts_div").show();
 			$("#members-div").hide();
 
-			$("#group-posts-button").click(function(){
-				
-				$("#posts_div").show();
-				$("#members-div").hide();
+			$("#group-posts-button").addClass("active");
+			$("#group-members-button").removeClass("active");
 
-				$("#group-posts-button").addClass("active");
-				$("#group-members-button").removeClass("active");
+			$("#group-tab-nav").addClass("col-sm-7");
+			$("#group-tab-nav").removeClass("col-sm-12");				
+		});	
 
-				$("#group-tab-nav").addClass("col-sm-7");
-				$("#group-tab-nav").removeClass("col-sm-12");				
-			});	
+		$("#group-members-button").click(function(){
+			
+			$("#posts_div").hide();
+			$("#members-div").show();
 
-			$("#group-members-button").click(function(){
-				
-				$("#posts_div").hide();
-				$("#members-div").show();
+			$("#group-posts-button").removeClass("active");
+			$("#group-members-button").addClass("active");
 
-				$("#group-posts-button").removeClass("active");
-				$("#group-members-button").addClass("active");
+			$("#group-tab-nav").addClass("col-sm-12");
+			$("#group-tab-nav").removeClass("col-sm-7");				
+		});	
 
-				$("#group-tab-nav").addClass("col-sm-12");
-				$("#group-tab-nav").removeClass("col-sm-7");				
-			});	
-
-		});
-
-  mixpanel.track("Visit Group Page");
+	});	  
 </script>
 
 <script>

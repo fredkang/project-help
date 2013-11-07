@@ -45,8 +45,19 @@
 	</div>
 </div>
 
+<%= javascript_tag do %>
+  window.userID = '<%= j current_user.id.to_s %>';
+<% end %>
+
 <script>
-  mixpanel.track("Visit Inbox");
+  mixpanel.identify(userID);
+  mixpanel.track("Inbox Visit");
+
+  $(document).ready(function() {
+  	$(".list_group_item").click(function(){
+  		mixpanel.track("Inbox Conversation Open");
+  	});
+  });
 </script>
 
 <script>
