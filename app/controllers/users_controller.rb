@@ -79,6 +79,8 @@ class UsersController < ApplicationController
 
     current_user.profilenotes.destroy_all
 
+    # UserMailer.dailydigest_email(@user).deliver
+
     @conversation = Conversation.getConvo(current_user.id, @user.id)
 
     if @conversation.nil?
