@@ -22,14 +22,20 @@ body
 
 /* User registration part II */
 
+#container #new2-choose-file
+{
+	margin-top:10px;
+	margin-bottom:5px;
+}
+
 #container #description-field
 {
-	margin-top: 20px;
+	margin-top: 25px;
 }
 
 #container #phonenumber-field
 {
-	margin-top: 5px;
+	margin-top: 25px;
 }
 
 #container #topics-field-heading
@@ -37,8 +43,26 @@ body
 	margin-top: 25px;
 }
 
+/* User / New CSS ------------------------------------------------*/
+.registration-form-container #register .form-group
+{
+	overflow:hidden;
+}
 
-/*User Show CSS ------------------------------------------*/
+.registration-form-container #register #first-name-input
+{
+	padding-left:0px;
+	padding-right:5px;
+}
+
+.registration-form-container #register #last-name-input
+{
+	padding-right:0px;
+	padding-left:5px;
+}
+
+
+/* User Show CSS ------------------------------------------*/
 #profile-header
 {
 	margin-top:20px;
@@ -180,6 +204,16 @@ body
 #add-topic-heading h4
 {
 	margin-bottom:0px;
+}
+
+#new2-choose-file
+{
+	margin-bottom:5px;
+}
+
+#edit-help-topics .help-topics
+{
+	margin-top:20px;
 }
 
 /*Network page CSS ----------------------------------------------------*/
