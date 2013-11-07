@@ -31,6 +31,9 @@
 			<% else %>
 				<% group_notes = "" %>
 			<% end %>
+			
+			<!-- Store all of the current user's groups in groups -->
+			<% groups = current_user.groups.all %>
 
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -41,16 +44,22 @@
 					
 					<li><a href="/inbox">Inbox <span class='badge'><%=unread_badge%></span></a></li>
 					
-					<% if current_user!=nil && current_user.groups.first!=nil %>
-						<li class="dropdown">
-							<a href="" class="dropdown-toggle" data-toggle="dropdown">Groups  <span class='badge'><%=group_notes%></span> <span class="caret"></b></a>
+					
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">Groups  <span class='badge'><%=group_notes%></span> <span class="caret"></b></a>
 
-							<ul class="dropdown-menu">
-								<li><a href="/groups/<%=current_user.groups.first.id%>"><%=current_user.groups.first.name%>  <span class='badge'><%=group_notes%></span></a></li>
-								<li><a id="add-group-link" data-toggle="modal" href="#groupAddModal">Add Group</a></li>
-							</ul>
-						</li>
-					<% end %>
+						<ul class="dropdown-menu">
+
+							<% if current_user!=nil && groups!=nil %>
+								<% groups.each do |group | %>
+									<li><a href="/groups/<%=group.id%>"><%=group.name%>  <span class='badge'><%=group_notes%></span></a></li>
+								<% end %>
+							<% end %>
+
+							<li><a id="add-group-link" data-toggle="modal" href="#groupAddModal">Add Group</a></li>
+						</ul>
+					</li>
+					
 					
 					<li class="dropdown">
 				        <a href="" class="dropdown-toggle" data-toggle="dropdown"><%=current_user.first_name%>  <span class='badge'><%=profile_notes%></span> <span class="caret"></a>

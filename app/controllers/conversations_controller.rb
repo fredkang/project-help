@@ -34,12 +34,6 @@ class ConversationsController < ApplicationController
       # Check and display the number of unread messages
       conversations = Conversation.getConvos(current_user.id)
       @unread = unread_messages
-      
-      # conversations.each do |conversation|
-      #   if Conversation.read?(conversation.id, current_user.id)==0
-      #     @unread += 1
-      #   end
-      # end
 
     else
       redirect_to '/users'
@@ -49,13 +43,9 @@ class ConversationsController < ApplicationController
   def index
     @conversations = Conversation.getConvos(current_user.id)
 
-    @unread = unread_messages
+    @conversations = @conversations.sort { |x, y| y.updated_at <=> x.updated_at }
 
-    # @conversations.each do |conversation|
-    #   if !Conversation.read?(conversation.id, current_user.id)
-    #     @unread += 1
-    #   end
-    # end
+    @unread = unread_messages
   end
 
   def update
