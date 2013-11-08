@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :correct_user?, only: [:edit, :update, :destroy]
+  before_action :correct_user?, only: [:edit, :update, :destroy, :new2]
   before_action :deny_access, only: [:admin_panel, :new2, :destroy, :show, :index, :edit, :update]
 
   def new
