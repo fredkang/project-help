@@ -11,6 +11,12 @@
   <% helpoffers = helpoffers.join(", ") %>
 <% end %>
 
+<% if !@same_group %>
+	<div class="row">
+		<b>This user is not in your network</b>
+	</div>
+<% end %>
+
 <div id="profile-header" class="col-sm-8 panel panel-default" data-no-turbolink="true">
 	<div class="panel-body">
 
@@ -39,23 +45,27 @@
 				<div id="profile-help-topics">
 					<p><strong>Help topics:</strong> <%= helpoffers %></p>
 				</div>				
-
-				<div class="btn-group btn-group-justified">
-					<% if @conversation.id.nil? %>
-						<a id="messageButton" data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
-					<% else %>
-						<a href="/inbox/<%=@conversation.id%>" class="btn btn-primary">Send Message</a>
-					<% end %>
-					<a id="callButton" data-toggle="modal" href="#callModal" class="btn btn-success">Schedule Call</a>
-				</div>
+				
+				<% if @same_group %>
+					<div class="btn-group btn-group-justified">
+						<% if @conversation.id.nil? %>
+							<a id="messageButton" data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
+						<% else %>
+							<a href="/inbox/<%=@conversation.id%>" class="btn btn-primary">Send Message</a>
+						<% end %>
+						<a id="callButton" data-toggle="modal" href="#callModal" class="btn btn-success">Schedule Call</a>
+					</div>
+				<% end %>
 			</div>
 		</div>
 		
 		<div id="profile-description" class="col-sm-12">
 			<p><%=@user.description%></p>
 		</div>
-
-		<%= render partial: "/shared/posts", locals: {:user=>@user, :newpost=>@newpost, :posts=>@posts, :post_on=>"user"} %>
+		
+		<% if @same_group %>
+			<%= render partial: "/shared/posts", locals: {:user=>@user, :newpost=>@newpost, :posts=>@posts, :post_on=>"user"} %>
+		<% end %>
 
 	
 	</div>

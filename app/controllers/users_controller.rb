@@ -77,10 +77,25 @@ class UsersController < ApplicationController
     @posts = @user.posts.order("created_at DESC").all
     @newpost = @user.posts.new
 
-    current_user.profilenotes.destroy_all
+    # Remove existing notifications on the current user's profile is the current user is viewing
+    # their own profile
+    if(@user.id == current_user.id)
+      current_user.profilenotes.destroy_all
+    end
 
-    # UserMailer.dailydigest_email(@user).deliver
+    # Check if the user you're viewing is in any of the same groups as the viewer
+    groups = current_user.groups.all.to_a
+    @same_group = false
+    
+    for i in 0...groups.length
+      if Groupuser.group_user_exist?(groups[i].id, @user.id)
+        @same_group = true
+        break
+      end
+    end
 
+    # Get the existing conversation between the viewer and the viewee, or create a new conversation
+    # otherwise
     @conversation = Conversation.getConvo(current_user.id, @user.id)
 
     if @conversation.nil?
