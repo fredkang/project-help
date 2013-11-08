@@ -217,7 +217,11 @@
 		});
 
 		$("#callButton").click(function() {
-			mxipanel.track("Profile Schedule Call Attempt");
+			mixpanel.track("Profile Schedule Call Attempt");
+		});
+
+		$("#messageButton").click(function() {
+			mixpanel.track("Profile Send Message Attempt");
 		});
 			
 	});
