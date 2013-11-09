@@ -40,38 +40,46 @@
 	      <% end %>
 	      <% helpoffers = helpoffers.join(", ") %>
 	    <% end %>
+
+	    <!-- Current role is either "Current role not added yet" or their current role-->
+		<% if user.current.blank?  %>
+			<% current_role = "Current role not added yet" %>
+		<% else %>
+			<% current_role = user.current %>
+		<% end %>
 	    
 	    <div class="user-frame col-sm-3 well" >
-	        <div class="user-frame-img-holder">
-          
-          <!-- Check if user has an image. Use placekitten if not -->
-          <% if user.image_url.nil? %>
-            <img src = "http://placekitten.com/150/150">
-          <% else %>
-            <%= image_tag user.image_url.to_s %>
-          <% end %>
+			<div class="user-frame-img-holder">
+            
+	            <!-- Check if user has an image. Use placekitten if not -->
+	            <% if user.image_url.nil? %>
+	              <img src = "http://placekitten.com/150/150">
+	            <% else %>
+	              <%= image_tag user.image_url.to_s %>
+	            <% end %>
 
-        </div>
+			</div>
 
-        <div class="user-frame-basic-info">
-          <div class="user-frame-name">
-            <p><h4><%= user.first_name + " " + user.last_name%></h4></p>
-          </div>
-          
-          <div class="helpoffers-div">
-            <p class="user-frame-help-topics"><strong>Help topics:</strong></p>
-            <p><%= helpoffers %></p>
-          </div>
+			<div class="user-frame-basic-info">
+	            <div class="user-frame-name">
+	              <p><h4><%= user.first_name + " " + user.last_name%></h4></p>
+	              <p class="user-frame-role"><%= current_role %></p>
+	            </div>
+            
+	            <div class="helpoffers-div">
+	              <p class="user-frame-help-topics"><strong>Help topics:</strong>
+	              <%= helpoffers %></p>
+	            </div>
 
-          <div class="description-div"> 
-            <p><%= descr %></p>
-          </div>      
-          
-          <div class="viewprofilebtn-div">
-            <a href="/users/<%=user.id%>" class="btn btn-primary">View Full Profile</a>
-          </div>
-      </div>
-    </div>
+	            <div class="description-div"> 
+	              <p><%= descr %></p>
+	            </div>      
+	            
+	            <div class="viewprofilebtn-div">
+	              <a href="/users/<%=user.id%>" class="btn btn-primary view-profile-button">View Full Profile</a>
+	            </div>
+        	</div>
+		</div>
 	  <% end %>
 	</div>
 </div>
