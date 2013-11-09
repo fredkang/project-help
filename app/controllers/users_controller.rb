@@ -148,7 +148,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attributes(user_params)
         format.html { redirect_to "/users/"+params[:id].to_s } #@user, notice: 'User was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @user }
+        # format.json { render action: 'show', status: :created, location: @user }
+        format.json { render json: {:current=>true} }
       else
         format.html { render action: 'edit' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -164,7 +165,7 @@ class UsersController < ApplicationController
     end
   # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, :description, :admin, :image, :remote_image_url, :access_code, helpoffers_attributes: [:user_id, :id, :title, :description, '_destroy'])
+      params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :password, :password_confirmation, :description, :admin, :image, :remote_image_url, :access_code, :current, helpoffers_attributes: [:user_id, :id, :title, :description, '_destroy'])
     end
 
     

@@ -11,6 +11,30 @@
   <% helpoffers = helpoffers.join(", ") %>
 <% end %>
 
+<!-- Check if this user is viewing their own profile. -->
+<% if current_user.id == @user.id %>
+	<% javascript_tag do %>
+		window.own_profile = true;
+	<% end %>
+
+	<% own_profile = true %>
+<% else %>
+	<% javascript_tag do %>
+		window.own_profile = false;
+	<% end %>
+
+	<% own_profile = false %>
+<% end %>
+
+<!-- Display "Current role not added yet" if it hasn't been added yet. Show link to add it 
+if it is own profile -->
+<% if @user.current.blank? %>
+	<% current_role = "Current role not added yet" %>
+<% else %> 
+	<% current_role = @user.current %>
+<% end %>
+
+<!-- Display that the user is not in this user's network if he is not in any of the same groups -->
 <% if !@same_group %>
 	<div class="row">
 		<b>This user is not in your network</b>
@@ -41,12 +65,26 @@
 
 			<div id="profile-info" class="col-sm-8" data-no-turbolink="true">
 				<h2><%=@user.first_name+" "+@user.last_name%></h2>
+
+				<div id="profile-current-role">
+					<p id="profile-current-role-p">
+						<%= current_role %>
+						<% if own_profile && current_role == 'Current role not added yet'%>
+							<a href='#' class='add_role' id='add_role'>Add role</a>
+						<% end %>
+					</p>
+				</div>
 				
 				<div id="profile-help-topics">
 					<p><strong>Help topics:</strong> <%= helpoffers %></p>
-				</div>				
+				</div>
+
+				<% if own_profile %>
+					<div class="btn-group btn-group-justified">
+						<a href="/users/<%=current_user.id%>/edit" class="btn btn-primary">Edit Profile</a>
+					</div>				
 				
-				<% if @same_group %>
+				<% elsif @same_group %>
 					<div class="btn-group btn-group-justified">
 						<% if @conversation.id.nil? %>
 							<a id="messageButton" data-toggle="modal" href="#messageModal" class="btn btn-primary">Send Message</a>
@@ -179,14 +217,9 @@
     </div><!-- /.modal-dialog -->
 </div>
 
-<% if current_user.id == @user.id %>
-	<% javascript_tag do %>
-		window.own_profile = true;
-	<% end %>
-<% else %>
-	<% javascript_tag do %>
-		window.own_profile = false;
-	<% end %>
+<!-- Hidden form that is used for adding a current role via AJAX -->
+<%= form_for(@user, :html => { :role => "form", :id => 'add-role-form' }) do |f| %>
+	<%= f.hidden_field :current, id: "add-role-form-input" %>
 <% end %>
 
 <%= javascript_tag do %>
@@ -206,14 +239,11 @@
 	}
 
 	$(document).ready(function() {
+		// Add the appropriate Mixpanel listeners
 		$(".message-send-button").click(function() {
 			$('#message-form').submit();
 
 			mixpanel.track("Profile Send Message");
-		});
-
-		$(".pic-upload-button").click(function() {
-			$('#pic-upload-form').submit();
 		});
 
 		$("#callButton").click(function() {
@@ -222,6 +252,46 @@
 
 		$("#messageButton").click(function() {
 			mixpanel.track("Profile Send Message Attempt");
+		});
+
+		// Fix for a bug, when page first displays message sending won't work until refresh. This
+		// manually submits when you hit send
+		$(".pic-upload-button").click(function() {
+			$('#pic-upload-form').submit();
+		});
+
+		// When add role link is clicked, turn it into a text field
+		$('#profile-current-role a').on("click", function() {
+
+			$("#profile-current-role-p").html(
+				"<form class='form-inline' role='form'><div class='form-group'><input id='add-role-input' class='form-control' placeholder='Developer at Google'></div> <button id='add-role-submit' class='btn btn-primary'>Add role</button> <button id='add-role-cancel' class='btn btn-default'>Cancel</button></form>");
+
+			$("#add-role-input").focus();
+
+			return false;
+		});
+
+		// If the user clicks on cancel button or clicks away from the input when they are adding
+		// their current role, remove the text input field
+		$(document).on("click", "#add-role-cancel", function() {
+			$("#profile-current-role-p").html("<%= current_role %><% if own_profile %><a href='' id='add_role'> Add role</a><% end %>");
+		});
+
+		// If the user clicks the submit button, grab the input in the temporary input field, place it
+		// in the hidden form, submit the form via AJAX, and replace the temporary input with the new
+		// role
+		$(document).on("click", "#add-role-submit", function() {
+			
+			var role = $('#add-role-input').val();
+
+			$('#add-role-form-input').val(role);
+
+			$.post($('#add-role-form').attr('action'), $('#add-role-form').serialize(), function(data){
+					$("#profile-current-role-p").html(role);
+
+				}, "json");
+
+			return false;
 		});
 			
 	});

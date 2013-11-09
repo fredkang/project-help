@@ -40,6 +40,13 @@
         <% end %>
         <% helpoffers = helpoffers.join(", ") %>
       <% end %>
+
+      <!-- Current role is either "Current role not added yet" or their current role-->
+      <% if user.current.blank?  %>
+        <% current_role = "Current role not added yet" %>
+      <% else %>
+        <% current_role = user.current %>
+      <% end %>
       
       <div class="user-frame col-sm-3 well" >
           <div class="user-frame-img-holder">
@@ -56,11 +63,12 @@
           <div class="user-frame-basic-info">
             <div class="user-frame-name">
               <p><h4><%= user.first_name + " " + user.last_name%></h4></p>
+              <p class="user-frame-role"><%= current_role %></p>
             </div>
             
             <div class="helpoffers-div">
-              <p class="user-frame-help-topics"><strong>Help topics:</strong></p>
-              <p><%= helpoffers %></p>
+              <p class="user-frame-help-topics"><strong>Help topics:</strong>
+              <%= helpoffers %></p>
             </div>
 
             <div class="description-div"> 

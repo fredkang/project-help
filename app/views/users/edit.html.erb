@@ -36,7 +36,7 @@
 
 	      	<div class="form-group">
 		        <%= f.label :phone_number%>
-		        <%= f.text_field :phone_number, class: "form-control"%>
+		        <%= f.text_field :phone_number, class: "form-control", placeholder: "12312312345 - numbers only please"%>
 	      	</div> 	 	 	
 	  	</li>
      
@@ -52,9 +52,14 @@
 	        <%= f.text_field :remote_image_url, class: "form-control", placeholder: "Or enter an image URL" %>
 	      </div>
 
+	      <div class="form-group" id="current-role-field">
+	        <%= f.label :current, "Current role" %>
+	        <%= f.text_field :current, class: "form-control", placeholder: "Front-end dev at Google or Student at Coding Dojo" %>
+	      </div>
+
 	      <div class="form-group">
-	        <%= f.label :description%>
-	        <%= f.text_area :description, class: "form-control"%>
+	        <%= f.label :description, "A little more about yourself" %>
+	        <%= f.text_area :description, class: "form-control", placeholder: "I was a part of the November Coding Dojo class. Previously, I've worked in venture capital, in product management at a startup, and in finance. Call me!"%>
 	      </div>
 	  	</li>
 
@@ -70,8 +75,8 @@
 	          
 	          <div class="form-group help-topics" data-no-turbolink="true">
 	            <%= helpoffer_form.label :title, "Topic #"+topic.to_s %>
-	            <%= helpoffer_form.text_field :title, class: "form-control" %>
-	            <%= helpoffer_form.text_area :description, class: "form-control" %>
+	            <%= helpoffer_form.text_field :title, class: "form-control", placeholder:"Topic e.g. Scaling web apps, Startup recruiting" %>
+	            <%= helpoffer_form.text_area :description, class: "form-control", placeholder:"Description e.g. I've worked at 3 different startups across different growth stages. Happy to discuss my experiences and give recruiting advice" %>
 	            <%= helpoffer_form.hidden_field :_destroy %>
   				<%= link_to "Remove topic", '#', class: "remove_fields" %>
 	          </div>

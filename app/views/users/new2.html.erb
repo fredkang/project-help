@@ -33,8 +33,13 @@
         <%= f.text_field :phone_number, class: "form-control", placeholder: "12312312345 - numbers only please" %>
       </div>
 
+      <div class="form-group" id="current-role-field">
+        <%= f.label :current, "Current role" %>
+        <%= f.text_field :current, class: "form-control", placeholder: "Front-end dev at Google or Student at Coding Dojo" %>
+      </div>
+
       <div class="form-group" id="description-field">
-        <%= f.label :description, "Briefly describe yourself. This is the first thing your groups will see about you!" %>
+        <%= f.label :description, "Briefly describe yourself: interests, hobbies, past experiences" %>
         <%= f.text_area :description, class: "form-control", placeholder: "I was a part of the November Coding Dojo class. Previously, I've worked in venture capital, in product management at a startup, and in finance. Call me!" %>
       </div>
       

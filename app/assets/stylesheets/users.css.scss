@@ -83,22 +83,35 @@ body
 	{
 		
 	}
-	
-	#profile-info h2
-	{
-		margin-bottom:15px;
-	}
-	#profile-help-topics
-	{
-		height:65px;
-		min-height:65px;
-		max-height:65px;
-	}
+		#profile-help-topics
+		{
+			height:65px;
+			min-height:65px;
+			max-height:65px;
+			margin-bottom:-17px;
+		}
+
+		#profile-info #profile-current-role
+		{
+			margin-top:-12px;
+			font-size:16px;
+			font-style:italic;
+			margin-bottom:0px;
+		}
+
+			#profile-info #profile-current-role a
+			{
+				font-style:normal;
+			}
 
 	#profile-info
 	{
 		margin-bottom:20px;
 	}
+		#profile-info h2
+		{
+			margin-bottom:15px;
+		}
 
 	#posts
 	{
@@ -234,18 +247,25 @@ body
 	.user-frame .user-frame-name
 	{
 		text-align:center;
+		overflow:hidden;
+		margin-bottom:15px;
+	}
+
+	.user-frame .user-frame-role
+	{
+		margin-top:-8px;
 	}
 
 	.user-frame .user-frame-help-topics
 	{
-		margin-bottom:2px;
+		margin-bottom:0px;
 	}
 	
 	#user-frame-container .user-frame .description-div
 	{
 		white-space: wrap;
 	  	overflow: hidden;
-	  	height:82px;
+	  	height:58px;
 	  	margin-bottom:15px;
 	}
 
@@ -254,8 +274,8 @@ body
 		white-space: wrap;
 	  	overflow: hidden;
 	  	margin-top:5px;
-	  	margin-bottom:18px;
-	  	height:66px;
+	  	margin-bottom:10px;
+	  	height:62px;
 	}
 
 	#user-frame-container .user-frame .viewprofilebtn-div
