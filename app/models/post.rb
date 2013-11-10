@@ -17,17 +17,17 @@ class Post < ActiveRecord::Base
   	posts_today.each do |post|
   		if post.postable_type == "User" && post.postable_id == user.id
   			if new_posts[0].nil?
-  				new_posts[0] = 1
-			else
-  				new_posts[0] += 1
-			end
-		elsif post.postable_type == "Group" && Groupuser.group_user_exist?(post.postable_id, user.id)
-			if new_posts[post.postable_id].nil?
-				new_posts[post.postable_id] = 1
-			else
-				new_posts[posts.postable_id] += 1
-			end
-		end
+  				  new_posts[0] = 1
+  			else
+    				new_posts[0] += 1
+  			end
+  		elsif post.postable_type == "Group" && Groupuser.group_user_exist?(post.postable_id, user.id)
+  			if new_posts[post.postable_id].nil?
+  				new_posts[post.postable_id] = 1
+  			else
+  				new_posts[posts.postable_id] += 1
+  			end
+  		end
   	end
 
   	return new_posts

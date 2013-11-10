@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 	has_many :senders, class_name: "Message", foreign_key: "sender_id", dependent: :destroy
 	has_many :receivers, class_name: "Message", foreign_key: "receiver_id", dependent: :destroy
 	has_many :notifications, class_name: "Notification", foreign_key: "user_id", dependent: :destroy
-	has_many :profilenotes, class_name: "Notification", foreign_key: "notifiable_id", dependent: :destroy
+	has_many :profilenotes, as: :notifiable, class_name: "Notification", foreign_key: "notifiable_id", dependent: :destroy
 
 	mount_uploader :image, ImageUploader
 
