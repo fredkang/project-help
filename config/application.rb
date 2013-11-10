@@ -1,6 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+# To autogenerate <a> tags in text links
+require 'rails_autolink'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.

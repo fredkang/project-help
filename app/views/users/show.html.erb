@@ -98,7 +98,7 @@ if it is own profile -->
 		</div>
 		
 		<div id="profile-description" class="col-sm-12">
-			<p><%=@user.description%></p>
+			<p><%=simple_format(@user.description)%></p>
 		</div>
 		
 		<% if @same_group %>

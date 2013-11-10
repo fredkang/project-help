@@ -35,7 +35,7 @@
 
 		<div class="post-div">
 			<p><strong><a href="/users/<%=postAuthor.id%>"><%= postAuthor.first_name + " " + postAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
-			<p class="post-text"><%= post.text %></p>
+			<p class="post-text"><%= h auto_link(simple_format(post.text)) %></p>
 			
 			<div class="comments-container col-sm-11 col-sm-offset-1">
 				<% comments.each do |comment| %>
@@ -46,7 +46,7 @@
 					
 					<div class="comment-div">
 						<p><strong><a href="/users/<%=postAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
-						<p class="post-text"><%= comment.text %></p>
+						<p class="post-text"><%= h auto_link(simple_format(comment.text)) %></p>
 					</div>
 				<% end %>
 

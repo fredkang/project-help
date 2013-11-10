@@ -60,6 +60,9 @@ gem 'carrierwave'
 gem 'rmagick'
 gem 'fog'
 
+# Autolink gem to show text links as <a> tag links
+gem 'rails_autolink', '~> 1.1.5'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
