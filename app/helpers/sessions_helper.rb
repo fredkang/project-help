@@ -55,7 +55,12 @@ module SessionsHelper
 		return current_user.profilenotes.count()
 	end
 
-	def group_notifications
+	def total_group_notifications
 		return current_user.notifications.where("notifiable_type = 'Group'").to_a.length
 	end
+
+	def group_notifications(group_id)
+		return current_user.notifications.where("notifiable_type = 'Group' and notifiable_id = ?", group_id).to_a.length
+	end
+
 end

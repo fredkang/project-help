@@ -13,12 +13,15 @@ class PostsController < ApplicationController
   	respond_to do |format|
 
 		if @post.save
+      # When a new post is created in a group, create new notifications for each person in that group
       if @post.postable_type == "Group"
         users = Group.find(@post.postable_id).users.all
 
         users.each do |user|
           Notification.new(:notifiable_id=>@post.postable_id, :notifiable_type=>"Group", :user_id=>user.id).save
         end
+
+      # When a new post is created on a user's profile, create a new notification for that user
       else
         Notification.new(:notifiable_id=>@post.postable_id, :notifiable_type=>"User", :user_id=>@post.postable_id).save
       end

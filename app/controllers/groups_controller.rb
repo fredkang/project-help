@@ -10,7 +10,7 @@ class GroupsController < ApplicationController
 	  	@posts = @group.posts.order("created_at DESC").all
 	    @newpost = @group.posts.new
 
-	    current_user.notifications.where("notifiable_type = 'Group'").destroy_all
+	    current_user.notifications.where("notifiable_type = 'Group' and notifiable_id = ?", params[:id]).destroy_all
 	else
 		redirect_to "/users"
 	end

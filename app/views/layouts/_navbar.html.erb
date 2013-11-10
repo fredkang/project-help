@@ -24,12 +24,12 @@
 				<% profile_notes = "" %>
 			<% end %>
 			
-			<!-- Check the number of notifications in the group to print the badge in the navbar -->
-			<% group_notes = group_notifications %>
+			<!-- Check the total number of group notifications for the user -->
+			<% group_notes = total_group_notifications %>
 			<% if group_notes > 0 %>
-				<% group_notes = group_notes.to_s%>
+				<% total_group_notes = group_notes.to_s%>
 			<% else %>
-				<% group_notes = "" %>
+				<% total_group_notes = "" %>
 			<% end %>
 			
 			<!-- Store all of the current user's groups in groups -->
@@ -46,12 +46,20 @@
 					
 					
 					<li class="dropdown">
-						<a href="" class="dropdown-toggle" data-toggle="dropdown">Groups  <span class='badge'><%=group_notes%></span> <span class="caret"></b></a>
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">Groups  <span class='badge'><%=total_group_notes%></span> <span class="caret"></b></a>
 
 						<ul class="dropdown-menu">
 
 							<% if current_user!=nil && groups!=nil %>
-								<% groups.each do |group | %>
+								<% groups.each do |group| %>
+									<!-- Check the number of notifications in the group to print the badge in the navbar -->
+									<% group_notes = group_notifications(group.id) %>
+									<% if group_notes > 0 %>
+										<% group_notes = group_notes.to_s%>
+									<% else %>
+										<% group_notes = "" %>
+									<% end %>
+
 									<li><a href="/groups/<%=group.id%>"><%=group.name%>  <span class='badge'><%=group_notes%></span></a></li>
 								<% end %>
 							<% end %>
