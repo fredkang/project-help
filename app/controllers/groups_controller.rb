@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
 
   	if Groupuser.group_user_exist?(params[:id], current_user.id)
 	  	@group = Group.find(params[:id])
-	  	@users = @group.users.all
+	  	@users = @group.users.all.to_a.sort_by { |obj| obj.first_name }
 
 	  	@posts = @group.posts.order("created_at DESC").all
 	    @newpost = @group.posts.new
