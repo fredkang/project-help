@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
+  before_action :deny_access, only: [:show]
+
   def show
-  	deny_access
 
   	if Groupuser.group_user_exist?(params[:id], current_user.id)
 	  	@group = Group.find(params[:id])
