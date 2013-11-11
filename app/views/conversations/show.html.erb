@@ -25,10 +25,10 @@
 
 			<div class="message">
 				<% if message.sender_id == current_user.id %>
-					<strong><%= "Me (" +timeStamp + " ): " %></strong>
+					<strong><%= "Me (" +timeStamp + "): " %></strong>
 					<%= h auto_link(simple_format(message.text.gsub(/\r\n/, '<br />'))) %>
 				<% else %> 
-					<strong><%= message.sender.first_name + " (" +timeStamp + " ): "%></strong>
+					<strong><%= message.sender.first_name + " (" +timeStamp + "): "%></strong>
 					<%= h auto_link(simple_format(message.text.gsub(/\r\n/, '<br />'))) %>
 				<% end %> 
 			</div>
@@ -63,7 +63,7 @@
 		$("#message-create").submit(function() {
 			$.post($(this).attr('action'), $(this).serialize(), function(data) {
 					$(".panel-body").find(".message").last().after(function() {
-						return "<div class='message'><strong>Me ( just now ):</strong> "+$(".message-input").val()+"</div>";
+						return "<div class='message'><strong>Me (just now):</strong> "+$(".message-input").val()+"</div>";
 					});
 
 					$(".message-input").val("");			
