@@ -63,7 +63,7 @@
 		$("#message-create").submit(function() {
 			$.post($(this).attr('action'), $(this).serialize(), function(data) {
 					$(".panel-body").find(".message").last().after(function() {
-						return "<div class='message'><strong>Me (just now):</strong> "+$(".message-input").val()+"</div>";
+						return "<div class='message'><strong>Me (just now):</strong><br> "+$(".message-input").val()+"</div>";
 					});
 
 					$(".message-input").val("");			
