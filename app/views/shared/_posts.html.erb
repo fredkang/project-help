@@ -45,7 +45,7 @@
 					<% timediffString = format_time_diff(timediff) %>
 					
 					<div class="comment-div">
-						<p><strong><a href="/users/<%=postAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
+						<p><strong><a href="/users/<%=commentAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
 						<p class="post-text"><%= h auto_link(simple_format(comment.text.gsub(/\r\n/, '<br />'))) %></p>
 					</div>
 				<% end %>
