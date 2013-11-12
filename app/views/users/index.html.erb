@@ -78,11 +78,14 @@
             <div class="viewprofilebtn-div">
               <a href="/users/<%=user.id%>" class="btn btn-primary view-profile-button">View Full Profile</a>
             </div>
+
         </div>
       </div>
     <% end %>
   <% end %>
 </div>
+
+
 
 <%= javascript_tag do %>
   window.userID = '<%= j current_user.id.to_s %>';
