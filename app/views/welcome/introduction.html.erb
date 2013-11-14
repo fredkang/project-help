@@ -1,0 +1,141 @@
+<div class = "navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<span class="navbar-brand">Project Help <small>alpha</small></span>
+		</div>
+
+	</div>
+</div>
+
+<div id="intro-container">
+	<div id="part1" class="row">
+		<div class="col-sm-12">
+			<h3>Welcome to Project Help!</h3>
+		</div>
+
+		<div id="part1image" class="col-sm-7 intro-image-container">
+			<h4>Your groups, like <%=current_user.groups.first.name%>, are filled with people who want to help you succeed. Let's take a brief tour to see how you can connect with these people...</h4>
+			<%= image_tag "0-groupintronew.png", {class:"intro-image"} %>
+		</div>
+		<div id="part1arrow" class="col-sm-1 next-arrow">
+			<a href="" id="part1arrowlink">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+				<p>Next</p>
+			</a>
+		</div>
+
+	</div>
+
+	<div id="part2" class="row">
+		<div class="col-sm-12">
+			<h3>Everyone is explicitly volunteering to help you</h3>
+		</div>
+
+		<div id="part2image" class="col-sm-7 intro-image-container">
+			<h4>People list the topics they want to help you with and explain them on their profiles</h4>
+			<%= image_tag "2-image2.png", {class:"intro-image"} %>
+		</div>
+		<div id="part2arrow" class="col-sm-1 next-arrow">
+			<a href="" id="part2arrowlink">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+				<p>Next</p>
+			</a>
+		</div>
+	</div>
+
+	<div id="part3" class="row">
+		<div class="col-sm-12">
+			<h3>Find all of the topics your groups can help you with</h3>
+		</div>
+
+		<div id="part3image" class="col-sm-7 intro-image-container">
+			<h4>This is your Network page. It shows everyone in on all of your groups and all of the topics they can help you with.</h4>
+			<%= image_tag "1-image.png", {class:"intro-image"} %>
+		</div>
+
+		<div id="part3arrow" class="col-sm-1 next-arrow">
+			<a href="" id="part3arrowlink">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+				<p>Next</p>
+			</a>
+		</div>
+	</div>
+
+	<div id="part4" class="row">
+		<div class="col-sm-12">
+			<h3>So don't be shy - reach out!</h3>
+		</div>
+
+		<div id="part4image" class="col-sm-7 intro-image-container">
+			<h4>You can message people privately or ask them a public question on their profiles</h4>
+			<%= image_tag "3-image3.png", {class:"intro-image"} %>
+		</div>
+		<div id="part4arrow" class="col-sm-1 next-arrow">
+			<a href="" id="part4arrowlink">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+				<p>Next</p>
+			</a>
+		</div>
+
+	</div>
+
+	<div id="part5" class="row">
+		<div class="col-sm-12">
+			<h3>So don't be shy - reach out!</h3>
+		</div>
+
+		<div id="part5image" class="col-sm-7 intro-image-container">
+			<h4>Or post a question to an entire group on your group's page</h4>
+			<%= image_tag "4-groupposts.png", {class:"intro-image"} %>
+		</div>
+
+		<div id="part5arrow" class="col-sm-1 next-arrow">
+			<a href="/users/<%=current_user.id%>/new2" id="part5arrowlink">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+				<p>Next</p>
+			</a>
+		</div>
+	</div>
+
+</div>
+
+<script>
+$(document).ready(function() {
+	$("#part2").hide();
+	$("#part3").hide();
+	$("#part4").hide();
+	$("#part5").hide();
+
+	$("#part1arrowlink").click(function() {
+		$("#part1").fadeOut("fast", function() {
+			$("#part2").fadeIn("slow");
+		});
+
+		return false;
+	});
+
+	$("#part2arrowlink").click(function() {
+		$("#part2").fadeOut("fast", function() {
+			$("#part3").fadeIn("slow");
+		});
+
+		return false;
+	});
+
+	$("#part3arrowlink").click(function() {
+		$("#part3").fadeOut("fast", function() {
+			$("#part4").fadeIn("slow");
+		});
+
+		return false;
+	});
+
+	$("#part4arrowlink").click(function() {
+		$("#part4").fadeOut("fast", function() {
+			$("#part5").fadeIn("slow");
+		});
+
+		return false;
+	});
+});
+</script>

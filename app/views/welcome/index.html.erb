@@ -1,3 +1,19 @@
+<div class = "navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<span class="navbar-brand">Project Help <small>alpha</small></span>
+		</div>
+
+		<div class="navbar-collapse collapse">
+			<%= simple_form_for(@user, url: '/sessions/create', html:{class: "navbar-form navbar-right", id:"sign-in"}, :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>25 } }) do |f| %>
+				<%= f.input :email, placeholder: "Email", label:false %>
+				<%= f.input :password, placeholder: "Password", label:false %>
+				<%= f.button :submit, value: 'Sign in', class: "btn btn-success welcome-sign-in"%>
+			<% end %>
+		</div>
+	</div>
+</div>
+
 <div id="welcome-container">
 	<div class="jumbotron">
 		<div class="container">

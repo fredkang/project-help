@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= bootstrap.min
+
 
 // $("document").ready(function() {
 // 			$("#posts_div").show();

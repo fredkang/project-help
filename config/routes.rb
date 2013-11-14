@@ -5,8 +5,9 @@ ProjectHelp::Application.routes.draw do
   get "inbox/:id(.:format)"   => 'conversations#show'
   get "inbox/"                => 'conversations#index'
   
-  get "groups/:id(.:format)"  =>  'groups#show'
+  get "groups/:id(.:format)"  => 'groups#show'
   get "welcome/index"
+  get "welcome/introduction"  => 'welcome#introduction'
 
   #Additional routes for Users for part 2 of registration and the admin panel
   get '/users/:id/new2' =>  'users#new2'

@@ -6,4 +6,7 @@ class WelcomeController < ApplicationController
   		redirect_to "/users"
   	end
   end
+
+  def introduction
+  end
 end
