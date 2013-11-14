@@ -36,7 +36,7 @@ class UsersController < ApplicationController
           UserMailer.welcome_email(@user).deliver
           @group_user = Groupuser.new(user_id: @user.id, group_id: group_id, groupowner:0, groupadmin:0).save
           sign_in(@user)
-          format.html { redirect_to '/users/'+@user.id.to_s+"/new2" } #@user, notice: 'User was successfully created.' }
+          format.html { redirect_to '/welcome/introduction' } #@user, notice: 'User was successfully created.' }
           format.json { render action: 'show', status: :created, location: @user }
         else
           format.html { render action: 'new' }

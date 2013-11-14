@@ -1,7 +1,7 @@
 <div class = "navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
-			<span class="navbar-brand">Project Help <small>alpha</small></span>
+			<a href="/users"><span class="navbar-brand">Project Help <small>alpha</small></span></a>
 		</div>
 
 	</div>
@@ -101,10 +101,13 @@
 
 <script>
 $(document).ready(function() {
+	$("#part1").hide();
 	$("#part2").hide();
 	$("#part3").hide();
 	$("#part4").hide();
 	$("#part5").hide();
+
+	$("#part1").fadeIn(1000);
 
 	$("#part1arrowlink").click(function() {
 		$("#part1").fadeOut("fast", function() {

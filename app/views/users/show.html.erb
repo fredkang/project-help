@@ -66,7 +66,7 @@ if it is own profile -->
 			<div id="profile-info" class="col-sm-8" data-no-turbolink="true">
 				<h2><%=@user.first_name+" "+@user.last_name%></h2>
 
-				<div id="profile-current-role">
+				<div id="profile-current-role" class="profile-add-info-prompt">
 					<p id="profile-current-role-p">
 						<%= current_role %>
 						<% if own_profile && current_role == 'Current role not added yet'%>
@@ -111,6 +111,23 @@ if it is own profile -->
 
 <div id="help-topics" class="col-sm-4 well">
 	<h3>Topics I can help with:</h3>
+	
+	<div class="profile-add-info-prompt">	
+		<% if @topics.blank? %>
+			<div id="no-topics-yet">Topics not added yet</div>
+		<% end %> 
+		
+		<div id="topic-add-link-div">
+<%= form_for(@user, :html => { :role => "form", :id => 'add-info-form' }) do |f| %>
+			
+			<a href="" id="add-topic-link">Add Topics</a> <%= link_to_add_topic_form "Add Topic", f, :helpoffers %>
+		</div>
+
+	</div>
+
+	<div id="new-topic-add">
+	</div>
+<% end %>
 
 	<% @topics.each do |topic| %>
 		<div class="topic-group">
@@ -218,8 +235,13 @@ if it is own profile -->
 </div>
 
 <!-- Hidden form that is used for adding a current role via AJAX -->
-<%= form_for(@user, :html => { :role => "form", :id => 'add-role-form' }) do |f| %>
+<%= form_for(@user, :html => { :role => "form", :id => 'add-info-form' }) do |f| %>
 	<%= f.hidden_field :current, id: "add-role-form-input" %>
+
+	<%= f.fields_for :helpoffers do |helpoffer_form| %>
+	    <%= helpoffer_form.hidden_field :title, class: "form-control", id: "add-topic-title-form-input" %>
+	    <%= helpoffer_form.hidden_field :description, class: "form-control", id: "add-topic-description-form-input"%>
+    <% end %> 
 <% end %>
 
 <%= javascript_tag do %>
@@ -260,6 +282,50 @@ if it is own profile -->
 			$('#pic-upload-form').submit();
 		});
 
+		$("#add-topic-link").on("click", function() {
+			$('#new-topic-add').html(
+				"<form role='form'><div class='form-group'><input id='add-topic-title-input' class='form-control' placeholder='Topic title e.g. Data analytics'></div><div class='form-group'><textarea id='add-topic-description-input' class='form-control' placeholder='Topic description e.g. I have been working on the data team at an early stage startup for ...'></textarea></div><button id='add-topic-submit' class='btn btn-primary'>Add Topic</button>  <button id='add-topic-cancel' class='btn btn-default'>Cancel</button></form>");
+
+			return false;
+		});
+
+		$(document).on("click", "#add-topic-cancel", function() {
+			$('#new-topic-add').html('');
+
+			return false;
+		});
+
+		$(document).on("click", "#add-topic-submit", function() {
+			var title = $('#add-topic-title-input').val();
+			var description = $('#add-topic-description-input').val();
+			
+			$('#add-topic-title-form-input').val(title);
+			$('#add-topic-description-form-input').val(description);
+
+			$.post($('#add-info-form').attr('action'), $('#add-info-form').serialize(), function(data){
+					
+					$("#new-topic-add").after("<div class='topic-group'><p class='topic-title'><strong>"+title+"</strong></p><p>"+description+"</p></div>");
+
+					$("#new-topic-add").html('');
+					$("#no-topics-yet").html('');
+
+				}, "json");
+
+			return false;
+		});
+
+		$(document).on("click", ".add-topic-form-link", function() {
+			$("#topic-add-link-div").hide();
+			var time = new Date().getTime();
+		    var regexp = new RegExp($(this).data('id'), 'g');
+		    $("#new-topic-add").html(function() {
+		    	return $(".add-topic-form-link").data('fields').replace(regexp, time)
+			});
+		    
+		    return false
+		});
+	    
+
 		// When add role link is clicked, turn it into a text field
 		$('#profile-current-role a').on("click", function() {
 
@@ -286,7 +352,7 @@ if it is own profile -->
 
 			$('#add-role-form-input').val(role);
 
-			$.post($('#add-role-form').attr('action'), $('#add-role-form').serialize(), function(data){
+			$.post($('#add-info-form').attr('action'), $('#add-info-form').serialize(), function(data){
 					$("#profile-current-role-p").html(role);
 
 				}, "json");
