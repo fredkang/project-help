@@ -49,7 +49,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'rails-footnotes', '~> 3.7.9', :group=>:development
 gem 'hirb'
 gem 'validates_email_format_of'
-gem 'bootstrap-sass-rails', '~> 3.0.0.3'
+# gem 'bootstrap-sass-rails', '~> 3.0.0.3'
 gem 'simple_form'
 
 # Gem to use Twilio for text message notifications
