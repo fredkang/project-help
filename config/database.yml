@@ -19,7 +19,7 @@ test:
   timeout: 5000
 
 production:
-  adapter: postgressql
+  adapter: postgresql
   encoding: unicode
   database: project_help
   pool: 5
