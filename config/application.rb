@@ -26,5 +26,6 @@ module ProjectHelp
 
     # Config to get Bootstrap Glyphicons working
     # config.assets.paths << "#{Rails}/vendor/assets/fonts"
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
   end
 end
