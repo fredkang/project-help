@@ -44,7 +44,7 @@
       </div>
      
       <div class="actions">
-        <a href="/users" class="btn btn-default" >Skip</a>
+        <a href="/users/<%=current_user.id.to_s%>" class="btn btn-default" >Skip</a>
         <%= f.submit "Submit", class: "btn btn-primary" %>
       </div>
     <% end %>

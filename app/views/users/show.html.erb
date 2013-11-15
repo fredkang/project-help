@@ -401,7 +401,7 @@ if it is own profile -->
 			$("#add-description-form-input").val(description);
 
 			$.post($("#add-info-form").attr('action'), $('#add-info-form').serialize(), function() {
-				$('#profile-description p').html(description);
+				$('#temp-description-form').after("<p>"+description+"</p>");
 			});			
 
 			$("#temp-description-form").html('');
