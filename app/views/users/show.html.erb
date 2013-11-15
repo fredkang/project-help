@@ -41,9 +41,11 @@ if it is own profile -->
 	</div>
 <% end %>
 
+<!-- Display the left side of the profile. Includes profile picture, role, description, contact buttons and wall -->
 <div id="profile-header" class="col-sm-8 panel panel-default" data-no-turbolink="true">
 	<div class="panel-body">
-
+		
+		<!-- div contains profile picture, role, name, help topics summary and contact buttons -->
 		<div id="profile-pic-name" class="col-sm-12">
 
 			<!-- If profile is current user's profile, make the image a link to upload a profile picture. If the user does not have a profile picture, place a kittenplaceholder -->
@@ -62,7 +64,8 @@ if it is own profile -->
 					<% end %>
 				<% end %>
 			</div>
-
+			
+			<!-- Show right side of profile heading - name, role, help topics and contact buttons -->
 			<div id="profile-info" class="col-sm-8" data-no-turbolink="true">
 				<h2><%=@user.first_name+" "+@user.last_name%></h2>
 
@@ -78,7 +81,8 @@ if it is own profile -->
 				<div id="profile-help-topics">
 					<p><strong>Help topics:</strong> <%= helpoffers %></p>
 				</div>
-
+				
+				<!-- If this is the user's profile, show edit profile button instead of contact buttons -->
 				<% if own_profile %>
 					<div class="btn-group btn-group-justified">
 						<a href="/users/<%=current_user.id%>/edit" class="btn btn-primary">Edit Profile</a>
@@ -97,10 +101,23 @@ if it is own profile -->
 			</div>
 		</div>
 		
+		<!-- Display description -->
 		<div id="profile-description" class="col-sm-12">
-			<p><%=simple_format(@user.description)%></p>
+
+			<div class="profile-add-info-prompt" id="add-description-prompt">
+				<% if own_profile && @user.description.blank? %>
+					<span id="description-not-added-yet">Description not added yet</span>
+					 <a href="" id="add-description-link">Add Description</a>
+				<% end %>
+			</div>
+			
+			<div id="temp-description-form">
+			</div>
+			
+			<p><%=simple_format(@user.description.gsub(/\r\n/, '<br />')) %></p>
 		</div>
 		
+		<!-- Display wall / posts -->
 		<% if @same_group %>
 			<%= render partial: "/shared/posts", locals: {:user=>@user, :newpost=>@newpost, :posts=>@posts, :post_on=>"user"} %>
 		<% end %>
@@ -111,20 +128,26 @@ if it is own profile -->
 
 <div id="help-topics" class="col-sm-4 well">
 	<h3>Topics I can help with:</h3>
-	
-	<div class="profile-add-info-prompt">	
+
+<!-- Create the form that will allow users to add new help topics on this page. Form will not be visible unless they user clicks "Add Topic", which will create visible fields to this form -->
+<%= form_for(@user, :html => { :role => "form", :id => 'add-topic-form' }) do |f| %>	
+
+	<!-- div that contains the link to add a new Topic and tells the user if no topics have been added -->
+	<div class="profile-add-info-prompt" id="profile-add-topic-prompt">	
 		<% if @topics.blank? %>
-			<div id="no-topics-yet">Topics not added yet</div>
+			<span id="no-topics-yet">Topics not added yet</span>
 		<% end %> 
 		
-		<div id="topic-add-link-div">
-<%= form_for(@user, :html => { :role => "form", :id => 'add-info-form' }) do |f| %>
-			
-			<a href="" id="add-topic-link">Add Topics</a> <%= link_to_add_topic_form "Add Topic", f, :helpoffers %>
-		</div>
+		<!-- Show the link to add a Topic only if this profile is the current user's -->
+		<% if current_user == @user %>
+			<span id="topic-add-link-div">
+				 <%= link_to_add_topic_form "Add Topics", f, :helpoffers %>
+			</span>
+		<% end %>
 
 	</div>
-
+	
+	<!-- Blank div to hold the temporary form when adding new topics -->
 	<div id="new-topic-add">
 	</div>
 <% end %>
@@ -238,10 +261,7 @@ if it is own profile -->
 <%= form_for(@user, :html => { :role => "form", :id => 'add-info-form' }) do |f| %>
 	<%= f.hidden_field :current, id: "add-role-form-input" %>
 
-	<%= f.fields_for :helpoffers do |helpoffer_form| %>
-	    <%= helpoffer_form.hidden_field :title, class: "form-control", id: "add-topic-title-form-input" %>
-	    <%= helpoffer_form.hidden_field :description, class: "form-control", id: "add-topic-description-form-input"%>
-    <% end %> 
+	<%= f.hidden_field :description, id:"add-description-form-input" %>
 <% end %>
 
 <%= javascript_tag do %>
@@ -282,47 +302,111 @@ if it is own profile -->
 			$('#pic-upload-form').submit();
 		});
 
-		$("#add-topic-link").on("click", function() {
-			$('#new-topic-add').html(
-				"<form role='form'><div class='form-group'><input id='add-topic-title-input' class='form-control' placeholder='Topic title e.g. Data analytics'></div><div class='form-group'><textarea id='add-topic-description-input' class='form-control' placeholder='Topic description e.g. I have been working on the data team at an early stage startup for ...'></textarea></div><button id='add-topic-submit' class='btn btn-primary'>Add Topic</button>  <button id='add-topic-cancel' class='btn btn-default'>Cancel</button></form>");
-
-			return false;
-		});
-
-		$(document).on("click", "#add-topic-cancel", function() {
+		//Place listener on cancel button of the temporary form that is created when you try to add a Topic
+		//Erase the form when it is triggered
+		$(document).on("click", ".add-topic-cancel", function() {
 			$('#new-topic-add').html('');
+			$('#topic-add-link-div').show();
 
 			return false;
 		});
 
-		$(document).on("click", "#add-topic-submit", function() {
-			var title = $('#add-topic-title-input').val();
-			var description = $('#add-topic-description-input').val();
-			
-			$('#add-topic-title-form-input').val(title);
-			$('#add-topic-description-form-input').val(description);
+		//Place listener on Submit button of the temporary form that is created when you try to add a Topic
+		//Submit the form, erase the form, and fake the new topic being added when it is triggered
+		$(document).on("click", ".add-topic-submit", function() {
+			$.post($('#add-topic-form').attr('action'), $('#add-topic-form').serialize(), function(data) {
+				//Store values of title and description to fake the new topic without refreshing
+				var title = $('#add-topic-title-input').val();
+				var description = $('#add-topic-description-input').val()
 
-			$.post($('#add-info-form').attr('action'), $('#add-info-form').serialize(), function(data){
-					
-					$("#new-topic-add").after("<div class='topic-group'><p class='topic-title'><strong>"+title+"</strong></p><p>"+description+"</p></div>");
+				//Erase the temporary form and show the "Add Topic" link again
+				$('#new-topic-add').html('');
+				$('#topic-add-link-div').show();
+				$('#profile-add-topic-prompt').show();  
+				$('#no-topics-yet').html('');
 
-					$("#new-topic-add").html('');
-					$("#no-topics-yet").html('');
+				//Fake the new topic
+				$("#new-topic-add").after("<div class='topic-group'><p class='topic-title'><strong>"+title+"</strong></p><p>"+description+"</p></div>");
 
-				}, "json");
+			});
 
 			return false;
 		});
+		
+		// When a user clicks on "Submit and add another", submit the form, fake the new topic, and then create a new form. Basically combines code from "Submit" and "Add new topic"
+		$(document).on("click", ".add-topic-submit-add", function() {
+			$.post($('#add-topic-form').attr('action'), $('#add-topic-form').serialize(), function(data) {
+				
+				//Store values of title and description to fake the new topic without refreshing
+				var title = $('#add-topic-title-input').val();
+				var description = $('#add-topic-description-input').val();
 
+				//Fake the new topic
+				$("#new-topic-add").after("<div class='topic-group'><p class='topic-title'><strong>"+title+"</strong></p><p>"+description+"</p></div>");
+
+				//Set up the new form by extracting the data from the link
+				var time = new Date().getTime();
+			    var regexp = new RegExp($('.add-form-link').data('id'), 'g');
+			    
+			    $("#new-topic-add").html(function() {
+			    	return $(".add-topic-form-link").data('fields').replace(regexp, time)
+				});
+
+			});			
+		    
+		    return false
+		});
+
+		//Create a temporary form when "Add Topic" link is clicked
 		$(document).on("click", ".add-topic-form-link", function() {
-			$("#topic-add-link-div").hide();
+			$("#profile-add-topic-prompt").hide();
+
+			//Extract the data from the link to create a new form with, replacing fields with unique data
 			var time = new Date().getTime();
 		    var regexp = new RegExp($(this).data('id'), 'g');
 		    $("#new-topic-add").html(function() {
 		    	return $(".add-topic-form-link").data('fields').replace(regexp, time)
 			});
+
+			$("#add-topic-title-input").focus();
 		    
 		    return false
+		});
+
+		// When add description link is clicked, turn it into a text field
+		$('#add-description-link').on("click", function() {
+
+			$("#add-description-prompt").hide();
+
+			$("#temp-description-form").html(
+				"<form role='form'><div class='form-group'><textarea id='add-description-input' class='form-control' placeholder='Introduce yourself! e.g. I am currently a backend engineer at Google. Previously I worked in finance and venture capital. I love skiing!'></textarea></div> <button id='add-description-submit' class='btn btn-primary'>Add Description</button> <button id='add-description-cancel' class='btn btn-default'>Cancel</button></form>");
+
+			$("#add-description-input").focus();
+
+			return false;
+		});
+
+		// When cancel is clicked on add description, erase the form
+		$(document).on("click", "#add-description-cancel", function() {
+			$("#add-description-prompt").show();			
+
+			$("#temp-description-form").html('');
+		});
+
+		// When submit is clicked on add description, paste the contents into the hidden form, submit it
+		// and erase the form
+		$(document).on("click", "#add-description-submit", function() {
+			
+			var description = $("#add-description-input").val();
+			$("#add-description-form-input").val(description);
+
+			$.post($("#add-info-form").attr('action'), $('#add-info-form').serialize(), function() {
+				$('#profile-description p').html(description);
+			});			
+
+			$("#temp-description-form").html('');
+
+			return false;
 		});
 	    
 
