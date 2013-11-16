@@ -114,7 +114,9 @@ if it is own profile -->
 			<div id="temp-description-form">
 			</div>
 			
-			<p><%=simple_format(@user.description.gsub(/\r\n/, '<br />')) %></p>
+			<% if !@user.description.nil? %>
+				<p><%=simple_format(@user.description.gsub(/\r\n/, '<br />')) %></p>
+			<% end %>
 		</div>
 		
 		<!-- Display wall / posts -->
