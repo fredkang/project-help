@@ -1,4 +1,5 @@
 ProjectHelp::Application.routes.draw do
+  get "home/dashboard"
   resources :messages, only: [:create]
   
   resources :conversations, only: [:create, :update]

@@ -1,0 +1,75 @@
+
+<!-- This container sets the size of of the topics sidebar -->
+<div class="col-sm-3 dashboard-container" >
+	<!-- Div contains the topics sidebar -->
+	<div id="topics-sidebar" class="panel panel-default">
+		
+		<!-- Heading for the section -->
+		<div class="panel-heading">
+			<h2 class="panel-title"> Topics in your network </h2>
+		</div>
+		
+		<!-- Body for the section -->
+		<div class="panel-body">
+			<div class="form-group">
+				<input class="form-control" type="text" placeholder="Search for a topic">
+			</div>
+
+			<div id="topic-list">
+				<p><b><a href="">Featured</a> / <a href="">All</a></b></p>
+				
+				<p id="all-topics" class="topic-list">
+					<% @all_topics.each_with_index do |topic, i| %>
+						<a href=""><%=topic.name%></a> 
+						<% if i != @all_topics.length-1 %>
+							&#8901 
+						<% end %>
+					<% end %>
+				</p>
+
+				<p id="featured-topics">
+					<% @featured_topics.each_with_index do |topic, i| %>
+						<a href=""><%=topic.name%></a> 
+						<% if i != @featured_topics.length-1 %>
+							&#8901 
+						<% end %>
+					<% end %>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- This container sets the size of the main Group/People section -->
+<div class="col-sm-9 dashboard-container">
+	<!-- Div contains the Group / People section -->
+	<div id="groups-people-main" class="panel panel-default">
+		
+		<!-- Heading for the section -->
+		<div class="panel-heading">
+			<h2 class="panel-title">Groups / People in your network</h2>
+		</div>
+		
+		<!-- The panel-body will be the section showing members -->
+		<div id="members" class="panel-body">
+		</div>
+
+		<!-- The list group will contain the Group overviews -->
+		<ul class="list-group">
+			<!-- Each Group will be shown in a list-group-item -->
+			<li class="list-group-item">
+				<h4>Coding Dojo</h4>
+			</li>
+			
+			<!-- The last list-group-item will contain options to add or join groups -->
+			<li class="list-group-item">
+				<a class="btn btn-primary">Join Group</a>
+				<a class="btn btn-success">Create Group</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<script>
+
+</script>

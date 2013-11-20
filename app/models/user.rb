@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
 	has_many :helpoffers, class_name: "Helpoffer", foreign_key: "user_id", dependent: :destroy
+	has_many :topics, through: :helpoffers
 	has_many :groupusers, dependent: :destroy
 	has_many :groups, through: :groupusers
 	has_many :posts, as: :postable, dependent: :destroy
