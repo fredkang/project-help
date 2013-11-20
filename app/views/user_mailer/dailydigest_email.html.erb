@@ -4,14 +4,35 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <% if @profileposts != nil %>
-      <p><%= @profileposts %></p>
-    <% end %>
-    
-    <% if @groupposts != nil %>
-      <% @groupposts.each do |group, string| %>
-        <p><%=string%></p>
+
+    <% @profile_posts.each_with_index do |post, i| %>
+      
+      <% if i==0 %>
+        <p><b><%= post %></b><p>
+      <% else %>
+        <% user_name = User.find(post.user_id).first_name %>
+        <p><%= user_name%> wrote: <%= simple_format(post.text) %><p>
+        ------
       <% end %>
+    <% end %>
+
+    <% if @profile_posts.length>0 %>
+      <br><br>
+    <% end %>
+
+    <% @group_posts.each do |group_id, posts| %>
+      
+      <% posts.each_with_index do |post, i| %>
+        <% if i==0 %>
+          <p><b><%= post %></b><p>
+        <% else %>
+          <% user_name = User.find(post.user_id).first_name %>
+          <p><%= user_name%> wrote: <%= simple_format(post.text) %><p>
+          ------
+        <% end %>
+      <% end %>
+      
+      <br><br>
     <% end %>
   
   </body>

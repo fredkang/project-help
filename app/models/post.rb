@@ -6,30 +6,30 @@ class Post < ActiveRecord::Base
 
   validates :text, :user_id, :postable_type, :postable_id, presence: true
 
-  def self.new_group_posts(user)
+  def self.new_day_posts(user)
   	# Return a hash with the keys being the groups the user is in with new posts in them that day
   	# and the values being the number of new posts
   	new_posts = {}
+    profile_posts = []
+    group_posts = {}
 
   	posts_today = self.where("DATE(created_at) = DATE(?)", Time.now)
   	users_groups = user.groups.all
 
   	posts_today.each do |post|
   		if post.postable_type == "User" && post.postable_id == user.id
-  			if new_posts[0].nil?
-  				  new_posts[0] = 1
-  			else
-    				new_posts[0] += 1
-  			end
+  			profile_posts.push(post)
   		elsif post.postable_type == "Group" && Groupuser.group_user_exist?(post.postable_id, user.id)
-  			if new_posts[post.postable_id].nil?
-  				new_posts[post.postable_id] = 1
+  			if group_posts[post.postable_id].nil?
+          group_posts[post.postable_id] = []
+  				group_posts[post.postable_id][0] = post
   			else
-  				new_posts[posts.postable_id] += 1
+  				group_posts[post.postable_id].push(post)
   			end
   		end
   	end
 
-  	return new_posts
+  	return profile_posts, group_posts
   end
+
 end
