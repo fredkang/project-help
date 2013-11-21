@@ -11,9 +11,15 @@
 		
 		<!-- Body for the section -->
 		<div class="panel-body">
-			<div class="form-group">
-				<input class="form-control" type="text" placeholder="Search for a topic">
-			</div>
+			<form action='/topics/search' method='post' id='search-form'>
+				<input name="utf8" type="hidden" value="✓">
+				<input name="authenticity_token" type="hidden" value="0ajn97Rdg7axTJta0bP5Ts2XAf3xrgzrkDzWKU6oagQ=">
+
+				<div class="form-group">
+					<input class="form-control" type="text" placeholder="Search for a topic" name="search_term">
+				</div>
+				<a href="" class="btn btn-primary" id="search-submit">Search</a>
+			</form>
 
 			<div id="topic-list">
 				<p><b><a href="">Featured</a> / <a href="">All</a></b></p>
@@ -71,5 +77,17 @@
 </div>
 
 <script>
+	$(document).ready(function() {
+		$("#search-submit").click(function() {
+			var action = $("#search-form").attr('action');
+			var content = $("#search-form").serialize();
 
+			$.post(action, content, function(data){
+				var term = data['search_term'];
+				$("#topic-list").html(term);
+			}, "json");
+
+			return false;
+		});
+	});
 </script>

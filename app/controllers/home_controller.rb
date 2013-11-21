@@ -33,9 +33,9 @@ class HomeController < ApplicationController
 
     # Create a @featured_topics array out of the 10 most popular topics from @all_topics
     # if there are more than 10 topics. Otherwise, @featured_topics = @all_topics
-    if @all_topics.length>10
+    if @all_topics.length>20
 	  	@featured_topics = @all_topics.sort { |a,b| (b.click_count + b.helpoffers_count)<=>(a.click_count + a.helpoffers_count)}
-	  	@featured_topics = @featured_topics.slice(0..9)
+	  	@featured_topics = @featured_topics.slice(0..19)
 	else
 		@feature_topics = @all_topics
 	end
