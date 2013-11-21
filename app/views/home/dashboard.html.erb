@@ -11,18 +11,34 @@
 		
 		<!-- Body for the section -->
 		<div class="panel-body">
+
+			<!-- Form that user uses to search for a particular topic -->
 			<form action='/topics/search' method='post' id='search-form'>
 				<input name="utf8" type="hidden" value="✓">
 				<input name="authenticity_token" type="hidden" value="0ajn97Rdg7axTJta0bP5Ts2XAf3xrgzrkDzWKU6oagQ=">
-
+				
 				<div class="form-group">
-					<input class="form-control" type="text" placeholder="Search for a topic" name="search_term">
+					<div class="input-group">
+						<input class="form-control" type="text" placeholder="Search for a topic" name="search_term" id="topic-search-input">
+						
+						<span class="input-group-addon" id="topic-search-glyph">
+							<a href="" id="search-submit">
+								<span class="glyphicon glyphicon-search"></span>
+							</a>
+
+							<a href="" id="search-cancel">
+								<span class="glyphicon glyphicon-remove-circle"></span>
+							</a>
+						</span>
+					</div>
 				</div>
-				<a href="" class="btn btn-primary" id="search-submit">Search</a>
 			</form>
 
 			<div id="topic-list">
-				<p><b><a href="">Featured</a> / <a href="">All</a></b></p>
+				<p><b>
+					<span id="featured-link">Featured</span> / 
+					<span id="all-link"><a href="">All</a></span>
+				</b></p>
 				
 				<p id="all-topics" class="topic-list">
 					<% @all_topics.each_with_index do |topic, i| %>
@@ -41,6 +57,9 @@
 						<% end %>
 					<% end %>
 				</p>
+			</div>
+
+			<div id="search-results">
 			</div>
 		</div>
 	</div>
@@ -77,15 +96,115 @@
 </div>
 
 <script>
+
+	$("#search-cancel").hide();
+	$("#search-results").hide();
+	$("#all-topics").hide();
+
 	$(document).ready(function() {
+
+		// When user clicks on Featured topics link, hide the All topics div
+		// and show the Featured topics div. Then change take away the link from 
+		// Featured and add the link to All
+		$(document).on("click", "#featured-link a", function() {
+			$("#all-topics").hide();
+			$("#featured-topics").show();
+			
+			$("#all-link").html("<a href=''>All</a>");
+			$("#featured-link").html("Featured");
+
+			return false;
+		});
+
+		// When user clicks on All topics link, hide the Featured topics div
+		// and show the All topics div. Then change take away the link from 
+		// All and add the link to Featured
+		$(document).on("click", "#all-link a", function() {
+			$("#featured-topics").hide();
+			$("#all-topics").show();
+			
+			$("#featured-link").html("<a href=''>Featured</a>");
+			$("#all-link").html("All");
+
+			return false;
+		});
+
+		// Submit the search form when someone clicks the magnifying glass
 		$("#search-submit").click(function() {
+			$("#search-form").submit();
+
+			return false;
+		});
+
+
+		// Submit the search form when some presses enter in the search field
+		$("#topic-search-input").keypress(function(e) {
+			if (e.which == 13)
+			{
+				$("#search-form").submit();
+				
+				return false;
+			}
+		});
+		
+		// When the search form is submited, perform a .post to home/dashboard
+		// with the search_term. Then take the result and print it appropriately
+		$("#search-form").on('submit', function() {
 			var action = $("#search-form").attr('action');
 			var content = $("#search-form").serialize();
 
+			// Perform the post action to home/dashboard
 			$.post(action, content, function(data){
-				var term = data['search_term'];
-				$("#topic-list").html(term);
+				// matching_topics is the return result
+				var matching_topics = data['results'];
+
+				// term is the variable the HTML will be stored in to be written
+				// into the empty div to display the search results
+				var term = "";
+
+				// If there are no results, print 'No topics added yet'
+				if(matching_topics.length == 0)
+				{
+					term = term + "No topics added yet";
+				}
+				// If there are results, loop through them, making each one into a link
+				else
+				{
+					for (var i=0; i<matching_topics.length; i++)
+					{
+						term = term + "<a href=''>" + matching_topics[i].name + "</a> "
+
+						if(i != matching_topics.length-1)
+						{
+							term = term + "&#8901 "
+						}
+					}
+				}
+
+				// Write the results into the empty div for search results
+				$("#search-results").html(term);
+				
+				// Turn the magnifying glass into a cancel button. Show the search results
+				// hide the all / featured topics
+				$("#search-results").show();
+				$("#search-cancel").show();
+				$("#search-submit").hide();
+				$("#topic-list").hide();
 			}, "json");
+
+			return false;
+		});
+
+		// When the search is canceled, turn the cancel button into a magnifying glass, 
+		// hide the search results and show the all / featured topics
+		$("#search-cancel").click(function() {
+			$("#search-submit").show();
+			$("#search-cancel").hide();
+			$("#search-results").html("");
+			$("#search-results").hide();
+			$("#topic-list").show();
+
+			$("#topic-search-input").val("");
 
 			return false;
 		});

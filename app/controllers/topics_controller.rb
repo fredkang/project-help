@@ -1,10 +1,40 @@
 class TopicsController < ApplicationController
   def search
-  	search_term = params['search_term']
+  	search_term = params['search_term'].downcase
+
+  	# Create an empty array to store the search results. Results will be returned
+  	# as an array of Topics that match the search_term
+  	search_result = []
+
+  	# Scan through every topic and check the search term against it
+  	topics = Topic.all.to_a
+  	topics.each do |topic|
+
+  		# Check if the search_term matches with the topic name
+  		topic_name_match = !topic.name.downcase.match(search_term).nil?
+  		
+  		# Check if the search_term matches with any of helpoffers associated with
+  		# this topic. Have to grab all of the helpoffers referencing this topic 
+  		# first and check the search-term agains it
+  		help_offer_match = false
+  		helpoffers = topic.helpoffers.all.to_a
+
+  		helpoffers.each do |helpoffer|
+
+  			# Check the search term against both the title and the description
+  			if helpoffer.title.downcase.match(search_term) || helpoffer.description.downcase.match(search_term)
+  				help_offer_match = true
+  			end
+  		end
+
+  		if topic_name_match || help_offer_match
+  			search_result.push(topic)
+  		end
+  	end
   	
   	respond_to do |format|
 	  	format.html { redirect_to '/home/dashboard' }
-	  	format.json { render json: {:search_term => search_term} }
+	  	format.json { render json: {:results => search_result} }
 	end
   end
 
