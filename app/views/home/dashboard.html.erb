@@ -40,7 +40,7 @@
 					<span id="all-link"><a href="">All</a></span>
 				</b></p>
 				
-				<p id="all-topics" class="topic-list">
+				<p id="all-topics" class="topic-sub-list">
 					<% @all_topics.each_with_index do |topic, i| %>
 						<a href=""><%=topic.name%></a> 
 						<% if i != @all_topics.length-1 %>
@@ -49,7 +49,7 @@
 					<% end %>
 				</p>
 
-				<p id="featured-topics">
+				<p id="featured-topics" class="topic-sub-list">
 					<% @featured_topics.each_with_index do |topic, i| %>
 						<a href=""><%=topic.name%></a> 
 						<% if i != @featured_topics.length-1 %>
@@ -59,7 +59,7 @@
 				</p>
 			</div>
 
-			<div id="search-results">
+			<div id="search-results" class="topic-sub-list">
 			</div>
 		</div>
 	</div>
@@ -81,10 +81,89 @@
 
 		<!-- The list group will contain the Group overviews -->
 		<ul class="list-group">
-			<!-- Each Group will be shown in a list-group-item -->
-			<li class="list-group-item">
-				<h4>Coding Dojo</h4>
-			</li>
+			
+			<% @groups.each_with_index do |group, i| %>
+			
+				<!-- Each Group will be shown in a list-group-item -->
+				<li class="list-group-item dashboard-group-item">
+					<div class="col-sm-12">
+						<h4><%=group.name + " (" + @group_users[i].count.to_s + " people, " + @group_topics[i].count.to_s + " topics)"%></h4>
+					</div>
+
+					<div class="dashboard-group-posts col-sm-8">	
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<label>Post to Coding Dojo</label>
+								<input class="form-control" placeholder="Ask a question or start a discussion with <%=group.name%>"></input>
+							</div>
+							
+							<ul class="list-group">
+								<li class="list-group-item">
+									<b><p class="recent-posts-label">Recent Posts</p></b>
+								
+									<!-- Show the Posts -->
+									<% @group_posts[i].each do |post| %>
+										
+										<!-- Store the author of this post into a variable, as we will need his user info later -->
+										<% postAuthor = User.find(post.user_id) %>
+
+										<!-- Calculate the time elapsed since this post was created and store it in the proper format to be printed out with the comment -->
+										<% timediff = (Time.now - post.created_at).to_i %>
+										
+										<!-- Retreive all of the comments for this post -->
+										<% comments = post.comments.all %>
+										<% newcomment = post.comments.new %>
+										
+										<!-- Use format_time_diff from application helper to return the proper time stamp for comments -->
+										<% timediffString = format_time_diff(timediff) %>	
+
+										<div class="post-div">
+											<p><strong><a href="/users/<%=postAuthor.id%>"><%= postAuthor.first_name + " " + postAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
+											<div class="post-text"><p class="post-text"><%= h auto_link(simple_format(post.text.gsub(/\r\n/, '<br />'))) %></p>
+											</div>
+										</div>
+									<% end %>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="dashboard-featured-members col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								Featured Members
+							</div>
+							
+							<ul class="list-group">
+								<% @group_helpers[i].each do |user| %>
+									<li class="list-group-item">
+										<div class="media">
+											<div class="pull-left">
+												<% if user.image.file.nil? || !user.image.thumb.file.exists? %>
+													<img src = "http://placekitten.com/35/35" class="media-object">
+												<% else %>
+													<%= image_tag user.image_url(:tiny_thumb).to_s, class:"media-object" %>
+												<% end %>
+											</div>
+											<div class="media-body">
+												<p class="featured-user-name"><%=user.first_name + " " +user.last_name%></p>
+												<p class="featured-user-role"><%=user.current%></p>
+												<p class="featured-user-topics">
+													Topics: blahblah
+												</p>
+											</div>
+										</div>
+									</li>
+								<% end %>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="clearfix">
+					</div>
+				</li>
+			<% end %>
+			
 			
 			<!-- The last list-group-item will contain options to add or join groups -->
 			<li class="list-group-item">

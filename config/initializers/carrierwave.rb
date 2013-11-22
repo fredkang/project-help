@@ -1,4 +1,5 @@
 CarrierWave.configure do |config|
+
   config.fog_credentials = {
     # Configuration for Amazon S3 should be made available through an Environment variable.
     # For local installations, export the env variable through the shell OR
@@ -14,6 +15,11 @@ CarrierWave.configure do |config|
     :aws_secret_access_key => ENV['AWS_SECRET_KEY']
   }
 
+  # if Rails.env.development?
+  #   config.fog_directory    = ENV['AWS_S3_BUCKET_DEV']
+  # else
+  #   config.fog_directory    = ENV['AWS_S3_BUCKET']
+  # end
  
   config.fog_directory    = ENV['AWS_S3_BUCKET']
   

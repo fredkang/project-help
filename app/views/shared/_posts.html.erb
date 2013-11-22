@@ -20,43 +20,7 @@
 
 	<% posts.each do |post| %>
 
-		<!-- Store the author of this post into a variable, as we will need his user info later -->
-		<% postAuthor = User.find(post.user_id) %>
-
-		<!-- Calculate the time elapsed since this post was created and store it in the proper format to be printed out with the comment -->
-		<% timediff = (Time.now - post.created_at).to_i %>
-		
-		<!-- Retreive all of the comments for this post -->
-		<% comments = post.comments.all %>
-		<% newcomment = post.comments.new %>
-		
-		<!-- Use format_time_diff from application helper to return the proper time stamp for comments -->
-		<% timediffString = format_time_diff(timediff) %>	
-
-		<div class="post-div">
-			<p><strong><a href="/users/<%=postAuthor.id%>"><%= postAuthor.first_name + " " + postAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
-			<p class="post-text"><%= h auto_link(simple_format(post.text.gsub(/\r\n/, '<br />'))) %></p>
-			
-			<div class="comments-container col-sm-11 col-sm-offset-1">
-				<% comments.each do |comment| %>
-					
-					<% commentAuthor = User.find(comment.user_id) %>
-					<% timediff = (Time.now - comment.created_at).to_i %>
-					<% timediffString = format_time_diff(timediff) %>
-					
-					<div class="comment-div">
-						<p><strong><a href="/users/<%=commentAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
-						<p class="post-text"><%= h auto_link(simple_format(comment.text.gsub(/\r\n/, '<br />'))) %></p>
-					</div>
-				<% end %>
-
-				<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
-					<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
-					<%= f.input :post_id, :as=>:hidden, input_html: {:value => post.id} %>
-					<%= f.input :text, label:false, placeholder: "Post a reply!" %>
-					<%= f.button :submit, value: "Comment", class: "btn btn-primary"%>
-				<% end %>
-			</div>
-		</div>
+		<!-- Show the Posts and Comments section -->
+		<%= render partial: "/shared/singlepost", locals: {:post=>post} %>
 	<% end %>
 </div>
