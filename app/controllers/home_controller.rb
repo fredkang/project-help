@@ -3,34 +3,26 @@ class HomeController < ApplicationController
 
   def dashboard
 
-    # ----- Store all of the users that are in current_user's network in @users -------------------
-
-  	# First grab all of the users
-    all_users = User.all.to_a.sort_by { |obj| obj.first_name }
-
-    @users = []
-
-    # Go through each user and check if it is any of the same groups as the current user
-    # Store users in current_user's network in @user
-    all_users.each do |user|
-      if (user.groups.to_a & current_user.groups.to_a).length>0
-        @users.push(user)
-      end
-    end
-
-    # ------ Done getting all users in the network -------------------------------------------------
-
-
     # ----- Grab all groups the user is in ---------------------------------------------------------
     @groups = current_user.groups.all.to_a
     @group_users = []
     @group_topics = []
     @group_helpers = []
     @group_posts = []
+    @users = []
+    @all_topics = []
 
     @groups.each_with_index do |group, i|
-      @group_users[i] = group.users.all.to_a
+      @group_users[i] = group.users.includes(:helpoffers).all.to_a
       @group_topics[i] = group.topics.all.to_a
+
+      # Store all of the users in each of the current_users' groups into @users. This is current_user's
+      # network of users
+      @users = @users|@group_users[i]
+
+      # Store all of the topics in each of the current_users' groups into @all_topics. This array
+      # contains all of the help topics available to current_user
+      @all_topics = @all_topics|@group_topics[i]
 
       # Get the 5 people with the most helpoffers in this group. Reference the @group_users array
       # above which already has the users in this group
@@ -46,24 +38,7 @@ class HomeController < ApplicationController
     # ----- Done grabbing all groups the user is in ------------------------------------------------
     
 
-    # ------ Get all of the topics available to current_user, deliver in both all and featured topics
-
-    # Store all of the topics of available in the current_user's network - all of the topics
-    # that @users have listed - in @all_topics. Do this by looping through @group_topics which
-    # already contain all of the topics, just not in the format that we want
-    @all_topics = []
-
-    # Since we already have all of the topics in all of the groups the current_user belongs to
-    # in @group_topics, a 2D array, we need to loop through it to create a new array containing
-    # all topics in a 1D array with no repeats
-    @group_topics.each do |topics|
-      topics.each do |topic|
-        # Only add the topic if it isn't already listed in the array
-        if !@all_topics.include?(topic)
-          @all_topics.push(topic)
-        end
-      end
-    end
+    # ------ Break up all_topics into a featured_topics subset -------------------------------------
 
     # Sort @all_topics alphabetically
     @all_topics = @all_topics.sort_by { |obj| obj.name}
@@ -77,7 +52,7 @@ class HomeController < ApplicationController
   		@featured_topics = @all_topics
   	end
 
-    # ----- Done getting all of the topics available to current_user -------------------------------
+    # ----- Done getting featured_topics -------------------------------
 
 
 
