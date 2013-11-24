@@ -145,6 +145,35 @@ class UsersController < ApplicationController
 
     params[:user].delete(:password) if params[:user][:password].blank?
 
+    # If helpoffers are being created, check if the topic title already exists
+    # and if it doesn't, create the topic
+    helpoffers = params['user']['helpoffers_attributes']
+    if !helpoffers.blank?
+      # if helpoffers.length == 1
+      #   helpoffer = helpoffers[0]
+
+      #   title = helpoffer['title']
+      #   topic = Topic.check_topic(title)
+
+      #   if !topic
+      #     new_topic = Topic.new(name:self.title)
+      #     new_topic.save
+      #   end        
+      # elsif
+      puts helpoffers[0]
+        helpoffers.each do |key, helpoffer|
+          title = helpoffer['title']
+
+          topic = Topic.check_topic(title)
+
+          if !topic
+            new_topic = Topic.new(name:title)
+            new_topic.save
+          end
+        end
+      # end
+    end
+
     respond_to do |format|
       if @user.update_attributes(user_params)
         format.html { redirect_to "/users/"+params[:id].to_s } #@user, notice: 'User was successfully created.' }
