@@ -39,8 +39,25 @@ class TopicsController < ApplicationController
   end
 
   def show
-  	@users
-  	@posts
+    @topic = Topic.find(params[:id])
+  	@users = @topic.users.all.to_a
+    @posts = []
+
+    groups = current_user.groups.all.to_a
+
+    groups.each do |group|
+      topic = "%" + @topic.name + "%"
+      posts = group.posts.where("text like ?", topic).to_a
+      @posts = @posts + posts
+    end
+
+    @posts = @posts.sort {|a,b| b.created_at <=> a.created_at} 
+
+    # all_posts.each do |post|
+    #   if @topic.name.downcase.match(post.text.downcase)
+    #     @posts.push(post)
+    #   end
+    # end
   end
 
 	private

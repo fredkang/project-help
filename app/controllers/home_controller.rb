@@ -36,12 +36,12 @@ class HomeController < ApplicationController
       # above which already has the users in this group
       @group_helpers[i] = @group_users[i].sort {|a,b| b.helpoffers.count <=> a.helpoffers.count}
       if @group_helpers[i].length>5
-        @group_helpers[i] = @group_helpers[i].slice(0..4)
+        @group_helpers[i] = @group_helpers[i].slice(0..2)
       end
 
       # Get the last 2 posts created in this group and store in @group_posts
       @group_posts[i] = group.posts.all.to_a.sort {|a,b| b.created_at <=> a.created_at }
-      @group_posts[i] = @group_posts[i].slice(0..1)
+      @group_posts[i] = @group_posts[i].slice(0..2)
     end
     # ----- Done grabbing all groups the user is in ------------------------------------------------
     

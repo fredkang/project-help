@@ -42,7 +42,7 @@
 				
 				<p id="all-topics" class="topic-sub-list">
 					<% @all_topics.each_with_index do |topic, i| %>
-						<a href=""><%=topic.name%></a> 
+						<a href="/topics/<%=topic.id%>"><%=topic.name%></a> 
 						<% if i != @all_topics.length-1 %>
 							&#8901 
 						<% end %>
@@ -51,7 +51,7 @@
 
 				<p id="featured-topics" class="topic-sub-list">
 					<% @featured_topics.each_with_index do |topic, i| %>
-						<a href=""><%=topic.name%></a> 
+						<a href="/topics/<%=topic.id%>"><%=topic.name%></a> 
 						<% if i != @featured_topics.length-1 %>
 							&#8901 
 						<% end %>
@@ -65,43 +65,102 @@
 	</div>
 </div>
 
-<!-- This container sets the size of the main Group/People section -->
+<!-- This container sets the size of the main Group/People section **************************************** -->
 <div class="col-sm-9 dashboard-container">
 	<!-- Div contains the Group / People section -->
 	<div id="groups-people-main" class="panel panel-default">
 		
 		<!-- Heading for the section -->
 		<div class="panel-heading">
-			<h2 class="panel-title">Groups / People in your network</h2>
+			<h2 class="panel-title"><span id="group-link">Groups</span> / <span id="people-link"><a href="">People</a></span> in your network</h2>
 		</div>
 		
-		<!-- The panel-body will be the section showing members -->
-		<div id="members" class="panel-body">
+		<!-- The panel-body will be the section showing members ******************************************** -->
+		<div id="people" class="panel-body">
+			
+			<!-- Each user is printed out in a well -->
+			<% @users.each do |user| %>
+				<!-- Container for each user well -->
+				<div class="col-sm-4"> 
+					<div class="well well-sm">
+						<div class="media all-users-info">
+							
+							<a href="#" class="pull-left">
+								<% if user.image.file.nil? || !user.image.thumb.file.exists? %>
+									<img src = "http://placekitten.com/50/50" class="media-object">
+								<% else %>
+									<%= image_tag user.image_url(:thumb).to_s, class:"media-object" %>
+								<% end %>
+							</a>
+							
+							<div class="media-body">
+								<p class="media-heading all-users-name">
+									<a href="users/<%=user.id%>"><%=user.first_name + " " + user.last_name%></a>
+								</p>
+
+								<div class="all-users-role"><%=user.current%></div>
+							</div>
+						</div>
+
+						<div class="all-users-topics">
+							<b>Help Topics: </b>
+							<% helpoffers = user.helpoffers.all.to_a %>
+							<% helpoffers.each_with_index do |offer, i| %>
+								<%=offer.title%>
+								<% if i!=helpoffers.length-1 %>
+									&#8901 
+								<% end %>
+							<% end %>
+						</div>
+
+						<div class="all-users-view-profile">
+							<a href="/users/<%=user.id%>" class="btn btn-primary btn-sm">View Profile</a>
+						</div>
+						
+					</div>
+				</div> <!-- end user well -->
+			<% end %> <!-- end printing users -->
 		</div>
 
-		<!-- The list group will contain the Group overviews -->
-		<ul class="list-group">
+		<!-- The list group will contain the Group overviews *********************************************** -->
+		<ul class="list-group" id="groups">
 			
 			<% @groups.each_with_index do |group, i| %>
 			
 				<!-- Each Group will be shown in a list-group-item -->
 				<li class="list-group-item dashboard-group-item">
-					<div class="col-sm-12">
-						<h4><%=group.name + " (" + @group_users[i].count.to_s + " people, " + @group_topics[i].count.to_s + " topics)"%></h4>
+					<div class="col-sm-12 group-heading">
+						<h4><a href="/groups/<%=group.id%>"><%=group.name + " (" + @group_users[i].count.to_s + " people, " + @group_topics[i].count.to_s + " topics)"%></a></h4>
 					</div>
 
 					<div class="dashboard-group-posts col-sm-8">	
 						<div class="panel panel-default">
 							<div class="panel-body">
+
+								<!-- For each group, the user can create a new Post to that group straight from the dashboard -->
 								<label>Post to Coding Dojo</label>
-								<input class="form-control" placeholder="Ask a question or start a discussion with <%=group.name%>"></input>
+
+								<!-- Show the user a dummy input with a prompt. This is shown to the user on page load -->
+								<input class="form-control group-post-dummy-form" placeholder="Ask a question or start a discussion with <%=group.name%>"></input>
+								
+								<!-- When user clicks into the dummy input, the dummy input disappears and the real form appears via jQuery -->
+								<% newpost = group.posts.new %>
+								<%= simple_form_for(newpost, url: '/posts', :html=> {class: "group-post-form"}, :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>'20' } }) do |f| %>
+									<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
+									<%= f.input :postable_id, :as=>:hidden, input_html: {:value => newpost.postable_id} %>
+									<%= f.input :postable_type, :as=>:hidden, input_html: {:value => newpost.postable_type} %>
+									<%= f.input :text, label:false, input_html: {:class=> "group-post-form-textarea form-control"}, placeholder: "Ask a question or start a discussion with Coding Dojo" %>
+									<%= f.button :submit, value: 'Post', class: "btn btn-primary"%>
+									<a href="" class="btn btn-default group-post-form-cancel">Cancel</a>
+								<% end %>
 							</div>
 							
+							<!-- Contain the recent posts of the group in a list-group with 1 list-item -->
 							<ul class="list-group">
 								<li class="list-group-item">
 									<b><p class="recent-posts-label">Recent Posts</p></b>
 								
-									<!-- Show the Posts -->
+									<!-- Print each post -->
 									<% @group_posts[i].each do |post| %>
 										
 										<!-- Store the author of this post into a variable, as we will need his user info later -->
@@ -124,14 +183,14 @@
 										</div>
 									<% end %>
 								</li>
-							</ul>
-						</div>
-					</div>
+							</ul> <!-- End Recent Posts list-group -->
+						</div> <!-- End the Group Posts panel -->
+					</div> <!-- End the Group Posts container div -->
 
 					<div class="dashboard-featured-members col-sm-4">
 						<div class="panel panel-default">
 							<div class="panel-body">
-								Featured Members
+								<b>Most Helpful People</b>
 							</div>
 							
 							<ul class="list-group">
@@ -146,10 +205,17 @@
 												<% end %>
 											</div>
 											<div class="media-body">
-												<p class="featured-user-name"><%=user.first_name + " " +user.last_name%></p>
+												<p class="featured-user-name"><a href="/users/<%=user.id%>"><%=user.first_name + " " +user.last_name%></a></p>
 												<p class="featured-user-role"><%=user.current%></p>
 												<p class="featured-user-topics">
-													Topics: blahblah
+													<b>Topics: </b>
+													<% helpoffers = user.helpoffers.all.to_a %>
+													<% helpoffers.each_with_index do |offer, i| %>
+														<%=offer.title%>
+														<% if i!=helpoffers.length-1 %>
+															&#8901 
+														<% end %>
+													<% end %>
 												</p>
 											</div>
 										</div>
@@ -167,11 +233,35 @@
 			
 			<!-- The last list-group-item will contain options to add or join groups -->
 			<li class="list-group-item">
-				<a class="btn btn-primary">Join Group</a>
-				<a class="btn btn-success">Create Group</a>
+				<div class="col-sm-12 group-heading">
+					<h4>Join or Create Another Group</h4>
+					
+					<a class="btn btn-primary btn-lg" id="join-group-button" data-toggle="modal" href="#joinGroupModal">Join Group</a>
+					<a class="btn btn-success btn-lg" id="add-group-button" data-toggle="modal" href="#groupAddModal">Create Group</a>
+				</div>
+				
 			</li>
 		</ul>
 	</div>
+</div>
+
+<div class="modal fade" id="joinGroupModal" tabindex="-1" role="dialog" aria-labelledby="joinGroupModalLabel" aria-hidden="true" data-no-turbolink="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Sorry! Users can't join other groups yet</h4>
+        </div>
+        <div class="modal-body">
+        	We're still in private alpha and not quite ready for people to join multiple groups yet.
+        </div>
+
+        <div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
 
 <script>
@@ -179,6 +269,8 @@
 	$("#search-cancel").hide();
 	$("#search-results").hide();
 	$("#all-topics").hide();
+	$("#people").hide();
+	$(".group-post-form").hide();
 
 	$(document).ready(function() {
 
@@ -286,6 +378,48 @@
 			$("#topic-search-input").val("");
 
 			return false;
+		});
+
+		// On the main panel, when a user clicks on People, hide the groups and
+		// show the people
+		$(document).on("click", "#people-link a", function() {
+			$("#people").show();
+			$("#groups").hide();
+
+			$("#people-link").html('People');
+			$("#group-link").html('<a href="">Groups</a>');
+
+			return false;
+		});
+
+		// On the main panel, when a user clicks on Groups, hide the People and
+		// show the Groups
+		$(document).on("click", "#group-link a", function() {
+			$("#people").hide();
+			$("#groups").show();
+
+			$("#people-link").html('<a href="">People</a>');
+			$("#group-link").html('Groups');
+
+			return false;
+		});
+
+		// When user clicks into dummy form to make a post to a group, the dummy form
+		// disappears and real form with textarea appears		
+		$(".group-post-dummy-form").focus(function() {
+			var form = $(this).next();
+			$(this).hide();
+			form.show();
+			form.children(".group-post-form-textarea").focus();
+		});
+
+		// When user clicks cancel, dummy form reappears and real form disapepars
+		$(".group-post-form-cancel").click(function() {
+			form = $(this).parent();
+
+			form.children(".group-post-form-textarea").html('');
+			form.hide();
+			form.prev().show();
 		});
 	});
 </script>

@@ -20,4 +20,8 @@ class Group < ActiveRecord::Base
 
 		return false
 	end
+
+	def self.user_get_groups(user_id)
+		return Groupuser.select('group_id').where("user_id = ?", user_id.to_s).to_a
+	end
 end

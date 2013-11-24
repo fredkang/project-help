@@ -1,6 +1,6 @@
 ProjectHelp::Application.routes.draw do
   post "topics/search" => 'topics#search'
-  get "topics/show"
+  get "topics/:id(.:format)"  => 'topics#show'
   get "home/dashboard"
   resources :messages, only: [:create]
   

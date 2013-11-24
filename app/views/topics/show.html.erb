@@ -1,2 +1,110 @@
-<h1>Topics#show</h1>
-<p>Find me in app/views/topics/show.html.erb</p>
+<div class="row">
+	<h1>Topic: <%=@topic.name%></h1>
+</div>
+
+<div class="row">
+	<h2 class="topic-page-heading">Users who can help:</h2>
+	<div class="topic-user-container">
+		<% @users.each do |user| %>
+			<!-- Container for each user well -->
+			<div class="col-sm-3"> 
+				<div class="well well-sm">
+					<div class="media all-users-info">
+						
+						<a href="#" class="pull-left">
+							<% if user.image.file.nil? || !user.image.thumb.file.exists? %>
+								<img src = "http://placekitten.com/50/50" class="media-object">
+							<% else %>
+								<%= image_tag user.image_url(:thumb).to_s, class:"media-object" %>
+							<% end %>
+						</a>
+						
+						<div class="media-body">
+							<p class="media-heading all-users-name">
+								<a href="users/<%=user.id%>"><%=user.first_name + " " + user.last_name%></a>
+							</p>
+
+							<div class="all-users-role"><%=user.current%></div>
+						</div>
+					</div>
+
+					<div class="all-users-topics">
+						<b>Help Topics: </b>
+						<% helpoffers = user.helpoffers.all.to_a %>
+						<% helpoffers.each_with_index do |offer, i| %>
+							<%=offer.title%>
+							<% if i!=helpoffers.length-1 %>
+								&#8901 
+							<% end %>
+						<% end %>
+					</div>
+
+					<div class="all-users-view-profile">
+						<a href="/users/<%=user.id%>" class="btn btn-primary btn-sm">View Profile</a>
+					</div>
+					
+				</div>
+			</div> <!-- end user well -->
+		<% end %>
+	</div>
+</div>
+
+<div class="row">
+	
+	<h2 class="topic-page-heading">Related questions and discussions:</h2>
+
+	<% if @posts.blank? %>
+		No related posts
+	<% end %>
+	
+	<div class="col-sm-8" id="topic-related-discussions">
+		<ul class="list-group">
+
+			<!-- Print each post -->
+			<% @posts.each do |post| %>
+				<%group = Group.find(post.postable_id)%>
+				
+
+				<li class="list-group-item">
+					<a href="/groups/<%=group.id%>">View discussion in <%=group.name%></a>
+					<!-- Store the author of this post into a variable, as we will need his user info later -->
+					<% postAuthor = User.find(post.user_id) %>
+
+					<!-- Calculate the time elapsed since this post was created and store it in the proper format to be printed out with the comment -->
+					<% timediff = (Time.now - post.created_at).to_i %>
+					
+					<!-- Retreive all of the comments for this post -->
+					<% comments = post.comments.all %>
+					<% newcomment = post.comments.new %>
+					
+					<!-- Use format_time_diff from application helper to return the proper time stamp for comments -->
+					<% timediffString = format_time_diff(timediff) %>	
+
+					<div class="post-div">
+						<p>
+							<strong><a href="/users/<%=postAuthor.id%>"><%= postAuthor.first_name + " " + postAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span>
+						</p>
+						
+						<div class="post-text">
+							<p class="post-text"><%= h auto_link(simple_format(post.text.gsub(/\r\n/, '<br />'))) %></p>
+						</div>
+
+						<div class="comments-container col-sm-11 col-sm-offset-1">
+							<% comments.each do |comment| %>
+								
+								<% commentAuthor = User.find(comment.user_id) %>
+								<% timediff = (Time.now - comment.created_at).to_i %>
+								<% timediffString = format_time_diff(timediff) %>
+								
+								<div class="comment-div">
+									<p><strong><a href="/users/<%=commentAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
+									<p class="post-text"><%= h auto_link(simple_format(comment.text.gsub(/\r\n/, '<br />'))) %></p>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				</li>
+			<% end %>
+		</ul>
+	</div>
+</div>
