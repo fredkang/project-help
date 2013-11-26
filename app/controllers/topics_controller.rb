@@ -39,6 +39,9 @@ class TopicsController < ApplicationController
   end
 
   def show
+    # Increment the click count for this topic - keeping track of it to show how popular a topic is
+    Topic.increment_counter(:click_count, params[:id])
+
     @topic = Topic.find(params[:id])
   	@users = @topic.users.all.to_a
     @posts = []

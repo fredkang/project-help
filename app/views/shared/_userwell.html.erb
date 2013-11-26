@@ -16,7 +16,7 @@
 			
 			<a href="/users/<%=user.id%>" class="pull-left">
 				<% if user.image.file.nil? %>
-					<img src = "http://placekitten.com/50/50" class="media-object">
+					<img src="http://placekitten.com/50/50" class="media-object">
 				<% else %>
 					<%= image_tag user.image_url(:thumb).to_s, class:"media-object" %>
 				<% end %>

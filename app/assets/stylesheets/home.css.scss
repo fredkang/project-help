@@ -2,6 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body
+{
+	padding-top:50px;
+}
+
 .dashboard-container
 {
 	margin-top:20px;
@@ -34,6 +39,11 @@
 	margin-bottom:15px;
 	overflow:hidden;
 	font-size:14px;
+}
+
+.post-div p
+{
+	margin:2px;
 }
 
 .recent-posts-label

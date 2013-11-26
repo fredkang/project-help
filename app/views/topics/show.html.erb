@@ -54,7 +54,7 @@
 							</p>
 							
 							<div class="post-text">
-								<p class="post-text"><%= h auto_link(simple_format(post.text.gsub(/\r\n/, '<br />'))) %></p>
+								<p class="post-text"><%= h auto_link(simple_format(post.text)) %></p>
 							</div>
 
 							<div class="comments-container col-sm-11 col-sm-offset-1">
@@ -66,7 +66,7 @@
 									
 									<div class="comment-div">
 										<p><strong><a href="/users/<%=commentAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
-										<p class="post-text"><%= h auto_link(simple_format(comment.text.gsub(/\r\n/, '<br />'))) %></p>
+										<p class="post-text"><%= h auto_link(simple_format(comment.text)) %></p>
 									</div>
 								<% end %>
 							</div>

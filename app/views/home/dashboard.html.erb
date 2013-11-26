@@ -213,14 +213,14 @@
 					<h4>Join or Create Another Group</h4>
 					
 					<a class="btn btn-primary btn-lg" id="join-group-button" data-toggle="modal" href="#joinGroupModal">Join Group</a>
-					<a class="btn btn-success btn-lg" id="add-group-button" data-toggle="modal" href="#groupAddModal">Create Group</a>
+					<a class="btn btn-success btn-lg" id="add-group-button" data-toggle="modal" href="#addGroupModal">Create Group</a>
 				</div>
 				
 			</li>
 		</ul>
 	</div>
 </div>
-
+<div id="dashboard-modals">
 <div class="modal fade" id="joinGroupModal" tabindex="-1" role="dialog" aria-labelledby="joinGroupModalLabel" aria-hidden="true" data-no-turbolink="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -240,6 +240,26 @@
     </div><!-- /.modal-dialog -->
 </div>
 
+<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="addGroupModalLabel" aria-hidden="true" data-no-turbolink="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Sorry! We're not ready for new groups yet</h4>
+        </div>
+        <div class="modal-body">
+        	We're still in private alpha and not quite ready to add new groups yet. Thanks for your interest!
+        </div>
+
+        <div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+</div>
+
 <script>
 
 	$("#search-cancel").hide();
@@ -249,7 +269,6 @@
 	$(".group-post-form").hide();
 
 	$(document).ready(function() {
-
 		// When user clicks on Featured topics link, hide the All topics div
 		// and show the Featured topics div. Then change take away the link from 
 		// Featured and add the link to All
@@ -396,6 +415,6 @@
 			form.children(".group-post-form-textarea").html('');
 			form.hide();
 			form.prev().show();
-		});
+		});	
 	});
 </script>
