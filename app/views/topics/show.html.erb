@@ -77,3 +77,14 @@
 		</div>
 	<% end %>
 </div>
+
+<%= javascript_tag do %>
+  window.userID = '<%= j current_user.id.to_s %>';
+<% end %>
+
+<script>
+  mixpanel.identify(userID);
+  mixpanel.track("Topic Visit Page");
+  
+  
+</script>

@@ -45,7 +45,7 @@
 				<!-- Div showing Featured topics. Hide this topic when All is selected -->
 				<p id="all-topics" class="topic-sub-list">
 					<% @all_topics.each_with_index do |topic, i| %>
-						<a href="/topics/<%=topic.id%>"><%=topic.name%></a> 
+						<a href="/topics/<%=topic.id%>" class="topic-link"><%=topic.name%></a> 
 						<% if i != @all_topics.length-1 %>
 							&#8901 
 						<% end %>
@@ -55,7 +55,7 @@
 				<!-- Div showing All topics. Hide this topic when Featured is selected -->
 				<p id="featured-topics" class="topic-sub-list">
 					<% @featured_topics.each_with_index do |topic, i| %>
-						<a href="/topics/<%=topic.id%>"><%=topic.name%></a> 
+						<a href="/topics/<%=topic.id%>" class="topic-link"><%=topic.name%></a> 
 						<% if i != @featured_topics.length-1 %>
 							&#8901 
 						<% end %>
@@ -220,7 +220,7 @@
 		</ul>
 	</div>
 </div>
-<div id="dashboard-modals">
+
 <div class="modal fade" id="joinGroupModal" tabindex="-1" role="dialog" aria-labelledby="joinGroupModalLabel" aria-hidden="true" data-no-turbolink="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -258,9 +258,15 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-</div>
+
+<%= javascript_tag do %>
+  window.userID = '<%= j current_user.id.to_s %>';
+<% end %>
 
 <script>
+
+	mixpanel.identify(userID);
+  	mixpanel.track("Network Visit Page");
 
 	$("#search-cancel").hide();
 	$("#search-results").hide();
@@ -358,6 +364,8 @@
 				$("#topic-list").hide();
 			}, "json");
 
+			mixpanel.track("Network - Search Submitted");
+
 			return false;
 		});
 
@@ -415,6 +423,15 @@
 			form.children(".group-post-form-textarea").html('');
 			form.hide();
 			form.prev().show();
-		});	
+		});
+
+		// Mixpanel tracking
+		$('.topic-link').click(function () {
+	      	mixpanel.track("Network - Topic Link Clicked");
+	    });
+
+	    $('.view-profile-button').click(function() {
+	      	mixpanel.track("Network - View Full Profile Link Clicked");
+	    });
 	});
 </script>
