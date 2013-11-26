@@ -63,6 +63,7 @@
 
 .featured-user-topics
 {
+	margin-top:5px;
 	font-size:12px;
 	margin-bottom:0px;
 }
@@ -72,16 +73,17 @@
 	margin-bottom:20px;
 }
 
-.all-users-name
+#people .all-users-name
 {
 	font-size:14px;
 	font-weight:bold;
-	margin-bottom:0px;
+	margin-bottom:-1px;
 	margin-top:0px;
 }
 
 .all-users-role
 {
+	margin-top:0px;
 	font-size:13px;
 	font-style:italic;
 }
@@ -90,7 +92,8 @@
 {
 	font-size:12px;
 	margin-top:3px;
-	height:60px;
+	height:55px;
+	overflow:hidden;
 }
 
 .all-users-info
@@ -100,6 +103,7 @@
 
 .all-users-view-profile
 {
+	margin-top:5px;
 	text-align: center;
 }
 

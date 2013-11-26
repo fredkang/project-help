@@ -85,9 +85,9 @@
 					<div class="well well-sm">
 						<div class="media all-users-info">
 							
-							<a href="#" class="pull-left">
+							<a href="/users/<%=user.id%>" class="pull-left">
 								<% if user.image.file.nil? %>
-									<img src = "http://placekitten.com/50/50" class="media-object"> -->
+									<img src = "http://placekitten.com/50/50" class="media-object">
 								<% else %>
 									<%= image_tag user.image_url(:thumb).to_s, class:"media-object" %>
 								<% end %>
@@ -186,24 +186,25 @@
 							</ul> <!-- End Recent Posts list-group -->
 						</div> <!-- End the Group Posts panel -->
 					</div> <!-- End the Group Posts container div -->
-
+					
+					<!-- Panel with Featured Members -->
 					<div class="dashboard-featured-members col-sm-4">
 						<div class="panel panel-default">
 							<div class="panel-body">
-								<b>Most Helpful People</b>
+								<b>Most Helpful Members</b>
 							</div>
 							
 							<ul class="list-group">
 								<% @group_helpers[i].each do |user| %>
 									<li class="list-group-item">
 										<div class="media">
-											<div class="pull-left">
+											<a href="/users/<%=user.id%>" class="pull-left">
 												<% if user.image.file.nil? %> 
 													<img src = "http://placekitten.com/35/35" class="media-object">
 												<% else %>
 													<%= image_tag user.image_url(:tiny_thumb).to_s, class:"media-object" %>
 												<% end %>
-											</div>
+											</a>
 											<div class="media-body">
 												<p class="featured-user-name"><a href="/users/<%=user.id%>"><%=user.first_name + " " +user.last_name%></a></p>
 												<p class="featured-user-role"><%=user.current%></p>
