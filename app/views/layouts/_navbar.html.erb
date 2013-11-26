@@ -40,7 +40,7 @@
 					<% if current_user!=nil && current_user.admin == 1 %>
 						<li><%= link_to "Admin", controller: "users", action: "admin_panel"%></li>
 					<% end %>
-					<li><a href="/users">Network</a></li>
+					<li><a href="/network">Network</a></li>
 					
 					<li><a href="/inbox">Inbox <span class='badge'><%=unread_badge%></span></a></li>
 					

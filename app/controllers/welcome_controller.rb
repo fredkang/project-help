@@ -3,7 +3,7 @@ class WelcomeController < ApplicationController
   	@user = User.new
 
   	if signed_in?
-  		redirect_to "/users"
+  		redirect_to "/network"
   	end
   end
 

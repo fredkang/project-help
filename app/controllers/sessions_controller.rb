@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   		redirect_to "/users/new", flash: {log_errors: "Incorrect email/password" }
   	else
   		sign_in(user)
-  		redirect_to "/users"
+  		redirect_to "/welcome/index"
   	end
   end
 

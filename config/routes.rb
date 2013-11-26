@@ -1,7 +1,7 @@
 ProjectHelp::Application.routes.draw do
-  post "topics/search" => 'topics#search'
+  post "topics/search"        => 'topics#search'
   get "topics/:id(.:format)"  => 'topics#show'
-  get "home/dashboard"
+  get "network/"               => 'home#dashboard'
   resources :messages, only: [:create]
   
   resources :conversations, only: [:create, :update]
