@@ -33,13 +33,16 @@
 					</div>
 				</div>
 			</form>
-
+			
+			<!-- Div that holds all of the topics available to the user. Will either show featured topics or all topics -->
 			<div id="topic-list">
+				<!-- Featured is the default. If user clicks on All, Featured turns into a link -->
 				<p><b>
 					<span id="featured-link">Featured</span> / 
 					<span id="all-link"><a href="">All</a></span>
 				</b></p>
 				
+				<!-- Div showing Featured topics. Hide this topic when All is selected -->
 				<p id="all-topics" class="topic-sub-list">
 					<% @all_topics.each_with_index do |topic, i| %>
 						<a href="/topics/<%=topic.id%>"><%=topic.name%></a> 
@@ -49,6 +52,7 @@
 					<% end %>
 				</p>
 
+				<!-- Div showing All topics. Hide this topic when Featured is selected -->
 				<p id="featured-topics" class="topic-sub-list">
 					<% @featured_topics.each_with_index do |topic, i| %>
 						<a href="/topics/<%=topic.id%>"><%=topic.name%></a> 
@@ -80,45 +84,10 @@
 			
 			<!-- Each user is printed out in a well -->
 			<% @users.each do |user| %>
-				<!-- Container for each user well -->
-				<div class="col-sm-4"> 
-					<div class="well well-sm">
-						<div class="media all-users-info">
-							
-							<a href="/users/<%=user.id%>" class="pull-left">
-								<% if user.image.file.nil? %>
-									<img src = "http://placekitten.com/50/50" class="media-object">
-								<% else %>
-									<%= image_tag user.image_url(:thumb).to_s, class:"media-object" %>
-								<% end %>
-							</a>
-							
-							<div class="media-body">
-								<p class="media-heading all-users-name">
-									<a href="/users/<%=user.id%>"><%=user.first_name + " " + user.last_name%></a>
-								</p>
+				
+				<!-- Call the partial to print the well for each user -->
+				<%= render partial: "/shared/userwell", locals: {:user=>user, :size=>4} %>
 
-								<div class="all-users-role"><%=user.current%></div>
-							</div>
-						</div>
-
-						<div class="all-users-topics">
-							<b>Help Topics: </b>
-							<% helpoffers = user.helpoffers %>
-							<% helpoffers.each_with_index do |offer, i| %>
-								<%=offer.title%>
-								<% if i!=helpoffers.length-1 %>
-									&#8901 
-								<% end %>
-							<% end %>
-						</div>
-
-						<div class="all-users-view-profile">
-							<a href="/users/<%=user.id%>" class="btn btn-primary btn-sm">View Profile</a>
-						</div>
-						
-					</div>
-				</div> <!-- end user well -->
 			<% end %> <!-- end printing users -->
 		</div>
 
@@ -196,6 +165,12 @@
 							
 							<ul class="list-group">
 								<% @group_helpers[i].each do |user| %>
+									<% if user.current.blank? %>
+										<% role = "Current role not added yet" %>
+									<% else %>
+										<% role = user.current %>
+									<% end %>
+
 									<li class="list-group-item">
 										<div class="media">
 											<a href="/users/<%=user.id%>" class="pull-left">
@@ -207,7 +182,7 @@
 											</a>
 											<div class="media-body">
 												<p class="featured-user-name"><a href="/users/<%=user.id%>"><%=user.first_name + " " +user.last_name%></a></p>
-												<p class="featured-user-role"><%=user.current%></p>
+												<p class="featured-user-role"><%=role%></p>
 												<p class="featured-user-topics">
 													<b>Topics: </b>
 													<% helpoffers = user.helpoffers %>
@@ -344,11 +319,11 @@
 				{
 					for (var i=0; i<matching_topics.length; i++)
 					{
-						term = term + "<a href=''>" + matching_topics[i].name + "</a> "
+						term = term + "<a href='/topics/"+matching_topics[i].id+"'>" + matching_topics[i].name + "</a> ";
 
 						if(i != matching_topics.length-1)
 						{
-							term = term + "&#8901 "
+							term = term + "&#8901 ";
 						}
 					}
 				}

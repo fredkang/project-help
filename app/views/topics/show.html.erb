@@ -1,55 +1,24 @@
-<div class="row">
-	<h1>Topic: <%=@topic.name%></h1>
+<div class="row" class="topic-page-row">
+	<h1><%=@topic.name%></h1>
 </div>
 
-<div class="row">
+<!-- Print all of the users who have a helpoffer listed that relates to this topic -->
+<div class="row" class="topic-page-row">
 	<h2 class="topic-page-heading">Users who can help:</h2>
+	
 	<div class="topic-user-container">
+		<!-- Print each user -->
 		<% @users.each do |user| %>
-			<!-- Container for each user well -->
-			<div class="col-sm-3"> 
-				<div class="well well-sm">
-					<div class="media all-users-info">
-						
-						<a href="#" class="pull-left">
-							<% if user.image.file.nil? || !user.image.thumb.file.exists? %>
-								<img src = "http://placekitten.com/50/50" class="media-object">
-							<% else %>
-								<%= image_tag user.image_url(:thumb).to_s, class:"media-object" %>
-							<% end %>
-						</a>
-						
-						<div class="media-body">
-							<p class="media-heading all-users-name">
-								<a href="users/<%=user.id%>"><%=user.first_name + " " + user.last_name%></a>
-							</p>
+			
+			<!-- Call the partial to print the well for each user -->
+			<%= render partial: "/shared/userwell", locals: {:user=>user, :size=>3} %>
 
-							<div class="all-users-role"><%=user.current%></div>
-						</div>
-					</div>
-
-					<div class="all-users-topics">
-						<b>Help Topics: </b>
-						<% helpoffers = user.helpoffers.all.to_a %>
-						<% helpoffers.each_with_index do |offer, i| %>
-							<%=offer.title%>
-							<% if i!=helpoffers.length-1 %>
-								&#8901 
-							<% end %>
-						<% end %>
-					</div>
-
-					<div class="all-users-view-profile">
-						<a href="/users/<%=user.id%>" class="btn btn-primary btn-sm">View Profile</a>
-					</div>
-					
-				</div>
-			</div> <!-- end user well -->
 		<% end %>
 	</div>
 </div>
 
-<div class="row">
+<!-- Print all of the posts that are related to this topic -->
+<div class="row" class="topic-page-row">
 	
 	<h2 class="topic-page-heading">Related questions and discussions:</h2>
 

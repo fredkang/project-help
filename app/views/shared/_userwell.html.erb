@@ -1,0 +1,56 @@
+<!-- If user doesn't have role filled out, fill it out with standard text -->
+<% if user.current.blank? %>
+	<% role = "Current role not added yet" %>
+<% else %>
+	<% role = user.current %>
+<% end %>
+
+<!-- Container for each user well -->
+<div class="col-sm-<%=size%>"> 
+	<div class="well well-sm">
+
+		<!-- Div containing the profile picture, name and role -->
+		<div class="media all-users-info">
+			
+			<a href="/users/<%=user.id%>" class="pull-left">
+				<% if user.image.file.nil? %>
+					<img src = "http://placekitten.com/50/50" class="media-object">
+				<% else %>
+					<%= image_tag user.image_url(:thumb).to_s, class:"media-object" %>
+				<% end %>
+			</a>
+			
+			<div class="media-body">
+				<p class="media-heading all-users-name">
+					<a href="/users/<%=user.id%>"><%=user.first_name + " " + user.last_name%></a>
+				</p>
+
+				<div class="all-users-role"><%=role%></div>
+			</div>
+		</div> <!-- End div containing profile picture, name and role -->
+		
+		<!-- Div containing topics -->
+		<div class="all-users-topics">
+			<b>Help Topics: </b>
+			<% helpoffers = user.helpoffers %>
+			<% helpoffers.each_with_index do |offer, i| %>
+				<%=offer.title%>
+				<% if i!=helpoffers.length-1 %>
+					&#8901 
+				<% end %>
+			<% end %>
+		</div> <!-- End div containing topics -->
+		
+		<!-- Div containg description -->
+		<div class="all-users-description">
+			<p>
+				<%=user.description%>
+			</p>
+		</div>
+
+		<div class="all-users-view-profile">
+			<a href="/users/<%=user.id%>" class="btn btn-primary btn-sm">View Profile</a>
+		</div>
+		
+	</div>
+</div> <!-- end user well -->
