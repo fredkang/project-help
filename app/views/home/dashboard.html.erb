@@ -107,7 +107,7 @@
 							<div class="panel-body">
 
 								<!-- For each group, the user can create a new Post to that group straight from the dashboard -->
-								<label>Post to Coding Dojo</label>
+								<label>Post to <%=group.name%></label>
 
 								<!-- Show the user a dummy input with a prompt. This is shown to the user on page load -->
 								<input class="form-control group-post-dummy-form" placeholder="Ask a question or start a discussion with <%=group.name%>"></input>
@@ -210,7 +210,7 @@
 			<!-- The last list-group-item will contain options to add or join groups -->
 			<li class="list-group-item">
 				<div class="col-sm-12 group-heading">
-					<h4>Join or Create Another Group</h4>
+					<h4>Expand Your Network</h4>
 					
 					<a class="btn btn-primary btn-lg" id="join-group-button" data-toggle="modal" href="#joinGroupModal">Join Group</a>
 					<a class="btn btn-success btn-lg" id="add-group-button" data-toggle="modal" href="#addGroupModal">Create Group</a>
