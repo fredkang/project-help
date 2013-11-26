@@ -70,7 +70,7 @@ ProjectHelp::Application.configure do
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  # config.assets.precompile += %w( search.js )
+  config.assets.precompile += ['home.css']
 
   # Adding Webfonts to the Asset Pipeline
   config.assets.precompile << Proc.new { |path|
