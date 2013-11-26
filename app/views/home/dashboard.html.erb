@@ -86,8 +86,8 @@
 						<div class="media all-users-info">
 							
 							<a href="#" class="pull-left">
-								<% if user.image.file.nil? || !user.image.thumb.file.exists? %>
-									<img src = "http://placekitten.com/50/50" class="media-object">
+								<% if user.image.file.nil? %>
+									<img src = "http://placekitten.com/50/50" class="media-object"> -->
 								<% else %>
 									<%= image_tag user.image_url(:thumb).to_s, class:"media-object" %>
 								<% end %>
@@ -95,7 +95,7 @@
 							
 							<div class="media-body">
 								<p class="media-heading all-users-name">
-									<a href="users/<%=user.id%>"><%=user.first_name + " " + user.last_name%></a>
+									<a href="/users/<%=user.id%>"><%=user.first_name + " " + user.last_name%></a>
 								</p>
 
 								<div class="all-users-role"><%=user.current%></div>
@@ -104,7 +104,7 @@
 
 						<div class="all-users-topics">
 							<b>Help Topics: </b>
-							<% helpoffers = user.helpoffers.all.to_a %>
+							<% helpoffers = user.helpoffers %>
 							<% helpoffers.each_with_index do |offer, i| %>
 								<%=offer.title%>
 								<% if i!=helpoffers.length-1 %>
@@ -130,7 +130,7 @@
 				<!-- Each Group will be shown in a list-group-item -->
 				<li class="list-group-item dashboard-group-item">
 					<div class="col-sm-12 group-heading">
-						<h4><a href="/groups/<%=group.id%>"><%=group.name + " (" + @group_users[i].count.to_s + " people, " + @group_topics[i].count.to_s + " topics)"%></a></h4>
+						<h4><a href="/groups/<%=group.id%>"><%=group.name + " (" + @group_users[i].size.to_s + " people, " + @group_topics[i].size.to_s + " topics)"%></a></h4>
 					</div>
 
 					<div class="dashboard-group-posts col-sm-8">	
@@ -170,7 +170,7 @@
 										<% timediff = (Time.now - post.created_at).to_i %>
 										
 										<!-- Retreive all of the comments for this post -->
-										<% comments = post.comments.all %>
+										<% comments = post.comments %>
 										<% newcomment = post.comments.new %>
 										
 										<!-- Use format_time_diff from application helper to return the proper time stamp for comments -->
@@ -178,7 +178,7 @@
 
 										<div class="post-div">
 											<p><strong><a href="/users/<%=postAuthor.id%>"><%= postAuthor.first_name + " " + postAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
-											<div class="post-text"><p class="post-text"><%= h auto_link(simple_format(post.text.gsub(/\r\n/, '<br />'))) %></p>
+											<div class="post-text"><%= h auto_link(simple_format(post.text)) %>
 											</div>
 										</div>
 									<% end %>
@@ -198,7 +198,7 @@
 									<li class="list-group-item">
 										<div class="media">
 											<div class="pull-left">
-												<% if user.image.file.nil? || !user.image.thumb.file.exists? %>
+												<% if user.image.file.nil? %> 
 													<img src = "http://placekitten.com/35/35" class="media-object">
 												<% else %>
 													<%= image_tag user.image_url(:tiny_thumb).to_s, class:"media-object" %>
@@ -209,7 +209,7 @@
 												<p class="featured-user-role"><%=user.current%></p>
 												<p class="featured-user-topics">
 													<b>Topics: </b>
-													<% helpoffers = user.helpoffers.all.to_a %>
+													<% helpoffers = user.helpoffers %>
 													<% helpoffers.each_with_index do |offer, i| %>
 														<%=offer.title%>
 														<% if i!=helpoffers.length-1 %>

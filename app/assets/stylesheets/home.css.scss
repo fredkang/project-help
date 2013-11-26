@@ -22,15 +22,16 @@
 	overflow:hidden;
 }
 
-#groups-people-main .post-text
+#groups-people-main .post-text p
 {
-	line-height:15px;
+	margin-bottom:8px;
+	/*line-height:15px;*/
 }
 
 #groups-people-main .post-div
 {
 	margin-top:inherit;
-	margin-bottom:20px;
+	margin-bottom:15px;
 	overflow:hidden;
 	font-size:14px;
 }

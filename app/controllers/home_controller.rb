@@ -4,7 +4,8 @@ class HomeController < ApplicationController
   def dashboard
 
     # ----- Grab all groups the user is in ---------------------------------------------------------
-    @groups = current_user.groups.all.to_a
+    # @groups = current_user.groups.includes(:posts, {groupusers: {user: {helpoffers: :topic}}}).to_a
+    @groups = current_user.groups.includes({posts: :comments}, :topics, {users: :helpoffers}).to_a
     @group_users = []
     @group_topics = []
     @group_helpers = []
@@ -13,8 +14,8 @@ class HomeController < ApplicationController
     @all_topics = []
 
     @groups.each_with_index do |group, i|
-      @group_users[i] = group.users.includes(:helpoffers).all.to_a
-      @group_topics[i] = group.topics.all.to_a
+      @group_users[i] = group.users # .includes(:helpoffers)
+      @group_topics[i] = group.topics
 
       # Store all of the users in each of the current_users' groups into @users. This is current_user's
       # network of users
@@ -26,14 +27,14 @@ class HomeController < ApplicationController
 
       # Get the 5 people with the most helpoffers in this group. Reference the @group_users array
       # above which already has the users in this group
-      @group_helpers[i] = @group_users[i].sort {|a,b| b.helpoffers.count <=> a.helpoffers.count}
+      @group_helpers[i] = @group_users[i].sort {|a,b| b.helpoffers.size <=> a.helpoffers.size}
       if @group_helpers[i].length>5
         @group_helpers[i] = @group_helpers[i].slice(0..2)
       end
 
       # Get the last 2 posts created in this group and store in @group_posts
-      @group_posts[i] = group.posts.all.to_a.sort {|a,b| b.created_at <=> a.created_at }
-      @group_posts[i] = @group_posts[i].slice(0..2)
+      @group_posts[i] = group.posts.order('created_at DESC').limit(3) # group.posts.all.to_a.sort {|a,b| b.created_at <=> a.created_at }
+      # @group_posts[i] = @group_posts[i].slice(0..2)
     end
     # ----- Done grabbing all groups the user is in ------------------------------------------------
     

@@ -63,6 +63,9 @@ gem 'fog'
 # Autolink gem to show text links as <a> tag links
 gem 'rails_autolink', '~> 1.1.5'
 
+# Profiler gem
+gem 'rack-mini-profiler'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

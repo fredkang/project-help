@@ -5,9 +5,9 @@ class GroupsController < ApplicationController
 
   	if Groupuser.group_user_exist?(params[:id], current_user.id)
 	  	@group = Group.find(params[:id])
-	  	@users = @group.users.all.to_a.sort_by { |obj| obj.first_name }
+	  	@users = @group.users.includes(:helpoffers).sort_by { |obj| obj.first_name }
 
-	  	@posts = @group.posts.order("created_at DESC").all
+	  	@posts = @group.posts.includes(:comments).order("created_at DESC")
 	    @newpost = @group.posts.new
 
 	    current_user.notifications.where("notifiable_type = 'Group' and notifiable_id = ?", params[:id]).destroy_all

@@ -160,7 +160,6 @@ class UsersController < ApplicationController
       #     new_topic.save
       #   end        
       # elsif
-      puts helpoffers[0]
         helpoffers.each do |key, helpoffer|
           title = helpoffer['title']
 
