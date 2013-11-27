@@ -56,7 +56,7 @@ ProjectHelp::Application.configure do
     :domain => 'heroku.com', # your domain to identify your server when connecting
   }
 
-  config.action_mailer.default_url_options = { :host => "projecthelp.com" }
+  config.action_mailer.default_url_options = { :host => "projecthelp.co" }
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]

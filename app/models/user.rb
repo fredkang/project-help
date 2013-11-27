@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
 	def send_password_reset
 		generate_token(:password_reset_token)
 		self.password_reset_sent = Time.zone.now
-		save!
+		self.save!
 
 		UserMailer.password_reset(self).deliver
 	end
