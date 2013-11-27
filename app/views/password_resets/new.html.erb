@@ -1,0 +1,17 @@
+<div class="col-sm-12">
+	<h1>Reset Password</h1>
+</div>
+
+<div class="col-sm-4">
+	<% if !flash[:notice].nil? %>
+		<%="Notice: #{flash[:notice]}"%>
+	<% end %>
+
+	<%= form_tag password_resets_path, :method => :post do %>
+		<div class="form-group">
+    		<%= label_tag :email %>
+    		<%= text_field_tag :email, params[:email], class: "form-control" %>
+  		</div>
+  		<div class="actions"><%= submit_tag "Reset Password", class: "btn btn-primary" %></div>
+	<% end %>
+</div>

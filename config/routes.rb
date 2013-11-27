@@ -1,9 +1,17 @@
 ProjectHelp::Application.routes.draw do
+  
+  #Routes for password reset functionality
+  resources :password_resets
+  
+  #Routes for Topics
   post "topics/search"        => 'topics#search'
   get "topics/:id(.:format)"  => 'topics#show'
-  get "network/"               => 'home#dashboard'
-  resources :messages, only: [:create]
   
+  #Routes for home, the only function is dashboard right now
+  get "network/"              => 'home#dashboard'
+
+  #Routes for messages and conversations
+  resources :messages, only: [:create]
   resources :conversations, only: [:create, :update]
   get "inbox/:id(.:format)"   => 'conversations#show'
   get "inbox/"                => 'conversations#index'

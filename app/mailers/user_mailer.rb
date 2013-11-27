@@ -1,6 +1,7 @@
 class UserMailer < ActionMailer::Base
   default from: "Project Help <support@projecthelp.com>"
 
+  # Sent when a new user registers
   def welcome_email(user)
   	@user = user
 
@@ -8,6 +9,7 @@ class UserMailer < ActionMailer::Base
   		 :subject	=> "Welcome to Project Help!"
   end
 
+  # Notification email when a user receives a message
   def message_email(user, sender, message, convoID)
   	@user = user
   	@message = message
@@ -18,14 +20,15 @@ class UserMailer < ActionMailer::Base
            :subject	=> "New message from " + @sender.first_name
   end
 
+  # Daily digest email that is sent once per day when a user has a new post on her profile or there are new posts in any
+  # of their groups
   def dailydigest_email(user)
     @user = user
 
     @profile_posts, @group_posts = Post.new_day_posts(@user)
 
-    # @profileposts
-    # @groupposts = {}
-
+    # @profile_posts is an array with posts. Add an element to the beginning of the array with a string 
+    # declaring how many new posts the user has
     if @profile_posts.length==1
       string = "1 new post on your profile today. Answer or thank them! // www.projecthelp.co/users/" +user.id.to_s
       @profile_posts.unshift(string)
@@ -34,6 +37,8 @@ class UserMailer < ActionMailer::Base
       @profile_posts.unshift(string)
     end
 
+    # @group_posts is an array with posts. Add an element to the beginning of the array with a string 
+    # declaring how many new posts the user has
     @group_posts.each do |group_id, posts|
       if posts.length == 1
         string = "1 new post in " +Group.find(group_id).name+ " today. Answer or thank them! // www.projecthelp.co/groups/" +group_id.to_s
@@ -43,28 +48,17 @@ class UserMailer < ActionMailer::Base
         posts.unshift(string)
       end
 
-      # if id == 0
-      #   if count == 1
-      #     @profileposts = count.to_s + " new post on your profile today. Someone is thanking you or asking you a question."
-      #   else
-      #     @profileposts = count.to_s + " new posts on your profile today. People are thanking you and asking you a questions."
-      #   end
-
-      #   @profileposts = @profileposts + " //  wwww.projecthelp.co/users/" +user.id.to_s
-      # else
-      #   if count == 1
-      #     @groupposts[id] = count.to_s + " new post in " + Group.find(id).name + ". Someone is asking or answering a question."
-      #   else
-      #     @groupposts[id] = count.to_s + " new posts in " + Group.find(id).name + ". People are asking and answering questions."
-      #   end
-
-      #   @groupposts[id] = @groupposts[id] + " //  www.projecthelp.co/groups/" +id.to_s
-      # end
     end
 
     if (@profile_posts!=nil && @profile_posts.length>0) || (@group_posts!=nil && @group_posts.length>0)
       mail  :to       => user.email,
             :subject  => "New posts for you today"
     end
+  end
+
+  # Sends a link to reset the user's password
+  def password_reset(user)
+    @user = user
+    mail :to => user.email, :subject => "Password reset for Project Help"
   end
 end
