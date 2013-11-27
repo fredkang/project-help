@@ -1,3 +1,9 @@
+<!-- Print any notices -->
+<% if !flash[:notice].nil? %>
+	<div class="col-sm-12">
+		<%="Notice: #{flash[:notice]}"%>
+	</div>
+<% end %>
 
 <!-- This container sets the size of of the topics sidebar -->
 <div class="col-sm-3 dashboard-container" >

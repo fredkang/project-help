@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   	user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
 
   	if user == false || user.nil?
-  		redirect_to "/users/new", flash: {log_errors: "Incorrect email/password" }
+  		redirect_to "/users/new", :notice => "Login failed: invalid email or password"
   	else
   		sign_in(user)
   		redirect_to "/welcome/index"
