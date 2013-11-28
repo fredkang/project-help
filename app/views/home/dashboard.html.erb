@@ -6,7 +6,7 @@
 <% end %>
 
 <!-- This container sets the size of of the topics sidebar -->
-<div class="col-sm-3 dashboard-container" >
+<div class="col-sm-3 dashboard-container" id="topics-sidebar-container" data-clampedwidth="#groups-main-container">
 	<!-- Div contains the topics sidebar -->
 	<div id="topics-sidebar" class="panel panel-default">
 		
@@ -76,7 +76,7 @@
 </div>
 
 <!-- This container sets the size of the main Group/People section **************************************** -->
-<div class="col-sm-9 dashboard-container">
+<div class="col-sm-9 col-sm-offset-3 dashboard-container" id="groups-main-container">
 	<!-- Div contains the Group / People section -->
 	<div id="groups-people-main" class="panel panel-default">
 		
@@ -280,7 +280,29 @@
 	$("#people").hide();
 	$(".group-post-form").hide();
 
+	// sideBarNav.width = leftColumn.width - sideBarNav.padding
+
+	
+
+
+
 	$(document).ready(function() {
+
+		// $("#topics-sidebar-container").width($("#groups-main-container").width()/3-20);
+
+		$('[data-clampedwidth]').each(function () {
+		    var elem = $(this);
+		    var parentPanel = elem.data('clampedwidth');
+		    var resizeFn = function () {
+		        var sideBarNavWidth = $(parentPanel).outerWidth()/3 - 30;
+		        elem.width(sideBarNavWidth);
+		    };
+
+		    resizeFn();
+		    $(window).resize(resizeFn);
+		});
+
+
 		// When user clicks on Featured topics link, hide the All topics div
 		// and show the Featured topics div. Then change take away the link from 
 		// Featured and add the link to All
