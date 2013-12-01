@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
 	has_many :receivers, class_name: "Message", foreign_key: "receiver_id", dependent: :destroy
 	has_many :notifications, class_name: "Notification", foreign_key: "user_id", dependent: :destroy
 	has_many :profilenotes, as: :notifiable, class_name: "Notification", foreign_key: "notifiable_id", dependent: :destroy
+	has_many :thanks, as: :thanked, class_name: "Thank", foreign_key: "thanked_id", dependent: :destroy
+	has_many :thankers, class_name: "Thank", foreign_key: "thanker_id", dependent: :destroy
+	has_many :thanked_users, class_name: "Thank", foreign_key: "thanked_uid", dependent: :destroy
 
 	mount_uploader :image, ImageUploader
 

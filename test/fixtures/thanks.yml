@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  thanker_id: 1
+  thanked_id: 
+  thanked_type: Thanked
+  thanked_uid: 1
+
+two:
+  thanker_id: 1
+  thanked_id: 
+  thanked_type: Thanked
+  thanked_uid: 1

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131127003121) do
+ActiveRecord::Schema.define(version: 20131201001950) do
 
   create_table "comments", force: true do |t|
     t.text     "text"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20131127003121) do
     t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "thanks_count", default: 0
   end
 
   add_index "comments", ["post_id"], name: "index_comments_on_post_id"
@@ -138,9 +139,21 @@ ActiveRecord::Schema.define(version: 20131127003121) do
     t.string   "postable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "thanks_count",  default: 0
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+
+  create_table "thanks", force: true do |t|
+    t.integer  "thanker_id"
+    t.integer  "thanked_id"
+    t.string   "thanked_type"
+    t.integer  "thanked_uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "thanks", ["thanked_id", "thanked_type"], name: "index_thanks_on_thanked_id_and_thanked_type"
 
   create_table "topics", force: true do |t|
     t.string   "name"
@@ -164,6 +177,7 @@ ActiveRecord::Schema.define(version: 20131127003121) do
     t.string   "current"
     t.string   "password_reset_token"
     t.datetime "password_reset_sent"
+    t.integer  "thanks_count",         default: 0
   end
 
 end
