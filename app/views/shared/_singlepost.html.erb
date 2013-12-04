@@ -10,31 +10,110 @@
 	<% comments = post.comments.all %>
 	<% newcomment = post.comments.new %>
 	
+	<!-- Get the role of the post author -->
+	<% if postAuthor.current.blank? %>
+		<% role = "Current role not added yet" %>
+	<% else %>
+		<% role = postAuthor.current %>
+	<% end %>
+	
 	<!-- Use format_time_diff from application helper to return the proper time stamp for comments -->
 	<% timediffString = format_time_diff(timediff) %>	
-
+	
+	<!-- Open the container for a post and it's associated comments -->
 	<div class="post-div">
-		<p><strong><a href="/users/<%=postAuthor.id%>"><%= postAuthor.first_name + " " + postAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
-		<div class="post-text"><%= h auto_link(simple_format(post.text)) %></div>
-		
-		<div class="comments-container col-sm-11 col-sm-offset-1">
-			<% comments.each do |comment| %>
-				
-				<% commentAuthor = User.find(comment.user_id) %>
-				<% timediff = (Time.now - comment.created_at).to_i %>
-				<% timediffString = format_time_diff(timediff) %>
-				
-				<div class="comment-div">
-					<p><strong><a href="/users/<%=commentAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
-					<div class="post-text"><%= h auto_link(simple_format(comment.text)) %></div>
+		<!-- Each post is wrapped in a Media div -->
+		<div class="media">
+			<!-- Profile pic, name and role are warpped in a pull-left -->
+			<div class="pull-left post-profile-info">
+				<div class="post-profile-pic">
+					<%= image_tag postAuthor.image_url(:thumb).to_s, class:"media-object" %>
 				</div>
-			<% end %>
 
-			<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
-				<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
-				<%= f.input :post_id, :as=>:hidden, input_html: {:value => post.id} %>
-				<%= f.input :text, label:false, placeholder: "Post a reply!" %>
-				<%= f.button :submit, value: "Comment", class: "btn btn-primary"%>
-			<% end %>
+				<p><a href="/users/<%=postAuthor.id%>"><%=postAuthor.first_name + " " + postAuthor.last_name %></a></p>
+				<p class="post-user-role"><%=role%></p>
+
+			</div>
+			
+			<!-- The Post text and associated comments are wrapped in a media-body -->
+			<div class="media-body">
+
+				<!-- Div with the actual post body, the title, text and thanks -->
+				<div class="post-body">
+					<h4 class="media-heading post-title">
+						Helpful post title!
+					</h4>
+
+					<div class="post-text">
+						<%= h auto_link(simple_format(post.text)) %>
+					</div>
+
+					<div class="post-subtext">
+						<a href="#"><span class="post-thank">Thank</span></a>   &#8901  
+						<a href="#"><span class="post-reply-link">Reply</span></a>   &#8901   
+						<span class="post-time"><%= timediffString %></span>
+					</div>
+
+					<!-- <div class="post-thanks">
+						Thanked by <a href="#">Fred Kang</a>
+					</div> -->
+				</div>
+
+				<% if !comments.blank? %>
+					<div class="h-divider">
+					</div>
+				<% end %>
+				
+				<!-- Div containing all of the comments for this post -->
+				<div class="comments-container">
+					<% comments.each_with_index do |comment, i| %>
+						<% commentAuthor = User.find(comment.user_id) %>
+						<% timediff = (Time.now - comment.created_at).to_i %>
+						<% timediffString = format_time_diff(timediff) %>
+						
+						<!-- Each comment is also wrapped in a media div -->
+						<div class="media single-comment-div">
+							<div class="pull-left">
+								<%= image_tag commentAuthor.image_url(:thumb).to_s, class:"media-object" %>
+							</div>
+
+							<div class="media-body">
+								<p>
+									<a href="/users/<%=commentAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a>
+								</p>
+								<div class="post-text">
+									<%= h auto_link(simple_format(comment.text)) %>
+								</div>
+
+								<div class="post-subtext">
+									<a href="#"><span class="post-thank">Thank</span></a>   &#8901  
+									<a href="#"><span class="post-reply-link">Reply</span></a>   &#8901   
+									<span class="post-time"><%= timediffString %></span>
+								</div>
+							</div>
+
+						</div>
+
+						<% if i < comments.size-1 %>
+							<div class="h-divider">
+							</div>
+						<% end %>
+						
+					<% end %>
+					<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
+							<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
+							<%= f.input :post_id, :as=>:hidden, input_html: {:value => post.id} %>
+							<%= f.input :text, label:false, placeholder: "Post a reply!" %>
+							<%#= f.button :submit, value: "Comment", class: "btn btn-primary"%>
+						<% end %>
+				</div>
+			</div>
 		</div>
+		<!-- 
+		<p><strong><a href="/users/<%#=postAuthor.id%>"><%#= postAuthor.first_name + " " + postAuthor.last_name %></a></strong>   -   <span class="post-time"><%#= timediffString %></span></p>
+		<div class="post-text"><%#= h auto_link(simple_format(post.text)) %></div>
+		 -->
+	</div>
+
+	<div class="h-divider">
 	</div>

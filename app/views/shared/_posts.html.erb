@@ -6,7 +6,7 @@
 	<% prompt = "Post a question or start a discussion" %>
 	<div class="clearfix">
 	</div>
-	<div id="posts_div" class="col-sm-7" data-no-turblink="true">
+	<div id="posts_div" class="col-sm-8" data-no-turblink="true">
 <% end %>
 
 	<p><strong><%= prompt %></strong></p>
@@ -15,7 +15,7 @@
 		<%= f.input :postable_id, :as=>:hidden, input_html: {:value => newpost.postable_id} %>
 		<%= f.input :postable_type, :as=>:hidden, input_html: {:value => newpost.postable_type} %>
 		<%= f.input :text, label:false, placeholder: prompt %>
-		<%= f.button :submit, value: 'Post', class: "btn btn-primary"%>
+		<%#= f.button :submit, value: 'Post', class: "btn btn-primary"%>
 	<% end %>
 
 	<% posts.each do |post| %>

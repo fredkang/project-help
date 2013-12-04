@@ -145,7 +145,7 @@ body
 	#profile-pic-container
 	{
 		margin-right:30px;
-	}
+	}	
 
 	#profile-info
 	{
@@ -198,6 +198,18 @@ body
 	overflow:hidden;
 }
 
+.post-user-role
+{
+	font-size:12px;
+	font-style:italic;
+}
+
+
+.post-profile-info
+{
+	width:120px;
+}
+
 .post-div p
 {
 	margin:2px;
@@ -211,6 +223,41 @@ body
 .post-text p
 {
 	margin-bottom:10px;
+	margin-right:0px;
+	margin-left:0px;
+}
+
+.post-text p:last-child
+{
+	margin-bottom:0px;
+	margin-right:0px;
+	margin-left:0px;
+}
+
+.comments-container
+{
+	margin-top:15px;
+}
+
+.post-body
+{
+	overflow:hidden;
+}
+.post-subtext
+{
+	margin-top:4px;
+	font-size:13px;
+	margin-bottom:10px;
+}
+
+	.post-subtext .post-time
+	{
+		color:#a09d9d;		
+	}
+
+.post-thanks
+{
+	/*margin-top:4px;*/
 }
 
 .comment-div
@@ -218,6 +265,19 @@ body
 	margin-top:15px;
 	/*margin-bottom:10px;*/
 	/*padding-left:30px;*/
+}
+
+.h-divider
+{
+	width:100%;
+	height:1px;
+	background: #DDDDDD;
+	margin-top:4px;
+}
+
+.post-body
+{
+	/*min-height:120px;*/
 }
 
 .new-comment-form
