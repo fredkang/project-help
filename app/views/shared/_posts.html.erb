@@ -13,14 +13,14 @@
 	<div class="clearfix">
 	</div>
 	
-	<div id="posts_div" class="col-sm-8" data-no-turblink="true">
+	<div id="posts_div" class="col-sm-9" data-no-turblink="true">
 <% end %>
 
 <div class="well well-sm">
 
 	<div class="form-group" id="dummy-post-form-div">
 		<p><strong><%= prompt %></strong></p>
-		<input class="form-control" placeholder="<%=prompt%>" id="dummy-form">
+		<input class="form-control" placeholder="<%=prompt%>" id="dummy-post-form">
 	</div>
 
 	<div id = "actual-post-form-div">
@@ -57,18 +57,25 @@
 <% end %>
 
 <script>
-	
-	actual_form = $("#actual-post-form-div")
-	dummy_form = $("#dummy-post-form-div")
+	//Set listeners and check if you should show the actual form for a POST, not the comments
+	actual_form = $("#actual-post-form-div");
+	dummy_form = $("#dummy-post-form-div");
 
 	if (posterrors == false)
 		actual_form.hide();
 	else
 		dummy_form.hide();
 
+	//Set listeners to hide the real form for comments
+	actual_comment_form = $(".actual-comment-form-div");
+	dummy_comment_form = $(".dummy-comment-form-div");
+
+	actual_comment_form.hide();
+
 	$(document).ready(function () {
 		
-		$("#dummy-form").focus(function () {
+		//The following two listeners are for the functionality of the main Post form
+		$("#dummy-post-form").focus(function () {
 			actual_form.show();
 			$("#first-focus-input").focus();
 			dummy_form.hide()
@@ -77,6 +84,21 @@
 		$("#post-cancel").click(function() {
 			dummy_form.show();
 			actual_form.hide();
+
+			return false;
+		});
+
+		//The following two listeners are for the functionality of the comment forms
+		$(".dummy-comment-form").focus(function() {
+			$(this).parent().next().show();
+			$(this).parent().next().find(".actual-comment-form").focus();
+			$(this).parent().hide();
+			
+		});
+
+		$(".comment-cancel").click(function() {
+			$(this).parent().parent().hide();
+			$(this).parent().parent().prev().show();
 
 			return false;
 		});

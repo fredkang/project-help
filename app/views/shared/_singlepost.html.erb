@@ -1,4 +1,5 @@
-<!-- CSS for this is located in Users CSS!!!!!!!! -->
+<!-- CSS for this is located in Users CSS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- Javascript for this is located in _posts.html.erb partial!!!!!!!!!!!!!!!!! -->
 
 	<!-- Store the author of this post into a variable, as we will need his user info later -->
 	<% postAuthor = User.find(post.user_id) %>
@@ -89,7 +90,7 @@
 								</div>
 
 								<div class="post-subtext">
-									<a href="#"><span class="post-thank">Thank</span></a>   &#8901  
+									<a href="#"><span class="post-thank">Helpful!</span></a>   &#8901  
 									<a href="#"><span class="post-reply-link">Reply</span></a>   &#8901   
 									<span class="post-time"><%= timediffString %></span>
 								</div>
@@ -103,19 +104,23 @@
 						<% end %>
 						
 					<% end %>
-					<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
+
+					<div class="form-group dummy-comment-form-div">
+						<input class="form-control dummy-comment-form" placeholder="Post a reply!">
+					</div>
+					
+					<div class="actual-comment-form-div">
+						<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
 							<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
 							<%= f.input :post_id, :as=>:hidden, input_html: {:value => post.id} %>
-							<%= f.input :text, label:false, placeholder: "Post a reply!" %>
-							<%#= f.button :submit, value: "Comment", class: "btn btn-primary"%>
+							<%= f.input :text, label:false, placeholder: "Post a reply!", input_html: {class: "actual-comment-form form-control"} %>
+							<%= f.button :submit, value: "Comment", class: "btn btn-primary"%>
+							<button class="btn btn-default comment-cancel">Cancel</button>
 						<% end %>
+					</div>
 				</div>
 			</div>
 		</div>
-		<!-- 
-		<p><strong><a href="/users/<%#=postAuthor.id%>"><%#= postAuthor.first_name + " " + postAuthor.last_name %></a></strong>   -   <span class="post-time"><%#= timediffString %></span></p>
-		<div class="post-text"><%#= h auto_link(simple_format(post.text)) %></div>
-		 -->
 	</div>
 
 	<div class="h-divider">
