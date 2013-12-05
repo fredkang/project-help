@@ -5,7 +5,17 @@ class Post < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :thanks, as: :thanked, class_name: "Thank", foreign_key: "thanked_id", dependent: :destroy
 
-  validates :text, :user_id, :postable_type, :postable_id, presence: true
+  validates :user_id, :postable_type, :postable_id, presence: true
+  validates :title, presence: true, if: :group_post?
+  validates :text, presence: true, if: :profile_post?
+
+  def group_post?
+    self.postable_type == "Group"
+  end
+
+  def profile_post?
+    self.postable_type == "User"
+  end
 
   def self.new_day_posts(user)
   	# Return a hash with the keys being the groups the user is in with new posts in them that day

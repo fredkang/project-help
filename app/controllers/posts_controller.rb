@@ -24,13 +24,15 @@ class PostsController < ApplicationController
       # When a new post is created on a user's profile, create a new notification for that user
       else
         Notification.new(:notifiable_id=>@post.postable_id, :notifiable_type=>"User", :user_id=>@post.postable_id).save
+      
       end
 
 			format.html { redirect_to '/'+postable_path+'/'+post_params['postable_id'] } #@user, notice: 'User was successfully created.' }
 			format.json { render action: postable_path+'#show', status: :created, location: @post }
 		else
+      session[:post] = @post
 			format.html { redirect_to '/'+postable_path+'/'+post_params['postable_id'], notice: 'Post was not able to be created' }
-			format.json { render json: @user.errors, status: :unprocessable_entity }
+			format.json { render json: @post.errors, status: :unprocessable_entity }
 		end
 	end
   end
@@ -44,6 +46,6 @@ class PostsController < ApplicationController
   private
   # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:text, :user_id, :postable_id, :postable_type)
+      params.require(:post).permit(:title, :text, :user_id, :postable_id, :postable_type)
     end
 end

@@ -75,7 +75,9 @@ class UsersController < ApplicationController
   def show
     @topics = @user.helpoffers
     @posts = @user.posts.order("created_at DESC").all
-    @newpost = @user.posts.new
+    
+    @newpost = session[:post] || @user.posts.new
+    session.delete(:post)
 
     # Remove existing notifications on the current user's profile is the current user is viewing
     # their own profile

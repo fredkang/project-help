@@ -8,7 +8,9 @@ class GroupsController < ApplicationController
 	  	@users = @group.users.includes(:helpoffers).sort_by { |obj| obj.first_name }
 
 	  	@posts = @group.posts.includes(:comments).order("created_at DESC")
-	    @newpost = @group.posts.new
+	    
+	    @newpost = session[:post] || @group.posts.new
+	    session.delete(:post)
 
 	    current_user.notifications.where("notifiable_type = 'Group' and notifiable_id = ?", params[:id]).destroy_all
 	else

@@ -1,22 +1,45 @@
 
 <% if post_on == "user" %>
 	<% prompt = "Ask " + user.first_name + " a question or thank them for their help!" %>
+	<% text_placeholder = prompt %>
+
 	<div id="posts" class="col-sm-12" data-no-turbolink="true">	
+
 <% else %>
-	<% prompt = "Post a question or start a discussion" %>
+	<% prompt = "Ask a question or start a discussion" %>
+	<% title_placeholder = "Add a one-line question or topic for discussion" %>
+	<% text_placeholder = "Add more details here" %>
+	
 	<div class="clearfix">
 	</div>
+	
 	<div id="posts_div" class="col-sm-8" data-no-turblink="true">
 <% end %>
 
-	<p><strong><%= prompt %></strong></p>
-	<%= simple_form_for(newpost, url: '/posts', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>'20' } }) do |f| %>
-		<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
-		<%= f.input :postable_id, :as=>:hidden, input_html: {:value => newpost.postable_id} %>
-		<%= f.input :postable_type, :as=>:hidden, input_html: {:value => newpost.postable_type} %>
-		<%= f.input :text, label:false, placeholder: prompt %>
-		<%#= f.button :submit, value: 'Post', class: "btn btn-primary"%>
-	<% end %>
+<div class="well well-sm">
+
+	<div class="form-group" id="dummy-post-form-div">
+		<p><strong><%= prompt %></strong></p>
+		<input class="form-control" placeholder="<%=prompt%>" id="dummy-form">
+	</div>
+
+	<div id = "actual-post-form-div">
+		<%= simple_form_for(newpost, url: '/posts',  :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>'20' } }) do |f| %>
+			<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
+			<%= f.input :postable_id, :as=>:hidden, input_html: {:value => newpost.postable_id} %>
+			<%= f.input :postable_type, :as=>:hidden, input_html: {:value => newpost.postable_type} %>
+			<% if post_on == "group" %>
+				<%= f.input :title, input_html: {id: "first-focus-input"}, label:"Title", placeholder: title_placeholder, as: :string %>
+				<%= f.input :text, label:"Details", placeholder: text_placeholder %>
+			<% else %>
+				<%= f.input :text, input_html: {id: "first-focus-input"}, label:prompt, placeholder: prompt %>
+			<% end %>
+			<%= f.button :submit, value: 'Post', class: "btn btn-primary"%>
+			<button class="btn btn-default" id="post-cancel">Cancel</button>
+		<% end %>
+
+	</div>
+</div>
 
 	<% posts.each do |post| %>
 
@@ -24,3 +47,38 @@
 		<%= render partial: "/shared/singlepost", locals: {:post=>post} %>
 	<% end %>
 </div>
+
+<%= javascript_tag do %>
+	<% if !@newpost.errors.blank? %>
+  		window.posterrors = true;
+	<% else %>
+		window.posterrors = false;
+	<% end %>
+<% end %>
+
+<script>
+	
+	actual_form = $("#actual-post-form-div")
+	dummy_form = $("#dummy-post-form-div")
+
+	if (posterrors == false)
+		actual_form.hide();
+	else
+		dummy_form.hide();
+
+	$(document).ready(function () {
+		
+		$("#dummy-form").focus(function () {
+			actual_form.show();
+			$("#first-focus-input").focus();
+			dummy_form.hide()
+		});
+
+		$("#post-cancel").click(function() {
+			dummy_form.show();
+			actual_form.hide();
+
+			return false;
+		});
+	});
+</script>

@@ -40,16 +40,19 @@
 
 				<!-- Div with the actual post body, the title, text and thanks -->
 				<div class="post-body">
-					<h4 class="media-heading post-title">
-						Helpful post title!
-					</h4>
+
+					<% if !post.title.blank? %>
+						<h4 class="media-heading post-title">
+							<%=post.title%>
+						</h4>
+					<% end %>
 
 					<div class="post-text">
 						<%= h auto_link(simple_format(post.text)) %>
 					</div>
 
 					<div class="post-subtext">
-						<a href="#"><span class="post-thank">Thank</span></a>   &#8901  
+						<a href="#"><span class="post-thank">Helpful!</span></a>   &#8901  
 						<a href="#"><span class="post-reply-link">Reply</span></a>   &#8901   
 						<span class="post-time"><%= timediffString %></span>
 					</div>

@@ -19,9 +19,9 @@ class Helpoffer < ActiveRecord::Base
   			# new_topic = Topic.new(name:self.title)
   			# new_topic.save
   		
-	  		topic = Topic.where('lower(name) = ?', self.title.downcase).first
+  		topic = Topic.where('lower(name) = ?', self.title.downcase).first
 
-	  		self.topic_id = topic.id
+  		self.topic_id = topic.id
 
   		return true
   	end
