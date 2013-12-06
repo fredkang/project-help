@@ -35,7 +35,7 @@ class TopicsController < ApplicationController
   	respond_to do |format|
 	  	format.html { redirect_to '/home/dashboard' }
 	  	format.json { render json: {:results => search_result} }
-	end
+    end
   end
 
   def show

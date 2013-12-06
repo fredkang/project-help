@@ -10,6 +10,24 @@
 	<!-- Retreive all of the comments for this post -->
 	<% comments = post.comments.all %>
 	<% newcomment = post.comments.new %>
+
+	<!-- Retreive all of the thanks for this post-->
+	<% thanks = post.thanks.all %>
+	
+	<!-- Check if the post has been thanked by the current user -->
+	<% current_thanked = false %>
+	<% thanks.each do |thank| %>
+		<% if thank.thanker_id == current_user.id %>
+			<% current_thanked = true %>
+		<% end %>
+	<% end %>
+
+	<!-- Create the appropriate string to summarize who thanked them for this post -->
+	<% if thanks.length>0 %>
+		<% thanksString = thanks_string(thanks) %>
+	<% end %>
+
+	
 	
 	<!-- Get the role of the post author -->
 	<% if postAuthor.current.blank? %>
@@ -53,14 +71,27 @@
 					</div>
 
 					<div class="post-subtext">
-						<a href="#"><span class="post-thank">Helpful!</span></a>   &#8901  
-						<a href="#"><span class="post-reply-link">Reply</span></a>   &#8901   
+						<a href="/tasks/3" class="post-gave-thanks" data-method="delete" rel="nofollow">(remove)</a>
+						<a href="" class="post-give-thanks">Helpful!</a>   &#8901  
+						<a href="" class="post-reply-link">Reply</a>   &#8901   
 						<span class="post-time"><%= timediffString %></span>
 					</div>
+					
+					<div class="post-thanks">
+						<% if thanks.length > 0 %>
+							<%=raw thanksString%>
+						<% end %>
+					</div>
 
-					<!-- <div class="post-thanks">
-						Thanked by <a href="#">Fred Kang</a>
-					</div> -->
+					<% if current_thanked == false %>
+						<% new_thank = post.thanks.new %>
+						<%= simple_form_for(new_thank, :html => {class: "post-give-thanks-form"}) do |f| %>
+							<%= f.input :thanker_id, :as=>:hidden, input_html: {:value => current_user.id} %>
+							<%= f.input :thanked_id, :as=>:hidden, input_html: {:value => post.id} %>
+							<%= f.input :thanked_type, :as=>:hidden, input_html: {:value => "Post"} %>
+							<%= f.input :thanked_uid, :as=>:hidden, input_html: {:value => postAuthor.id} %>
+						<% end %>
+					<% end %>
 				</div>
 
 				<% if !comments.blank? %>
@@ -74,6 +105,22 @@
 						<% commentAuthor = User.find(comment.user_id) %>
 						<% timediff = (Time.now - comment.created_at).to_i %>
 						<% timediffString = format_time_diff(timediff) %>
+
+						<!-- Retreive all of the thanks for this comment-->
+						<% thanks = comment.thanks.all %>
+						
+						<!-- Check if the comment has been thanked by the current user -->
+						<% current_thanked = false %>
+						<% thanks.each do |thank| %>
+							<% if thank.thanker_id == current_user.id %>
+								<% current_thanked = true %>
+							<% end %>
+						<% end %>
+
+						<!-- Create the appropriate string to summarize who thanked them for this comment -->
+						<% if thanks.length>0 %>
+							<% thanksString = thanks_string(thanks) %>
+						<% end %>
 						
 						<!-- Each comment is also wrapped in a media div -->
 						<div class="media single-comment-div">
@@ -90,10 +137,26 @@
 								</div>
 
 								<div class="post-subtext">
-									<a href="#"><span class="post-thank">Helpful!</span></a>   &#8901  
-									<a href="#"><span class="post-reply-link">Reply</span></a>   &#8901   
+									<a href="" class="post-give-thanks">Helpful!</a>   &#8901  
+									<a href="" class="post-reply-link">Reply</a>   &#8901   
 									<span class="post-time"><%= timediffString %></span>
 								</div>
+
+								<div class="post-thanks">
+									<% if thanks.length > 0 %>
+										<%=raw thanksString%>
+									<% end %>
+								</div>
+
+								<% if current_thanked == false %>
+									<% new_thank = comment.thanks.new %>
+									<%= simple_form_for(new_thank, :html => {class: "post-give-thanks-form"}) do |f| %>
+										<%= f.input :thanker_id, :as=>:hidden, input_html: {:value => current_user.id} %>
+										<%= f.input :thanked_id, :as=>:hidden, input_html: {:value => comment.id} %>
+										<%= f.input :thanked_type, :as=>:hidden, input_html: {:value => "Comment"} %>
+										<%= f.input :thanked_uid, :as=>:hidden, input_html: {:value => commentAuthor.id} %>
+									<% end %>
+								<% end %>
 							</div>
 
 						</div>
@@ -105,19 +168,23 @@
 						
 					<% end %>
 
-					<div class="form-group dummy-comment-form-div">
-						<input class="form-control dummy-comment-form" placeholder="Post a reply!">
+					<div class="comment-form-div">
+
+						<div class="form-group dummy-comment-form-div">
+							<input class="form-control dummy-comment-form" placeholder="Post a reply!">
+						</div>
+						
+						<div class="actual-comment-form-div">
+							<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
+								<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
+								<%= f.input :post_id, :as=>:hidden, input_html: {:value => post.id} %>
+								<%= f.input :text, label:false, placeholder: "Post a reply!", input_html: {class: "actual-comment-form form-control"} %>
+								<%= f.button :submit, value: "Comment", class: "btn btn-primary"%>
+								<button class="btn btn-default comment-cancel">Cancel</button>
+							<% end %>
+						</div>
 					</div>
-					
-					<div class="actual-comment-form-div">
-						<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
-							<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
-							<%= f.input :post_id, :as=>:hidden, input_html: {:value => post.id} %>
-							<%= f.input :text, label:false, placeholder: "Post a reply!", input_html: {class: "actual-comment-form form-control"} %>
-							<%= f.button :submit, value: "Comment", class: "btn btn-primary"%>
-							<button class="btn btn-default comment-cancel">Cancel</button>
-						<% end %>
-					</div>
+
 				</div>
 			</div>
 		</div>

@@ -6,8 +6,8 @@
 	<div id="posts" class="col-sm-12" data-no-turbolink="true">	
 
 <% else %>
-	<% prompt = "Ask a question or start a discussion" %>
-	<% title_placeholder = "Add a one-line question or topic for discussion" %>
+	<% prompt = "Ask a question or post something helpful!" %>
+	<% title_placeholder = "Add a one-line question or topic" %>
 	<% text_placeholder = "Add more details here" %>
 	
 	<div class="clearfix">
@@ -72,6 +72,8 @@
 
 	actual_comment_form.hide();
 
+
+
 	$(document).ready(function () {
 		
 		//The following two listeners are for the functionality of the main Post form
@@ -101,6 +103,38 @@
 			$(this).parent().parent().prev().show();
 
 			return false;
+		});
+
+		//The following listeners are for the Thanks/Helpful functionality
+		$(".post-give-thanks").click(function() {
+			thank_form = $(this).parent().next().next();
+
+			thank_form.submit();
+
+			return false;
+		});
+
+		$(".post-give-thanks-form").on('submit', function() {
+			
+			var action = $(this).attr('action');
+			var content = $(this).serialize();
+			var form = $(this)
+
+			$.post(action, content, function(data) {
+				form.prev().html(data['thank_string']);
+
+				var thank_link = form.prev().prev().find(".post-give-thanks");
+				thank_link.html("Marked as helpful!");
+				thank_link.addClass("post-gave-thanks");
+				thank_link.removeClass("post-give-thanks");
+
+			}, "json");
+
+			return false;
+		});
+
+		$(".post-gave-thanks").click(function() {
+
 		});
 	});
 </script>

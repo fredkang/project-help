@@ -1,5 +1,8 @@
 ProjectHelp::Application.routes.draw do
   
+  #Routes for thanks
+  resources :thanks
+  
   #Routes for password reset functionality
   resources :password_resets
   
