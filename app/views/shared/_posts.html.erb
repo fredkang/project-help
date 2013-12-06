@@ -106,7 +106,7 @@
 		});
 
 		//The following listeners are for the Thanks/Helpful functionality
-		$(".post-give-thanks").click(function() {
+		$(document).on("click", ".post-give-thanks", function() {
 			thank_form = $(this).parent().next().next();
 
 			thank_form.submit();
@@ -114,7 +114,7 @@
 			return false;
 		});
 
-		$(".post-give-thanks-form").on('submit', function() {
+		$(".post-give-thanks-form").submit(function() {
 			
 			var action = $(this).attr('action');
 			var content = $(this).serialize();
@@ -124,17 +124,15 @@
 				form.prev().html(data['thank_string']);
 
 				var thank_link = form.prev().prev().find(".post-give-thanks");
-				thank_link.html("Marked as helpful!");
-				thank_link.addClass("post-gave-thanks");
-				thank_link.removeClass("post-give-thanks");
+				// thank_link.html("Marked as helpful!");
+				// thank_link.addClass("post-gave-thanks");
+				// thank_link.removeClass("post-give-thanks");
+				thank_link.after("<a class='post-gave-thanks' data-method='delete' data-remote='true' href='/thanks/" +data['id']+"' rel='nofollow'>Marked as helpful!</a>");
+				thank_link.remove();
 
 			}, "json");
 
 			return false;
-		});
-
-		$(".post-gave-thanks").click(function() {
-
 		});
 	});
 </script>

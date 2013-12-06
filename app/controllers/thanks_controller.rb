@@ -18,7 +18,7 @@ class ThanksController < ApplicationController
 	  			thank_string = thanks_string(thanked_item.thanks)
 
 	  			format.html { redirect_to '/groups/'+groupid.to_s}
-	  			format.json { render json: {:thank_string => thank_string}}
+	  			format.json { render json: {:thank_string=>thank_string, :id=>@new_thank.id.to_s}}
 	  		else
 	  			format.html { redirect_to '/groups/'+groupid.to_s }
 		  		format.json { render json: {:errors => @new_thank.errors} }
@@ -31,21 +31,23 @@ class ThanksController < ApplicationController
 		@thank = Thank.find(params[:id])
 
 		if @thank.thanked_type == "Post"
-			thanked_item = Post.find(params[:id])
-			groupid = thanked_item.postable_id
+			@thanked_item = Post.find(@thank.thanked_id)
+			@thanked_type = "post"
+			groupid = @thanked_item.postable_id
 
 		elsif @thank.thanked_type == "Comment"
-			thanked_item = Comment.find(params[:id])
-			groupid = Post.find(thanked_item.post_id).postable_id
+			@thanked_item = Comment.find(@thank.thanked_id)
+			@thanked_type = "comment"
+			groupid = Post.find(@thanked_item.post_id).postable_id
 		end
 
 	    @thank.destroy
 
 	    respond_to do |format|
-	    	thank_string = thanks_string{thanked_item.thanks}
+	    	# thank_string = thanks_string(@thanked_item.thanks)
 
       		format.html { redirect_to "/groups/" +groupid.to_s }
-      		format.json { render json: {:thank_string => thank_string} }
+      		format.js #json { render json: {:thank_string => thank_string} }
 	    end
 	end
 

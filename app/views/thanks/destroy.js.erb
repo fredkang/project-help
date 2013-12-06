@@ -1,0 +1,5 @@
+
+var thanked_item = $('#<%=@thanked_type%>-body-<%=@thanked_item.id%>');
+thanked_item.find(".post-gave-thanks").after("<a href='' class='post-give-thanks'>Helpful!</a>");
+thanked_item.find(".post-thanks").html("<%= raw thanks_string(@thanked_item.thanks)%>");
+thanked_item.find(".post-gave-thanks").remove();

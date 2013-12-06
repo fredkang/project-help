@@ -35,7 +35,7 @@ module PostpartialsHelper
 				end 
 			end 
 
-		elsif thanks.length > 2 
+		elsif thanks.length == 3 
 			thanks.each_with_index do |thank, index| 
 				thank_user = User.find(thank.thanker_id) 
 				
@@ -43,10 +43,23 @@ module PostpartialsHelper
 					thanksString += "<a href='/users/" + thank_user.id.to_s+"'>" + thank_user.first_name + "</a>, " 
 
 				else 
-					thanksString += "and " + (thanks.length-3).to_s + " others found this helpful" 
+					thanksString += "and <a href='/users/" + thank_user.id.to_s+"'>" + thank_user.first_name + "</a> found this helpful"
+				end 
+			end
+
+		elsif thanks.length == 4 
+			thanks.each_with_index do |thank, index| 
+				thank_user = User.find(thank.thanker_id) 
+				
+				if index != thanks.length-2 
+					thanksString += "<a href='/users/" + thank_user.id.to_s+"'>" + thank_user.first_name + "</a>, " 
+
+				else 
+					thanksString += "and 2 others found this helpful"
+					break
 				end 
 			end 
-		end 
+		end
 
 		return thanksString
 	end

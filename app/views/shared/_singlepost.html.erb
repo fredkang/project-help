@@ -60,7 +60,7 @@
 			<div class="media-body">
 
 				<!-- Div with the actual post body, the title, text and thanks -->
-				<div class="post-body">
+				<div class="post-body" id="post-body-<%=post.id%>">
 					
 					<!-- Post title if there is a title -->
 					<% if !post.title.blank? %>
@@ -81,9 +81,9 @@
 						<!-- If the current user has thanked this post, print the link to unthank it. Otherwise print
 						the link to thank it -->
 						<% if current_thanked %>
-							<%= link_to "Marked as helpful!", current_thank, class: "post-gave-thanks", method: :delete, remote: true %>   &#8901  
+							<%= link_to "Marked as helpful!", current_thank, class: "post-gave-thanks", method: :delete, remote: true %>   &#8901   
 						<% else %>
-							<a href="" class="post-give-thanks">Helpful!</a>   &#8901  
+							<a href="" class="post-give-thanks">Helpful!</a>   &#8901   
 						<% end %>
 
 						<a href="" class="post-reply-link">Reply</a>   &#8901   
@@ -98,14 +98,12 @@
 					</div>
 					
 					<!-- Hidden form that creates new thanks. When the thank link is clicked this form is submitted -->
-					<% if current_thanked == false %>
-						<% new_thank = post.thanks.new %>
-						<%= simple_form_for(new_thank, :html => {class: "post-give-thanks-form"}) do |f| %>
-							<%= f.input :thanker_id, :as=>:hidden, input_html: {:value => current_user.id} %>
-							<%= f.input :thanked_id, :as=>:hidden, input_html: {:value => post.id} %>
-							<%= f.input :thanked_type, :as=>:hidden, input_html: {:value => "Post"} %>
-							<%= f.input :thanked_uid, :as=>:hidden, input_html: {:value => postAuthor.id} %>
-						<% end %>
+					<% new_thank = post.thanks.new %>
+					<%= simple_form_for(new_thank, :html => {class: "post-give-thanks-form"}) do |f| %>
+						<%= f.input :thanker_id, :as=>:hidden, input_html: {:value => current_user.id} %>
+						<%= f.input :thanked_id, :as=>:hidden, input_html: {:value => post.id} %>
+						<%= f.input :thanked_type, :as=>:hidden, input_html: {:value => "Post"} %>
+						<%= f.input :thanked_uid, :as=>:hidden, input_html: {:value => postAuthor.id} %>
 					<% end %>
 				</div>
 
@@ -123,12 +121,14 @@
 
 						<!-- Retreive all of the thanks for this comment-->
 						<% thanks = comment.thanks.all %>
-						
+
 						<!-- Check if the comment has been thanked by the current user -->
 						<% current_thanked = false %>
+						<% current_thank = "" %>
 						<% thanks.each do |thank| %>
 							<% if thank.thanker_id == current_user.id %>
 								<% current_thanked = true %>
+								<% current_thank = thank %>
 							<% end %>
 						<% end %>
 
@@ -144,26 +144,34 @@
 							</div>
 
 							<div class="media-body">
-								<p>
-									<a href="/users/<%=commentAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a>
-								</p>
-								<div class="post-text">
-									<%= h auto_link(simple_format(comment.text)) %>
-								</div>
+								<!-- Div with the actual post body, the title, text and thanks -->
+								<div id="comment-body-<%=comment.id%>">
+									<p>
+										<a href="/users/<%=commentAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a>
+									</p>
+									<div class="post-text">
+										<%= h auto_link(simple_format(comment.text)) %>
+									</div>
 
-								<div class="post-subtext">
-									<a href="" class="post-give-thanks">Helpful!</a>   &#8901  
-									<a href="" class="post-reply-link">Reply</a>   &#8901   
-									<span class="post-time"><%= timediffString %></span>
-								</div>
+									<div class="post-subtext">
+										<!-- If the current user has thanked this post, print the link to unthank it. Otherwise print
+										the link to thank it -->
+										<% if current_thanked %>
+											<%= link_to "Marked as helpful!", current_thank, class: "post-gave-thanks", method: :delete, remote: true %>   &#8901   
+										<% else %>
+											<a href="" class="post-give-thanks">Helpful!</a>   &#8901   
+										<% end %>
 
-								<div class="post-thanks">
-									<% if thanks.length > 0 %>
-										<%=raw thanksString%>
-									<% end %>
-								</div>
+										<a href="" class="post-reply-link">Reply</a>   &#8901   
+										<span class="post-time"><%= timediffString %></span>
+									</div>
 
-								<% if current_thanked == false %>
+									<div class="post-thanks">
+										<% if thanks.length > 0 %>
+											<%=raw thanksString%>
+										<% end %>
+									</div>
+
 									<% new_thank = comment.thanks.new %>
 									<%= simple_form_for(new_thank, :html => {class: "post-give-thanks-form"}) do |f| %>
 										<%= f.input :thanker_id, :as=>:hidden, input_html: {:value => current_user.id} %>
@@ -171,8 +179,9 @@
 										<%= f.input :thanked_type, :as=>:hidden, input_html: {:value => "Comment"} %>
 										<%= f.input :thanked_uid, :as=>:hidden, input_html: {:value => commentAuthor.id} %>
 									<% end %>
-								<% end %>
-							</div>
+									
+								</div> <!-- End comment-body div -->
+							</div> <!-- End media-body div -->
 
 						</div>
 
