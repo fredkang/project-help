@@ -31,11 +31,11 @@ class ThanksController < ApplicationController
 		@thank = Thank.find(params[:id])
 
 		if @thank.thanked_type == "Post"
-			thanked_item = Post.find(thank_params['thanked_id'])
+			thanked_item = Post.find(params[:id])
 			groupid = thanked_item.postable_id
 
 		elsif @thank.thanked_type == "Comment"
-			thanked_item = Comment.find(thank_params['thanked_id'])
+			thanked_item = Comment.find(params[:id])
 			groupid = Post.find(thanked_item.post_id).postable_id
 		end
 
@@ -43,16 +43,15 @@ class ThanksController < ApplicationController
 
 	    respond_to do |format|
 	    	thank_string = thanks_string{thanked_item.thanks}
-	    	
+
       		format.html { redirect_to "/groups/" +groupid.to_s }
       		format.json { render json: {:thank_string => thank_string} }
 	    end
-  end
 	end
 
 	private
 		# Never trust parameters from the scary internet, only allow the white list through.
 	    def thank_params
-	      params.require(:thank).permit(:thanker_id, :thanked_id, :thanked_type, :thanked_uid)
+	      params.require(:thank).permit(:thanker_id, :thanked_id, :thanked_type, :thanked_uid, '_destroy')
 	    end
 end
