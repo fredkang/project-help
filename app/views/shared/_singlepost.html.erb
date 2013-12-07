@@ -49,7 +49,11 @@
 			<!-- Profile pic, name and role are warpped in a pull-left -->
 			<div class="pull-left post-profile-info">
 				<div class="post-profile-pic">
-					<%= image_tag postAuthor.image_url(:thumb).to_s, class:"media-object" %>
+					<% if postAuthor.image.file.nil? %> 
+						<img src = "http://placekitten.com/50/50" class="media-object">
+					<% else %>
+						<%= image_tag postAuthor.image_url(:thumb).to_s, class:"media-object" %>
+					<% end %>
 				</div>
 
 				<p><a href="/users/<%=postAuthor.id%>"><%=postAuthor.first_name + " " + postAuthor.last_name %></a></p>
@@ -141,7 +145,11 @@
 						<!-- Each comment is also wrapped in a media div -->
 						<div class="media single-comment-div">
 							<div class="pull-left">
-								<%= image_tag commentAuthor.image_url(:thumb).to_s, class:"media-object" %>
+								<% if commentAuthor.image.file.nil? %> 
+									<img src = "http://placekitten.com/50/50" class="media-object">
+								<% else %>
+									<%= image_tag commentAuthor.image_url(:thumb).to_s, class:"media-object" %>
+								<% end %>
 							</div>
 
 							<div class="media-body">
