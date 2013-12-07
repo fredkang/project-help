@@ -21,6 +21,7 @@
 		<% if thank.thanker_id == current_user.id %>
 			<% current_thanked = true %>
 			<% current_thank = thank %>
+			<% break %>
 		<% end %>
 	<% end %>
 

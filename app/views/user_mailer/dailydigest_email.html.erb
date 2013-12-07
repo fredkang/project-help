@@ -8,10 +8,10 @@
     <% @profile_posts.each_with_index do |post, i| %>
       
       <% if i==0 %>
-        <p><b><%= post %></b><p>
+        <h3><b><%= post %></b></h3>
       <% else %>
         <% user_name = User.find(post.user_id).first_name %>
-        <p><%= user_name%> wrote: <%= simple_format(post.text) %><p>
+        <p><%= user_name%> wrote: <%= simple_format(post.text) %></p>
         ------
       <% end %>
     <% end %>
@@ -24,10 +24,18 @@
       
       <% posts.each_with_index do |post, i| %>
         <% if i==0 %>
-          <p><b><%= post %></b><p>
+          <h3><b><%= post %></b></h3>
         <% else %>
           <% user_name = User.find(post.user_id).first_name %>
-          <p><%= user_name%> wrote: <%= simple_format(post.text) %><p>
+          <p>
+            <p><%= user_name%> wrote: </p>
+            
+            <% if !post.title.blank? %>
+              <b><%= post.title %></b>
+            <% end %>
+            
+            <%= simple_format(post.text) %>
+          </p>
           ------
         <% end %>
       <% end %>

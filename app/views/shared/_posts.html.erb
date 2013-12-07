@@ -124,9 +124,7 @@
 				form.prev().html(data['thank_string']);
 
 				var thank_link = form.prev().prev().find(".post-give-thanks");
-				// thank_link.html("Marked as helpful!");
-				// thank_link.addClass("post-gave-thanks");
-				// thank_link.removeClass("post-give-thanks");
+				
 				thank_link.after("<a class='post-gave-thanks' data-method='delete' data-remote='true' href='/thanks/" +data['id']+"' rel='nofollow'>Marked as helpful!</a>");
 				thank_link.remove();
 

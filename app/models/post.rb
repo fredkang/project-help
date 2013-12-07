@@ -43,4 +43,14 @@ class Post < ActiveRecord::Base
   	return profile_posts, group_posts
   end
 
+  # def self.get_response_users(post, comment)
+  #   users = []
+
+  #   users.push(post.user)
+
+  #   comments = Post.comments.includes(:user).where('created_at < ?', comment.created_at )
+
+  #   comments.each
+  # end
+
 end
