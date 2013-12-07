@@ -26,10 +26,16 @@
 			<div class="message">
 				<% if message.sender_id == current_user.id %>
 					<strong><%= "Me (" +timeStamp + "): " %></strong>
-					<%= h auto_link(simple_format(message.text.gsub(/\r\n/, '<br />'))) %>
+					
+					<div class="message-text">
+						<%= h auto_link(simple_format(message.text)) %>
+					</div>
 				<% else %> 
 					<strong><%= message.sender.first_name + " (" +timeStamp + "): "%></strong>
-					<%= h auto_link(simple_format(message.text.gsub(/\r\n/, '<br />'))) %>
+
+					<div class="message-text">
+						<%= h auto_link(simple_format(message.text)) %>
+					</div>
 				<% end %> 
 			</div>
 	  	<% end %>
