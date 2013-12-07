@@ -66,6 +66,9 @@ gem 'rails_autolink', '~> 1.1.5'
 # Profiler gem
 gem 'rack-mini-profiler'
 
+# Gem for New Relic availability monitoring
+gem 'newrelic_rpm'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
