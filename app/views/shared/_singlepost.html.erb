@@ -8,7 +8,7 @@
 	<% timediff = (Time.now - post.created_at).to_i %>
 	
 	<!-- Retreive all of the comments for this post -->
-	<% comments = post.comments.all %>
+	<% comments = post.comments.order(created_at: :asc) %>
 	<% newcomment = post.comments.new %>
 
 	<!-- Retreive all of the thanks for this post-->
@@ -171,7 +171,7 @@
 											<a href="" class="post-give-thanks">Helpful!</a>   &#8901   
 										<% end %>
 
-										<a href="" class="post-reply-link">Reply</a>   &#8901   
+										<a href="" class="comment-reply-link">Reply</a>   &#8901   
 										<span class="post-time"><%= timediffString %></span>
 									</div>
 
