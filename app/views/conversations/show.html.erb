@@ -18,7 +18,7 @@
 	  	<% messages.each do |message| %>
 
 			<% if Time.at(message.updated_at).to_date === Time.now.to_date %>
-				<% timeStamp = Time.at(message.updated_at).strftime "%l:%M %P" %>
+				<% timeStamp = Time.at(message.updated_at).strftime("%I:%M %P").gsub(/^0/, '') %>
 			<% else %>
 				<% timeStamp = Time.at(message.updated_at).strftime "%b %-d" %>
 			<% end %>
