@@ -32,7 +32,7 @@
 
 	    <!-- Extract the titles of the HelpOffers for this user and place into a comma separated string to be printed out below -->
 	    <% helpoffers = [] %>
-	    <% if user.helpoffers.count == 0  %>
+	    <% if user.helpoffers.size == 0  %>
 	      <% helpoffers = "Topics not added yet" %>
 	    <% else %>
 	      <% user.helpoffers.each do |offer| %>

@@ -2,7 +2,7 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :postable, polymorphic:true
 
-  has_many :comments, dependent: :destroy
+  has_many :comments, dependent: :destroy, :order => 'created_at ASC'
   has_many :thanks, as: :thanked, class_name: "Thank", foreign_key: "thanked_id", dependent: :destroy
 
   validates :user_id, :postable_type, :postable_id, presence: true

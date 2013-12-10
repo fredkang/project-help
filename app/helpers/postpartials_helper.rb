@@ -4,10 +4,12 @@ module PostpartialsHelper
 	# that describes who thanked the user for the post or comment
 	def thanks_string(thanks)
 		thanksString = "";
+		num_thanks = thanks.size
 
-		if thanks.length > 4 
+		if num_thanks > 4 
 			thanks.each_with_index do |thank, index| 
-				thank_user = User.find(thank.thanker_id) 
+				# thank_user = User.find(thank.thanker_id) 
+				thank_user = thank.thanker
 
 				if index <= 3 
 					thanksString += "<a href='/users/" + thank_user.id.to_s+"'>"+thank_user.first_name + "</a>, " 
@@ -18,15 +20,17 @@ module PostpartialsHelper
 				end 
 			end 
 
-		elsif thanks.length == 1 
+		elsif num_thanks == 1 
 			thank = thanks[0] 
-			thank_user = User.find(thank.thanker_id) 
+			# thank_user = User.find(thank.thanker_id) 
+			thank_user = thank.thanker
 
 			thanksString += "<a href='/users/" + thank_user.id.to_s+"'>"+thank_user.first_name + "</a> found this helpful" 
 
-		elsif thanks.length == 2 
+		elsif num_thanks == 2 
 			thanks.each_with_index do |thank, index| 
-				thank_user = User.find(thank.thanker_id)
+				# thank_user = User.find(thank.thanker_id)
+				thank_user = thank.thanker
 
 				if index == 0 
 					thanksString += "<a href='/users/" + thank_user.id.to_s+"'>" + thank_user.first_name + "</a>"
@@ -35,9 +39,10 @@ module PostpartialsHelper
 				end 
 			end 
 
-		elsif thanks.length == 3 
+		elsif num_thanks == 3 
 			thanks.each_with_index do |thank, index| 
-				thank_user = User.find(thank.thanker_id) 
+				# thank_user = User.find(thank.thanker_id)
+				thank_user = thank.thanker 
 				
 				if index != thanks.length-1 
 					thanksString += "<a href='/users/" + thank_user.id.to_s+"'>" + thank_user.first_name + "</a>, " 
@@ -47,11 +52,12 @@ module PostpartialsHelper
 				end 
 			end
 
-		elsif thanks.length == 4 
+		elsif num_thanks == 4 
 			thanks.each_with_index do |thank, index| 
-				thank_user = User.find(thank.thanker_id) 
+				# thank_user = User.find(thank.thanker_id) 
+				thank_user = thank.thanker
 				
-				if index != thanks.length-2 
+				if index != num_thanks-2 
 					thanksString += "<a href='/users/" + thank_user.id.to_s+"'>" + thank_user.first_name + "</a>, " 
 
 				else 

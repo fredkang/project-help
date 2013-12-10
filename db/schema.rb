@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131204025650) do
+ActiveRecord::Schema.define(version: 20131210031847) do
 
   create_table "comments", force: true do |t|
     t.text     "text"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20131204025650) do
     t.integer  "thanks_count", default: 0
   end
 
+  add_index "comments", ["created_at"], name: "index_comments_on_created_at"
   add_index "comments", ["post_id"], name: "index_comments_on_post_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
@@ -143,6 +144,7 @@ ActiveRecord::Schema.define(version: 20131204025650) do
     t.text     "title"
   end
 
+  add_index "posts", ["created_at"], name: "index_posts_on_created_at"
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
 
   create_table "thanks", force: true do |t|

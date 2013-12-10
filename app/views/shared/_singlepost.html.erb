@@ -2,13 +2,13 @@
 <!-- Javascript for this is located in _posts.html.erb partial!!!!!!!!!!!!!!!!! -->
 
 	<!-- Store the author of this post into a variable, as we will need his user info later -->
-	<% postAuthor = User.find(post.user_id) %>
+	<% postAuthor = post.user %>
 
 	<!-- Calculate the time elapsed since this post was created and store it in the proper format to be printed out with the comment -->
 	<% timediff = (Time.now - post.created_at).to_i %>
 	
 	<!-- Retreive all of the comments for this post -->
-	<% comments = post.comments.order(created_at: :asc) %>
+	<% comments = post.comments.all %>
 	<% newcomment = post.comments.new %>
 
 	<!-- Retreive all of the thanks for this post-->
@@ -112,7 +112,7 @@
 					<% end %>
 				</div>
 
-				<% if !comments.blank? %>
+				<% if !comments.to_a.empty? %>
 					<div class="h-divider">
 					</div>
 				<% end %>
@@ -120,7 +120,7 @@
 				<!-- Div containing all of the comments for this post -->
 				<div class="comments-container">
 					<% comments.each_with_index do |comment, i| %>
-						<% commentAuthor = User.find(comment.user_id) %>
+						<% commentAuthor = comment.user %>
 						<% timediff = (Time.now - comment.created_at).to_i %>
 						<% timediffString = format_time_diff(timediff) %>
 
@@ -145,7 +145,7 @@
 						<!-- Each comment is also wrapped in a media div -->
 						<div class="media single-comment-div">
 							<div class="pull-left">
-								<% if commentAuthor.image.file.nil? %> 
+								<% if commentAuthor.image.blank? %> 
 									<img src = "http://placekitten.com/50/50" class="media-object">
 								<% else %>
 									<%= image_tag commentAuthor.image_url(:thumb).to_s, class:"media-object" %>
