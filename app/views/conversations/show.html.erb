@@ -68,8 +68,10 @@
 	$(document).ready(function() {
 		$("#message-create").submit(function() {
 			$.post($(this).attr('action'), $(this).serialize(), function(data) {
+					var message = $(".message-input").val();
+
 					$(".panel-body").find(".message").last().after(function() {
-						return "<div class='message'><strong>Me (just now):</strong><br> "+$(".message-input").val()+"</div>";
+						return "<div class='message'><strong>Me (just now):</strong><br> "+message.replace(/\n\r?/g, "<br />")+"</div>";
 					});
 
 					$(".message-input").val("");			
