@@ -74,7 +74,7 @@ class UsersController < ApplicationController
 
   def show
     @topics = @user.helpoffers
-    @posts = @user.posts.order("created_at DESC").all
+    @posts = @user.posts.includes({comments: [{thanks: :thanker}, :user]}, {thanks: :thanker}, :user).order("created_at DESC").all
     
     @newpost = session[:post] || @user.posts.new
     session.delete(:post)
@@ -86,15 +86,21 @@ class UsersController < ApplicationController
     end
 
     # Check if the user you're viewing is in any of the same groups as the viewer
-    groups = current_user.groups.all.to_a
-    @same_group = false
-    
-    for i in 0...groups.length
-      if Groupuser.group_user_exist?(groups[i].id, @user.id)
-        @same_group = true
-        break
-      end
+    current_groups = current_user.groups.all.to_a
+    viewed_groups = @user.groups.all.to_a
+
+    if (current_groups & viewed_groups).empty?
+      @same_group = false
+    else
+      @same_group = true
     end
+    
+    # for i in 0...groups.length
+    #   if Groupuser.group_user_exist?(groups[i].id, @user.id)
+    #     @same_group = true
+    #     break
+    #   end
+    # end
 
     # Get the existing conversation between the viewer and the viewee, or create a new conversation
     # otherwise

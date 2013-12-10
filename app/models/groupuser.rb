@@ -7,7 +7,7 @@ class Groupuser < ActiveRecord::Base
   validates :groupowner, :presence => true
 
   def self.group_user_exist?(group_id, user_id)
-  	if self.where('group_id = ? and user_id = ?', group_id, user_id).blank?
+  	if self.where('group_id = ? and user_id = ?', group_id, user_id).to_a.empty?
   		return false
   	else
   		return true
