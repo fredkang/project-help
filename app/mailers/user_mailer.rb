@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "Project Help <support@projecthelp.com>"
+  default from: "Project Help <support@projecthelp.co>"
 
   # Sent when a new user registers
   def welcome_email(user)
