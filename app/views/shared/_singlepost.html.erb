@@ -120,79 +120,8 @@
 				<!-- Div containing all of the comments for this post -->
 				<div class="comments-container">
 					<% comments.each_with_index do |comment, i| %>
-						<% commentAuthor = comment.user %>
-						<% timediff = (Time.now - comment.created_at).to_i %>
-						<% timediffString = format_time_diff(timediff) %>
-
-						<!-- Retreive all of the thanks for this comment-->
-						<% thanks = comment.thanks.all %>
-
-						<!-- Check if the comment has been thanked by the current user -->
-						<% current_thanked = false %>
-						<% current_thank = "" %>
-						<% thanks.each do |thank| %>
-							<% if thank.thanker_id == current_user.id %>
-								<% current_thanked = true %>
-								<% current_thank = thank %>
-							<% end %>
-						<% end %>
-
-						<!-- Create the appropriate string to summarize who thanked them for this comment -->
-						<% if thanks.length>0 %>
-							<% thanksString = thanks_string(thanks) %>
-						<% end %>
-						
-						<!-- Each comment is also wrapped in a media div -->
-						<div class="media single-comment-div">
-							<div class="pull-left">
-								<% if commentAuthor.image.blank? %> 
-									<img src = "http://placekitten.com/50/50" class="media-object">
-								<% else %>
-									<%= image_tag commentAuthor.image_url(:thumb).to_s, class:"media-object" %>
-								<% end %>
-							</div>
-
-							<div class="media-body">
-								<!-- Div with the actual post body, the title, text and thanks -->
-								<div id="comment-body-<%=comment.id%>">
-									<p>
-										<a href="/users/<%=commentAuthor.id%>"><%= commentAuthor.first_name + " " + commentAuthor.last_name %></a>
-									</p>
-									<div class="post-text">
-										<%= h auto_link(simple_format(comment.text)) %>
-									</div>
-
-									<div class="post-subtext">
-										<!-- If the current user has thanked this post, print the link to unthank it. Otherwise print
-										the link to thank it -->
-										<% if current_thanked %>
-											<%= link_to "Marked as helpful!", current_thank, class: "post-gave-thanks", method: :delete, remote: true %>   &#8901   
-										<% else %>
-											<a href="" class="post-give-thanks">Helpful!</a>   &#8901   
-										<% end %>
-
-										<a href="" class="comment-reply-link">Reply</a>   &#8901   
-										<span class="post-time"><%= timediffString %></span>
-									</div>
-
-									<div class="post-thanks">
-										<% if thanks.length > 0 %>
-											<%=raw thanksString%>
-										<% end %>
-									</div>
-
-									<% new_thank = comment.thanks.new %>
-									<%= simple_form_for(new_thank, :html => {class: "post-give-thanks-form"}) do |f| %>
-										<%= f.input :thanker_id, :as=>:hidden, input_html: {:value => current_user.id} %>
-										<%= f.input :thanked_id, :as=>:hidden, input_html: {:value => comment.id} %>
-										<%= f.input :thanked_type, :as=>:hidden, input_html: {:value => "Comment"} %>
-										<%= f.input :thanked_uid, :as=>:hidden, input_html: {:value => commentAuthor.id} %>
-									<% end %>
-									
-								</div> <!-- End comment-body div -->
-							</div> <!-- End media-body div -->
-
-						</div>
+						<!-- Show the Posts and Comments section -->
+						<%= render partial: "/shared/singlecomment", locals: {:comment=>comment} %>
 
 						<% if i < comments.size-1 %>
 							<div class="h-divider">
@@ -208,7 +137,7 @@
 						</div>
 						
 						<div class="actual-comment-form-div">
-							<%= simple_form_for(newcomment, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
+							<%= simple_form_for(newcomment, :remote => true, :html => {class: "actual-comment-form-to-submit"}, url: '/comments', :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control new-comment-form", :size=>'20' } }) do |f| %>
 								<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
 								<%= f.input :post_id, :as=>:hidden, input_html: {:value => post.id} %>
 								<%= f.input :text, label:false, placeholder: "Post a reply!", input_html: {class: "actual-comment-form form-control"} %>

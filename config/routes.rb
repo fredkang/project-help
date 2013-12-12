@@ -31,7 +31,7 @@ ProjectHelp::Application.routes.draw do
   resources :users 
 
   #Basic routes for Posts and Comments, but only create, update and destroy
-  resources :posts, only: [:create, :update, :destroy]
+  resources :posts, only: [:create, :update, :destroy, :show]
   resources :comments, only: [:create, :update, :destroy]
 
   #Routes for logging in and logging out

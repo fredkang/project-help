@@ -13,6 +13,7 @@ class CommentsController < ApplicationController
 		respond_to do |format|
 
 			if @comment.save
+
 				if @comment.post.postable_type == "Group"
 					users = Group.find(@comment.post.postable_id).users.all
 
@@ -23,8 +24,12 @@ class CommentsController < ApplicationController
 					Notification.new(:notifiable_id=>@comment.post.postable_id, :notifiable_type=>"User", :user_id=>@comment.post.postable_id).save
 				end
 
+				@user = User.find(@comment.user_id)
+
 				format.html { redirect_to '/'+postable_path+'/'+post.postable_id.to_s } #@user, notice: 'User was successfully created.' }
-				format.json { render action: postable_path+'#show', status: :created, location: @post }
+				# format.json { render action: postable_path+'#show', status: :created, location: @post }
+				# format.json { render json: {:comment=>@comment, :user=>User.find(@comment.user_id)}, status: :created, location: post}
+				format.js
 			else
 				format.html { redirect_to '/'+postable_path+'/'+post.postable_id.to_s, notice: 'Comment was not able to be created' }
 				format.json { render json: @comment.errors, status: :unprocessable_entity }

@@ -1,0 +1,108 @@
+
+<div class="col-sm-9" id="posts_div">
+	<div id = "post-show-nav">
+		<% if @post.postable_type == "Group" %>
+			<b><a href="/groups/<%=@post.postable_id%>">&lt&lt Back to <%=@post.postable.name%></a></b>
+		<% else %>
+			<b><a href="/users/<%=@post.postable_id%>">&lt&lt Back to Profile</a></b>
+		<% end %>
+	</div>
+
+	<div class="comments-container">
+		<!-- Show the Post and Comments section -->
+		<%= render partial: "/shared/singlepost", locals: {:post=>@post} %>
+	</div>
+</div>
+
+<script>
+	//Set listeners and check if you should show the actual form for a POST, not the comments
+	// actual_form = $("#actual-post-form-div");
+	// dummy_form = $("#dummy-post-form-div");
+
+	// if (posterrors == false)
+	// 	actual_form.hide();
+	// else
+	// 	dummy_form.hide();
+
+	//Set listeners to hide the real form for comments
+	actual_comment_form = $(".actual-comment-form-div");
+	dummy_comment_form = $(".dummy-comment-form-div");
+
+	actual_comment_form.hide();
+
+
+
+	$(document).ready(function () {
+		
+		//The following two listeners are for the functionality of the main Post form
+		// $("#dummy-post-form").focus(function () {
+		// 	actual_form.show();
+		// 	$("#first-focus-input").focus();
+		// 	dummy_form.hide()
+		// });
+
+		// $("#post-cancel").click(function() {
+		// 	dummy_form.show();
+		// 	actual_form.hide();
+
+		// 	return false;
+		// });
+
+		//The following two listeners are for the functionality of the comment forms
+		$(".dummy-comment-form").focus(function() {
+			$(this).parent().next().show();
+			$(this).parent().next().find(".actual-comment-form").focus();
+			$(this).parent().hide();
+			
+		});
+
+		$(".comment-cancel").click(function() {
+			$(this).parent().parent().hide();
+			$(this).parent().parent().prev().show();
+
+			return false;
+		});
+
+		//The following tow listeners are for the reply links. Clicking reply will automatically open the
+		//post reply form and focus it
+		$(".comment-reply-link").click(function() {
+			$(this).parent().parent().parent().parent().parent().find(".dummy-comment-form").focus();
+
+			return false;
+		});
+
+		$(".post-reply-link").click(function() {
+			$(this).parent().parent().parent().find(".dummy-comment-form").focus();
+
+			return false;
+		});
+
+		//The following listeners are for the Thanks/Helpful functionality
+		$(document).on("click", ".post-give-thanks", function() {
+			thank_form = $(this).parent().next().next();
+
+			thank_form.submit();
+
+			return false;
+		});
+
+		$(document).on("submit", ".post-give-thanks-form", function() {
+			
+			var action = $(this).attr('action');
+			var content = $(this).serialize();
+			var form = $(this)
+
+			$.post(action, content, function(data) {
+				form.prev().html(data['thank_string']);
+
+				var thank_link = form.prev().prev().find(".post-give-thanks");
+				
+				thank_link.after("<a class='post-gave-thanks' data-method='delete' data-remote='true' href='/thanks/" +data['id']+"' rel='nofollow'>Marked as helpful!</a>");
+				thank_link.remove();
+
+			}, "json");
+
+			return false;
+		});
+	});
+</script>

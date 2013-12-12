@@ -1,0 +1,9 @@
+var post = $("#post-body-<%=@comment.post_id%>").parent();
+
+post.find(".comment-form-div").before("<div class='h-divider'></div>").before("<%= j render partial: '/shared/singlecomment', locals: {:comment=>@comment} %>");
+
+post.find(".actual-comment-form").val("");
+
+post.find(".actual-comment-form-div").hide();
+
+post.find(".dummy-comment-form-div").show();

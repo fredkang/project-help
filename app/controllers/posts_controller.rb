@@ -43,6 +43,10 @@ class PostsController < ApplicationController
   def destroy
   end
 
+  def show
+    @post = Post.includes({comments: [{thanks: :thanker}, :user]}, {thanks: :thanker}, :user).find(params[:id])
+  end
+
   private
   # Never trust parameters from the scary internet, only allow the white list through.
     def post_params

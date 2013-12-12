@@ -15,7 +15,7 @@ class ThanksController < ApplicationController
 	  	respond_to do |format|
 
 	  		if @new_thank.save
-	  			thank_string = thanks_string(thanked_item.thanks)
+	  			thank_string = thanks_string(thanked_item.thanks.to_a)
 
 	  			format.html { redirect_to '/groups/'+groupid.to_s}
 	  			format.json { render json: {:thank_string=>thank_string, :id=>@new_thank.id.to_s}}

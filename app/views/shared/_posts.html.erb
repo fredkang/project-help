@@ -128,7 +128,7 @@
 			return false;
 		});
 
-		$(".post-give-thanks-form").submit(function() {
+		$(document).on("submit", ".post-give-thanks-form", function() {
 			
 			var action = $(this).attr('action');
 			var content = $(this).serialize();
@@ -146,5 +146,6 @@
 
 			return false;
 		});
+
 	});
 </script>
