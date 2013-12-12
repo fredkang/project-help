@@ -99,7 +99,7 @@ class UserMailer < ActionMailer::Base
     # @profile_posts is an array with posts. Add an element to the beginning of the array with a string 
     # declaring how many new posts the user has
     if @profile_posts.length==1
-      string = "1 new post on your profile today. Answer or thank them! // www.projecthelp.co/users/" +user.id.to_s
+      string = "1 new post on your profile today" #. Answer or thank them! // www.projecthelp.co/users/" +user.id.to_s
       @profile_posts.unshift(string)
     elsif @profile_posts.length>1
       string = @profile_posts.length.to_s + " new posts on your profile today. Answer or thank them! // www.projecthelp.co/users/" +user.id.to_s
@@ -115,7 +115,7 @@ class UserMailer < ActionMailer::Base
       end
 
       if posts.length == 1
-        string = "1 new post in " +Group.find(group_id).name+ " today. Answer or thank them! // www.projecthelp.co/groups/" +group_id.to_s
+        string = "1 new post in " +Group.find(group_id).name+ " today" #. Answer or thank them! // www.projecthelp.co/groups/" +group_id.to_s
         posts.unshift(string)
       elsif posts.length > 1
         string = posts.length.to_s+ " new posts in " +Group.find(group_id).name+ " today. Answer or thank them! // www.projecthelp.co/groups/" +group_id.to_s

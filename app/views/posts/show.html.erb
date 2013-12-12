@@ -14,15 +14,13 @@
 	</div>
 </div>
 
-<script>
-	//Set listeners and check if you should show the actual form for a POST, not the comments
-	// actual_form = $("#actual-post-form-div");
-	// dummy_form = $("#dummy-post-form-div");
+<%= javascript_tag do %>
+  window.userID = '<%= j current_user.id.to_s %>';
+<% end %>
 
-	// if (posterrors == false)
-	// 	actual_form.hide();
-	// else
-	// 	dummy_form.hide();
+<script>
+	mixpanel.identify(userID);
+	mixpanel.track("Post Page Visit");
 
 	//Set listeners to hide the real form for comments
 	actual_comment_form = $(".actual-comment-form-div");
@@ -33,20 +31,6 @@
 
 
 	$(document).ready(function () {
-		
-		//The following two listeners are for the functionality of the main Post form
-		// $("#dummy-post-form").focus(function () {
-		// 	actual_form.show();
-		// 	$("#first-focus-input").focus();
-		// 	dummy_form.hide()
-		// });
-
-		// $("#post-cancel").click(function() {
-		// 	dummy_form.show();
-		// 	actual_form.hide();
-
-		// 	return false;
-		// });
 
 		//The following two listeners are for the functionality of the comment forms
 		$(".dummy-comment-form").focus(function() {

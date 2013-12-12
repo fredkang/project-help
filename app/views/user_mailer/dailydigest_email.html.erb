@@ -11,7 +11,10 @@
         <h3><b><%= post %></b></h3>
       <% else %>
         <% user_name = User.find(post.user_id).first_name %>
+        
         <p><%= user_name%> wrote: <%= simple_format(post.text) %></p>
+
+        <p>Respond here: www.projecthelp.co/posts/<%=post.id%></p>
         ------
       <% end %>
     <% end %>
@@ -35,6 +38,8 @@
             <% end %>
             
             <%= simple_format(post.text) %>
+
+            <p>Respond here: www.projecthelp.co/posts/<%=post.id%></p>
           </p>
           ------
         <% end %>
