@@ -24,7 +24,8 @@ class Post < ActiveRecord::Base
     profile_posts = []
     group_posts = {}
 
-  	posts_today = self.where("DATE(created_at) = DATE(?)", Time.now)
+  	# posts_today = self.where("DATE(created_at) = DATE(?)", Time.now)
+    posts_today = self.where("created_at > ?", DateTime.now-24.hours)
   	users_groups = user.groups.all
 
   	posts_today.each do |post|
