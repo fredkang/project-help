@@ -124,7 +124,8 @@
 									<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
 									<%= f.input :postable_id, :as=>:hidden, input_html: {:value => newpost.postable_id} %>
 									<%= f.input :postable_type, :as=>:hidden, input_html: {:value => newpost.postable_type} %>
-									<%= f.input :text, label:false, input_html: {:class=> "group-post-form-textarea form-control"}, placeholder: "Ask a question or start a discussion with Coding Dojo" %>
+									<%= f.input :title, input_html: {class: "form-control first-focus-input"}, label:false, placeholder: "Add a question or topic for discussion", as: :string %>
+									<%= f.input :text, label:false, input_html: {:class=> "group-post-form-textarea form-control"}, placeholder: "Add more details here" %>
 									<%= f.button :submit, value: 'Post', class: "btn btn-primary"%>
 									<a href="" class="btn btn-default group-post-form-cancel">Cancel</a>
 								<% end %>
@@ -155,6 +156,7 @@
 											<p><strong><a href="/users/<%=postAuthor.id%>"><%= postAuthor.first_name + " " + postAuthor.last_name %></a></strong>   -   <span class="post-time"><%= timediffString %></span></p>
 											<div class="post-text"><%= h auto_link(simple_format(post.text)) %>
 											</div>
+											<p class="dash-post-view"><a href="/posts/<%=post.id%>">View Post</a></p>
 										</div>
 									<% end %>
 								</li>
@@ -435,16 +437,21 @@
 			var form = $(this).next();
 			$(this).hide();
 			form.show();
-			form.children(".group-post-form-textarea").focus();
+			form.find(".first-focus-input").focus();
+
+			return false;
 		});
 
 		// When user clicks cancel, dummy form reappears and real form disapepars
 		$(".group-post-form-cancel").click(function() {
 			form = $(this).parent();
 
-			form.children(".group-post-form-textarea").html('');
+			form.find(".group-post-form-textarea").val('');
+			form.find(".first-focus-input").val('');
 			form.hide();
 			form.prev().show();
+
+			return false;
 		});
 
 		// Mixpanel tracking
