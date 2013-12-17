@@ -43,16 +43,21 @@ module SessionsHelper
 		unread = 0
 
 		conversations.each do |conversation|
-			if Conversation.read?(conversation.id, current_user.id)==0
-			  unread += 1
-			end
+			if conversation.user1_id == current_user.id && conversation.user1read == 0
+				unread += 1
+			elsif conversation.user2_id == current_user.id && conversation.user2read == 0
+				unread += 1
+			end			
+			# if Conversation.read?(conversation.id, current_user.id)==0
+			#   unread += 1
+			# end
 		end
 
 		return unread
 	end
 
 	def profile_notifications
-		return current_user.profilenotes.count()
+		return current_user.profilenotes.size
 	end
 
 	def total_group_notifications
