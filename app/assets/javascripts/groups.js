@@ -1,14 +1,16 @@
 
-
+//Script that enables infinite scroll
 jQuery(function() {
+	//Hide the actual pagination links
 	$(".pagination").hide();
 	
+	//Link for getScript breaks without this
 	$.ajaxSetup({
     	cache: true
 	});
 	
 	return $(window).scroll(function() {
-    	if ($(window).scrollTop() > $(document).height() - $(window).height() - 50 
+    	if ($(window).scrollTop() > $(document).height() - $(window).height() - 100 
     		&& $('.pagination .next_page').attr('href')!=null) {
       		return $.getScript($('.pagination .next_page').attr('href'));
     	}
