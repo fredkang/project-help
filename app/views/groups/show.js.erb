@@ -1,11 +1,12 @@
 
+// Go through each post and append the partial printing the singlepost
 <% @posts.each do |post| %>
 	$('#posts-below-form').append('<%= j render partial: "/shared/singlepost", locals: {:post=>post} %>');
 <% end %>
 
-
+// Create the new pagination link, now that the new results are loaded. Hide the pagination links again
 $('.pagination').replaceWith('<%= j will_paginate(@posts) %>');
-
 $(".pagination").hide();
+
 // Hide the actual comment forms to only show the dummy forms
 $(".actual-comment-form-div").hide();
