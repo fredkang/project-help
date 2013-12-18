@@ -16,37 +16,45 @@
 	<div id="posts_div" class="col-sm-9" data-no-turblink="true">
 <% end %>
 
-<div class="well well-sm">
+	<div class="well well-sm">
 
-	<div class="form-group" id="dummy-post-form-div">
-		<p><strong><%= prompt %></strong></p>
-		<input class="form-control" placeholder="<%=prompt%>" id="dummy-post-form">
-	</div>
+		<div class="form-group" id="dummy-post-form-div">
+			<p><strong><%= prompt %></strong></p>
+			<input class="form-control" placeholder="<%=prompt%>" id="dummy-post-form">
+		</div>
 
-	<div id = "actual-post-form-div">
-		<%= simple_form_for(newpost, url: '/posts',  :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>'20' } }) do |f| %>
-			<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
-			<%= f.input :postable_id, :as=>:hidden, input_html: {:value => newpost.postable_id} %>
-			<%= f.input :postable_type, :as=>:hidden, input_html: {:value => newpost.postable_type} %>
-			<% if post_on == "group" %>
-				<%= f.input :title, input_html: {id: "first-focus-input"}, label:"Title", placeholder: title_placeholder, as: :string %>
-				<%= f.input :text, label:"Details", placeholder: text_placeholder %>
-			<% else %>
-				<%= f.input :text, input_html: {id: "first-focus-input"}, label:prompt, placeholder: prompt %>
+		<div id = "actual-post-form-div">
+			<%= simple_form_for(newpost, url: '/posts',  :defaults => { :wrapper_html => {:class=>"form-group"}, :input_html => { :class => "form-control", :size=>'20' } }) do |f| %>
+				<%= f.input :user_id, :as=>:hidden, input_html: {:value => current_user.id} %>
+				<%= f.input :postable_id, :as=>:hidden, input_html: {:value => newpost.postable_id} %>
+				<%= f.input :postable_type, :as=>:hidden, input_html: {:value => newpost.postable_type} %>
+				<% if post_on == "group" %>
+					<%= f.input :title, input_html: {id: "first-focus-input"}, label:"Title", placeholder: title_placeholder, as: :string %>
+					<%= f.input :text, label:"Details", placeholder: text_placeholder %>
+				<% else %>
+					<%= f.input :text, input_html: {id: "first-focus-input"}, label:prompt, placeholder: prompt %>
+				<% end %>
+				<%= f.button :submit, value: 'Post', class: "btn btn-primary"%>
+				<button class="btn btn-default" id="post-cancel">Cancel</button>
 			<% end %>
-			<%= f.button :submit, value: 'Post', class: "btn btn-primary"%>
-			<button class="btn btn-default" id="post-cancel">Cancel</button>
-		<% end %>
 
+		</div>
 	</div>
+
+	<div id="posts-below-form">
+		<% posts.each do |post| %>
+
+			<!-- Show the Posts and Comments section -->
+			<%= render partial: "/shared/singlepost", locals: {:post=>post} %>
+		<% end %>
+	</div>
+	
+	<!-- Pagination -->
+	<%= will_paginate posts %>	
+
 </div>
 
-	<% posts.each do |post| %>
 
-		<!-- Show the Posts and Comments section -->
-		<%= render partial: "/shared/singlepost", locals: {:post=>post} %>
-	<% end %>
-</div>
 
 <%= javascript_tag do %>
 	<% if !@newpost.errors.blank? %>
@@ -91,29 +99,29 @@
 		});
 
 		//The following two listeners are for the functionality of the comment forms
-		$(".dummy-comment-form").focus(function() {
+		$(document).on("focus", ".dummy-comment-form", function() {
 			$(this).parent().next().show();
 			$(this).parent().next().find(".actual-comment-form").focus();
 			$(this).parent().hide();
 			
 		});
 
-		$(".comment-cancel").click(function() {
+		$(document).on("click", ".comment-cancel", function() {
 			$(this).parent().parent().hide();
 			$(this).parent().parent().prev().show();
 
 			return false;
 		});
 
-		//The following tow listeners are for the reply links. Clicking reply will automatically open the
+		//The following two listeners are for the reply links. Clicking reply will automatically open the
 		//post reply form and focus it
-		$(".comment-reply-link").click(function() {
+		$(document).on("click", ".comment-reply-link", function() {
 			$(this).parent().parent().parent().parent().parent().find(".dummy-comment-form").focus();
 
 			return false;
 		});
 
-		$(".post-reply-link").click(function() {
+		$(document).on("click", ".post-reply-link", function() {
 			$(this).parent().parent().parent().find(".dummy-comment-form").focus();
 
 			return false;

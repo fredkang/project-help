@@ -69,6 +69,9 @@ gem 'rack-mini-profiler'
 # Gem for New Relic availability monitoring
 gem 'newrelic_rpm'
 
+# Pagination gem
+gem 'will_paginate'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

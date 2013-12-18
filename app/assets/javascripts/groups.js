@@ -1,5 +1,20 @@
 
 
+jQuery(function() {
+	$(".pagination").hide();
+	
+	$.ajaxSetup({
+    	cache: true
+	});
+	
+	return $(window).scroll(function() {
+    	if ($(window).scrollTop() > $(document).height() - $(window).height() - 50 
+    		&& $('.pagination .next_page').attr('href')!=null) {
+      		return $.getScript($('.pagination .next_page').attr('href'));
+    	}
+  	});
+});
+
 
 // $("document").ready(function() {
 // 			alert("hi");

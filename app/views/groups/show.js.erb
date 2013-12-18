@@ -1,0 +1,11 @@
+
+<% @posts.each do |post| %>
+	$('#posts-below-form').append('<%= j render partial: "/shared/singlepost", locals: {:post=>post} %>');
+<% end %>
+
+
+$('.pagination').replaceWith('<%= j will_paginate(@posts) %>');
+
+$(".pagination").hide();
+// Hide the actual comment forms to only show the dummy forms
+$(".actual-comment-form-div").hide();
